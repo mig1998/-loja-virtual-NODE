@@ -36,3 +36,7 @@ document.getElementById('create-user-form').addEventListener('submit', createUse
 
 // Inicializa a lista de usuários ao carregar a página
 window.onload = listUsers;
+
+
+
+

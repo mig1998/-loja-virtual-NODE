@@ -1,0 +1,14 @@
+<%- include('../layout', { 
+  title: title, 
+  body: `
+    <h1>Lista de Usuários</h1>
+    <div id="users-list"></div>
+
+    <h2>Criar Novo Usuário</h2>
+    <form id="create-user-form">
+      <input type="text" id="name" placeholder="Nome" required>
+      <input type="email" id="email" placeholder="E-mail" required>
+      <button type="submit">Criar Usuário</button>
+    </form>
+  `
+}) %>

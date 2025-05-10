@@ -10,7 +10,7 @@ class User {
 let users = [];
 
 class UserModel {
-  
+
   static findAll() {
     return users;
   }
@@ -28,17 +28,17 @@ class UserModel {
   static update(id, name, email) {
     const user = users.find(u => u.id === id);
     if (!user) return null;
-    
+
     user.name = name || user.name;
     user.email = email || user.email;
-    
+
     return user;
   }
 
   static delete(id) {
     const index = users.findIndex(u => u.id === id);
     if (index === -1) return false;
-    
+
     users.splice(index, 1);
     return true;
   }
