@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:3000/users';
+
 
 // Função para listar usuários
 async function listUsers() {

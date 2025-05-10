@@ -1,5 +1,7 @@
 const userService = require('../services/userService');
 
+
+
 // Controller para buscar todos os usuários
 exports.getAllUsers = (req, res) => {
   const users = userService.getAllUsers();
@@ -8,13 +10,15 @@ exports.getAllUsers = (req, res) => {
 
 // Controller para criar um novo usuário
 exports.createUser = (req, res) => {
-  const { name, email } = req.body;
+  const { name, email,senha, type } = req.body;
+
+  
 
   if (!name || !email) {
     return res.status(400).json({ message: 'Nome e e-mail são obrigatórios.' });
   }
 
-  const newUser = userService.createUser(name, email);
+  const newUser = userService.createUser(name, email, type);
   res.status(201).json(newUser);
 };
 
@@ -23,7 +27,10 @@ exports.getUserById = (req, res) => {
   const { id } = req.params;
   const user = userService.getUserById(parseInt(id));
 
-  if (!user) {
+
+  
+
+if (!user) {
     return res.status(404).json({ message: 'Usuário não encontrado.' });
   }
 
@@ -33,9 +40,14 @@ exports.getUserById = (req, res) => {
 // (Opcional) Controller para atualizar usuário
 exports.updateUser = (req, res) => {
   const { id } = req.params;
-  const { name, email } = req.body;
+  const { name, email,type } = req.body;
 
-  const updatedUser = userService.updateUser(parseInt(id), name, email);
+
+  // if (type === 'admin' && req.user.type !== 'admin') {  // Verifica se o usuário é admin
+  //   return res.status(403).json({ message: 'Você não tem permissão para criar administradores.' });
+  // }
+
+  const updatedUser = userService.updateUser(parseInt(id), name, email,type);
 
   if (!updatedUser) {
     return res.status(404).json({ message: 'Usuário não encontrado.' });
@@ -46,6 +58,11 @@ exports.updateUser = (req, res) => {
 
 // (Opcional) Controller para deletar usuário
 exports.deleteUser = (req, res) => {
+
+  // if (type === 'admin' && req.user.type !== 'admin') {  // Verifica se o usuário é admin
+  //   return res.status(403).json({ message: 'Você não tem permissão para criar administradores.' });
+  // }
+
   const { id } = req.params;
 
   const success = userService.deleteUser(parseInt(id));
