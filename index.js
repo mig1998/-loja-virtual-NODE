@@ -17,8 +17,9 @@ app.use(session({
   cookie: { secure: false } // true se usar HTTPS
 }));
 
-
+//rotas
 const userRoutes = require('./src/routes/userRoutes'); // Importa as rotas
+const produtoRoutes = require('./src/routes/produtoRoutes'); // Importa as rotas
 const pageRoutes = require('./src/routes/pageRoutes'); // Importa as rotas
 
 
@@ -32,7 +33,7 @@ app.use(express.static('public'));
 
 app.use('/',pageRoutes); // Prefixa as rotas com /users
 
-
+app.use('/products', produtoRoutes); // Prefixa as rotas com /produtos
 app.use('/users', userRoutes); // Prefixa as rotas com /users
 
 app.listen(3000, () => {
