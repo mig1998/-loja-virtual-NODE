@@ -3,6 +3,13 @@ const users = require('../models/userModel');
 
 const router = express.Router();
 
+function autenticar(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+}
 
 
 
@@ -23,8 +30,8 @@ router.get('/produtos', (req, res) => {
 
 
 // Produtos
-router.get('/usuarios', (req, res) => {
-  res.render('pages/usuarios', { title: 'usuarios' });
+router.get('/usuarios', autenticar, (req, res) => {
+  res.render('pages/usuarios', { title: 'usuarios', user: req.session.user });
 });
 
 // Contato
@@ -40,23 +47,37 @@ router.get('/sobre', (req, res) => {
 });
 
 
-//login
+
+// Login
+router.get('/login', (req, res) => {
+  res.render('pages/login', { title: 'Login' });
+});
+
+
+// Cadastro
+router.get('/cadastro', (req, res) => {
+  res.render('pages/cadastro', { title: 'Cadastro' });
+});
+
+
+// Carrinho
+router.get('/carrinho', (req, res) => {
+  res.render('pages/carrinho', { title: 'Carrinho' });
+});
+
 router.post('/login', (req, res) => {
-  const { email, password } = req.body;  // Pega os dados do login
-
-
-  const allUsers = users.findAll();  // Pega todos os usuários
-
+  const { email, password } = req.body;
+  const allUsers = users.findAll();
   const user = allUsers.find(u => u.email === email && u.password === password);
 
   if (user) {
-    // Simulando um usuário logado (armazenando a informação na requisição)
-    req.user = user;
-    return res.status(200).json({ message: 'Login bem-sucedido!', user });
+    req.session.user = { id: user.id, name: user.name, type: user.type };
+    return res.status(200).json({ message: 'Login bem-sucedido!' });
   }
 
-  res.status(401).json({ message: 'Email ou senha incorretos!' });
+  res.status(401).json({ message: 'Email ou senha inválidos' });
 });
+
 
 
 // router.use((req, res, next) => {

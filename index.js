@@ -1,13 +1,21 @@
 // const express = require('express');
 const express = require('express');
-const path = require('path'); // <-- esta linha é essencial
 const app = express();
+const path = require('path'); // <-- esta linha é essencial
 const cors = require('cors');  // Importa o CORS
+const session = require('express-session');
 
 
 app.use(cors());               // Habilita CORS para permitir acesso do front-end
 app.use(express.json());      // Permite receber dados JSON nas requisições
 
+
+app.use(session({
+  secret: 'chave-secreta-bem-forte',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // true se usar HTTPS
+}));
 
 
 const userRoutes = require('./src/routes/userRoutes'); // Importa as rotas

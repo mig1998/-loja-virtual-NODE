@@ -7,14 +7,17 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
   const data = { email, password };  // Cria um objeto com os dados de login
 
   // Envia uma requisição POST para o servidor
-  fetch("http://localhost:3000/login", {
+  fetch("/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",  // Define o tipo do conteúdo como JSON
     },
     body: JSON.stringify(data)  // Converte o objeto para JSON
   })
-    .then(response => response.json())
+    .then(response => {
+      console.log("Resposta bruta:", response); // 👈 Mostra a resposta recebida
+      return response.json(); // Tenta converter
+    })
     .then(data => {
       if (data.message === "Login bem-sucedido!") {
         // Redireciona para o home ou página principal
