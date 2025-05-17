@@ -18,6 +18,13 @@ router.get('/', (req, res) => {
   res.render('pages/home', { title: 'home' });
 });
 
+
+// Criar Produto
+router.get('/cadastroproduto', (req, res) => {
+  res.render('pages/cadastroProduto', { title: 'cadastroProduto' });
+});
+
+
 // Meus Produtos
 router.get('/meusprodutos', (req, res) => {
   res.render('pages/meusProdutos', { title: 'Meus produtos' });
@@ -29,7 +36,7 @@ router.get('/produtos', (req, res) => {
 });
 
 
-// Produtos
+// Usuarios
 router.get('/usuarios', autenticar, (req, res) => {
   res.render('pages/usuarios', { title: 'usuarios', user: req.session.user });
 });
@@ -48,23 +55,20 @@ router.get('/sobre', (req, res) => {
 
 
 
-// Login
+// Login Usuario
 router.get('/login', (req, res) => {
   res.render('pages/login', { title: 'Login' });
 });
 
 
-// Cadastro
-router.get('/cadastro', (req, res) => {
-  res.render('pages/cadastro', { title: 'Cadastro' });
+// Cadastro Usuario
+router.get('/cadastroUsuario', (req, res) => {
+  res.render('pages/cadastroUsuario', { title: 'Cadastro' });
 });
 
 
-// Carrinho
-router.get('/carrinho', (req, res) => {
-  res.render('pages/carrinho', { title: 'Carrinho' });
-});
 
+//logar
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
   const allUsers = users.findAll();
@@ -76,6 +80,14 @@ router.post('/login', (req, res) => {
   }
 
   res.status(401).json({ message: 'Email ou senha inválidos' });
+});
+
+
+
+
+// Carrinho
+router.get('/carrinho', (req, res) => {
+  res.render('pages/carrinho', { title: 'Carrinho' });
 });
 
 
