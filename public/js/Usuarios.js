@@ -3,41 +3,100 @@ async function listUsers() {
   const response = await fetch("users");
   const users = await response.json();
 
-  const usersListDiv = document.getElementById('users-list');
-  usersListDiv.innerHTML = users.map(user => 
-    `<div><strong>${user.name}</strong> - ${user.email}</div>`
-  ).join('');
+  const div = document.getElementById("users-list");
+  div.innerHTML = users.map(u =>
+    `<div data-id="${u.id}">
+       <strong>${u.name}</strong> – ${u.email}
+       <button onclick="editUser(${u.id})">✏️</button>
+       <button onclick="deleteUser(${u.id})">🗑️</button>
+     </div>`).join("");
 }
 
-// Função para criar usuário
-async function createUser(event) {
-  event.preventDefault();
-  
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
 
 
-const data={name,email};
 
-  const response = await fetch("/users", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-
-  const newUser = await response.json();
-  alert(`Usuário ${newUser.name} criado com sucesso!`);
-  listUsers();  // Atualiza a lista de usuários
-}
-
-// Adiciona o evento do formulário
-document.getElementById('create-user-form').addEventListener('submit', createUser);
 
 // Inicializa a lista de usuários ao carregar a página
 window.onload = listUsers;
 
 
 
+// ---------- UPDATE ----------
+function editUser(id) {             // abre prompt simples
+  fetch(`${"/users"}/${id}`)
+    .then(r => r.json())
+    .then(u => {
+      const name = prompt("Novo nome:", u.name);
+      const email = prompt("Novo email:", u.email);
+      const senha = prompt("Nova Senha:", u.senha);
+      if (name && email) updateUser(id, { name, email, senha });
+    });
+}
 
+
+async function updateUser(id, data) {
+  await fetch(`${"/users"}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+  listUsers();
+}
+
+
+
+
+// ---------- DELETE ----------
+async function deleteUser(id) {
+  if (!confirm("Deseja excluir?")) return;
+  await fetch(`${"/users"}/${id}`, { method: "DELETE" });
+  listUsers();
+}
+
+ async function buscarPorId() {
+      const id = document.getElementById('search-id').value;
+      if (!id) {
+        alert('Digite um ID válido');
+        return;
+      }
+      const user = await getUserById(id);
+      const div = document.getElementById('result-id');
+      if (user) {
+        div.innerHTML = `<p><strong>ID:</strong> ${user.id} <br> <strong>Nome:</strong> ${user.name} <br> <strong>Email:</strong> ${user.email}</p>`;
+      } else {
+        div.innerHTML = `<p>Nenhum usuário encontrado com ID ${id}</p>`;
+      }
+    }
+
+    // Função para buscar por nome e mostrar resultados
+    async function buscarPorNome() {
+      const nome = document.getElementById('search-name').value.trim();
+      if (!nome) {
+        alert('Digite um nome para buscar');
+        return;
+      }
+      const users = await getUsersByName(nome);
+      const div = document.getElementById('result-name');
+      if (users.length === 0) {
+        div.innerHTML = `<p>Nenhum usuário encontrado com nome "${nome}"</p>`;
+      } else {
+        div.innerHTML = users.map(u => 
+          `<div>
+            <strong>ID:</strong> ${u.id} <br>
+            <strong>Nome:</strong> ${u.name} <br>
+            <strong>Email:</strong> ${u.email}
+          </div><hr>`
+        ).join('');
+      }
+    }
+
+    // Suas funções originais para buscar dados via fetch:
+    async function getUserById(id) {
+      const res = await fetch(`/users/${id}`);
+      return res.ok ? res.json() : null;
+    }
+
+    async function getUsersByName(name) {
+      const res = await fetch(`/users/name/${encodeURIComponent(name)}`);
+      return res.ok ? res.json() : [];
+    }

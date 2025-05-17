@@ -10,44 +10,61 @@ exports.getAllUsers = (req, res) => {
 
 // Controller para criar um novo usuário
 exports.createUser = (req, res) => {
-  const { name, email,senha, type } = req.body;
+  const { name, email, senha, type } = req.body;
 
-  
 
-  if (!name || !email) {
-    return res.status(400).json({ message: 'Nome e e-mail são obrigatórios.' });
+
+  if (!name || !email || !senha) {
+    return res.status(400).json({ message: 'Nome e e-mail  e senha são obrigatórios.' });
   }
 
-  const newUser = userService.createUser(name, email, type);
+  const newUser = userService.createUser(name, email, senha, type);
   res.status(201).json(newUser);
 };
 
 // (Opcional) Controller para buscar usuário por ID
 exports.getUserById = (req, res) => {
-  const { id } = req.params;
-  const user = userService.getUserById(parseInt(id));
+  const user = userService.getUserById(Number(req.params.id));
+
+  if (!user) {
+    return res.status(404).json({ message: 'Usuário não encontrado.' });
+  }
+  res.status(200).json(user);
+};
 
 
+
+// (Opcional) Controller para buscar usuário por nome
+exports.getUserByName = (req, res) => {
+
+  const name = String(req.params.name || '').trim();
+
+  if (!name) {
+    return res.status(400).json({ message: 'Nome é obrigatório.' });
+  }
   
+  const users = userService.getUserByName(name);
 
-if (!user) {
+
+  if (!users) {
     return res.status(404).json({ message: 'Usuário não encontrado.' });
   }
 
-  res.status(200).json(user);
+  res.status(200).json(users);
 };
+
 
 // (Opcional) Controller para atualizar usuário
 exports.updateUser = (req, res) => {
   const { id } = req.params;
-  const { name, email,type } = req.body;
+  const { name, email, type } = req.body;
 
 
   // if (type === 'admin' && req.user.type !== 'admin') {  // Verifica se o usuário é admin
   //   return res.status(403).json({ message: 'Você não tem permissão para criar administradores.' });
   // }
 
-  const updatedUser = userService.updateUser(parseInt(id), name, email,type);
+  const updatedUser = userService.updateUser(parseInt(id), name, email, type);
 
   if (!updatedUser) {
     return res.status(404).json({ message: 'Usuário não encontrado.' });

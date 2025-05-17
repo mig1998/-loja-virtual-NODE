@@ -13,6 +13,12 @@ exports.getProdutoById = (id) => {
     return ProdutoModel.findById(id);
 };
 
+
+exports.getProdutoByName = (name) => {
+    return ProdutoModel.findByName(name);
+};
+
+
 exports.updateProduto = (id, name,description, price, categoria) => {
     return ProdutoModel.update(id, name,description, price, categoria);
 };

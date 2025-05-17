@@ -9,8 +9,17 @@ const userController = require('../controllers/userController');
 router.get('/', userController.getAllUsers);
 router.post('/', userController.createUser);
 
+
+// Rota: buscar por nome
+router.get('/name/:name', userController.getUserByName);
+
 // Rota: buscar por id
 router.get('/:id', userController.getUserById);
+
+
+
+
+
 
 // Rota: atualizar
 router.put('/:id', userController.updateUser);

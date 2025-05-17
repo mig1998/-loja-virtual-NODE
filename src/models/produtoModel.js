@@ -24,6 +24,19 @@ class ProdutoModel {
     return produtos.find(produto => produto.id === id);
   }
 
+
+
+    static findByName(name) {
+    const termo = String(name).toLowerCase(); // converte qualquer valor para string
+
+    // Se termo convertido ficar vazio, devolve lista vazia
+    if (!termo.trim()) return [];
+
+    return produtos.filter(produto =>
+      produto.name.toLowerCase().includes(termo)
+    );
+  }
+
   static create(name, description, price, categoria) {
     const newProduto = new Produto(produtos.length + 1, name, description, price, categoria);
     produtos.push(newProduto);

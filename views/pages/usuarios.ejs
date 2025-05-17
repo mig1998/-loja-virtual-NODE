@@ -1,18 +1,23 @@
-<%- include('../layout', { 
-  title: title, 
-  body: `
-    <h1>Lista de Usuários</h1>
-    <div id="users-list"></div>
+<%- include('../layout', { title: title, body: ` <h1>Lista de Usuários</h1>
+  <div id="users-list"></div>
 
-    <h2>Criar Novo Usuário</h2>
-    <form id="create-user-form">
-      <input type="text" id="name" placeholder="Nome" required>
-      <input type="email" id="email" placeholder="E-mail" required>
-      <button type="submit">Criar Usuário</button>
-    </form>
+ 
+
+  <h2>Buscar Usuário por ID</h2>
+  <input type="number" id="search-id" placeholder="Digite o ID" />
+  <button onclick="buscarPorId()">Buscar por ID</button>
+  <div id="result-id"></div>
+
+  <h2>Buscar Usuário por Nome</h2>
+  <input type="text" id="search-name" placeholder="Digite o nome" />
+  <button onclick="buscarPorNome()">Buscar por Nome</button>
+  <div id="result-name"></div>
+
+  <h2>Lista de Usuários</h2>
+  <div id="users-list">Carregando...</div>
 
 
   <script src="/js/usuarios.js"></script>
 
   `
-}) %>
+  }) %>

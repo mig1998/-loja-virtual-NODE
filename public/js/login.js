@@ -2,9 +2,9 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
   event.preventDefault();  // Impede o envio do formulário padrão
 
   const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const senha = document.getElementById("senha").value;
 
-  const data = { email, password };  // Cria um objeto com os dados de login
+  const data = { email, senha };  // Cria um objeto com os dados de login
 
   // Envia uma requisição POST para o servidor
   fetch("/login", {

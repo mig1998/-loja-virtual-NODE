@@ -36,16 +36,39 @@ exports.getProdutoById = (req, res) => {
     res.status(200).json(produto);
 };
 
+
+// (Opcional) Controller para buscar usuário por nome
+exports.getProdutoByName = (req, res) => {
+
+    const name = String(req.params.name || '').trim();
+
+    if (!name) {
+        return res.status(400).json({ message: 'Nome é obrigatório.' });
+    }
+
+    const produtos = produtoService.getProdutoByName(name);
+
+
+    if (!produtos) {
+        return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+
+    res.status(200).json(produtos);
+};
+
+
+
+
 // (Opcional) Controller para atualizar produto
 exports.updateProduto = (req, res) => {
     const { id } = req.params;
-    const { name, description, price,categoria } = req.body;
+    const { name, description, price, categoria } = req.body;
 
     // if (type === 'admin' && req.Produto.type !== 'admin') {  // Verifica se o usuário é admin
     //   return res.status(403).json({ message: 'Você não tem permissão para criar administradores.' });
     // }
 
-    const updatedProduto = produtoService.updateProduto(parseInt(id), name, description, price,categoria);
+    const updatedProduto = produtoService.updateProduto(parseInt(id), name, description, price, categoria);
 
     if (!updatedProduto) {
         return res.status(404).json({ message: 'produto não encontrado.' });

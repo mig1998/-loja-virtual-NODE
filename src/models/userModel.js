@@ -10,8 +10,8 @@ class User {
 
 // Simulando um banco de dados na memória
 let users = [
-  { id: 1, name: "miguel", email: "miguel@miguel.com", password: "1234", type: "admin" },
-  { id: 2, name: "joao", email: "joao@teste.com", password: "abcd", type: "user" }
+  { id: 1, name: "miguel", email: "miguel@miguel.com", senha: "1234", type: "admin" },
+  { id: 2, name: "joao", email: "joao@teste.com", senha: "abcd", type: "user" }
 ];
 
 class UserModel {
@@ -24,13 +24,27 @@ class UserModel {
     return users.find(user => user.id === id);
   }
 
+  
+  static findByName(name) {
+    const termo = String(name).toLowerCase(); // converte qualquer valor para string
+
+    // Se termo convertido ficar vazio, devolve lista vazia
+    if (!termo.trim()) return [];
+
+    return users.filter(user =>
+      user.name.toLowerCase().includes(termo)
+    );
+  }
+
+
+
   static create(name, email, senha, type = "user") {
     const newUser = new User(users.length + 1, name, email, senha, type);
     users.push(newUser);
     return newUser;
   }
 
-  static update(id, name, email, type) {
+  static update(id, name, email, senha, type) {
     const user = users.find(u => u.id === id);
     if (!user) return null;
 
