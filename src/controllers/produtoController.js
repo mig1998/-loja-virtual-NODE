@@ -1,4 +1,5 @@
 const produtoService = require('../services/produtoService');
+const userController= require('../controllers/userController');
 
 
 
@@ -8,9 +9,22 @@ exports.getAllProdutos = (req, res) => {
     res.status(200).json(produtos);
 };
 
+
+
+
+
+
 // Controller para criar um novo usuário
 exports.createProduto = (req, res) => {
+
+
+    const user = req.session.user; // ← usuário logado
+
+
     const { name, description, price, categoria } = req.body;
+
+
+    if (!user) return res.status(401).json({ message: "Usuário não autenticado." });
 
 
 
@@ -18,7 +32,12 @@ exports.createProduto = (req, res) => {
         return res.status(400).json({ message: 'Nome e preço são obrigatórios.' });
     }
 
-    const newProduto = produtoService.createProduto(name, description, price, categoria);
+    const newProduto = produtoService.createProduto(name, description, price, categoria, user.id);
+
+
+    userController.adicionarProdutoAoUsuario(user.id, newProduto.id);
+
+
     res.status(201).json(newProduto);
 };
 

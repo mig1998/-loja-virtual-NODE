@@ -5,6 +5,8 @@ class User {
     this.email = email;
     this.senha = senha;
     this.type = type;
+    this.produtos = [];          // ← IDs dos produtos do usuário
+
   }
 }
 
@@ -24,7 +26,7 @@ class UserModel {
     return users.find(user => user.id === id);
   }
 
-  
+
   static findByName(name) {
     const termo = String(name).toLowerCase(); // converte qualquer valor para string
 

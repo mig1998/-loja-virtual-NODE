@@ -20,8 +20,8 @@ router.get('/', (req, res) => {
 
 
 // Criar Produto
-router.get('/cadastroproduto', (req, res) => {
-  res.render('pages/cadastroProduto', { title: 'cadastroProduto' });
+router.get('/cadastroproduto', autenticar, (req, res) => {
+  res.render('pages/cadastroProduto', { title: 'cadastroProduto',user: req.session.user });
 });
 
 
@@ -70,9 +70,10 @@ router.get('/cadastroUsuario', (req, res) => {
 
 //logar
 router.post('/login', (req, res) => {
-  const { email, password } = req.body;
+  const { email, senha } = req.body;
   const allUsers = users.findAll();
-  const user = allUsers.find(u => u.email === email && u.password === password);
+  const user = allUsers.find(u => u.email === email && u.senha === senha);
+
 
   if (user) {
     req.session.user = { id: user.id, name: user.name, type: user.type };

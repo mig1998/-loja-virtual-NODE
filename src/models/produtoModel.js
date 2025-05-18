@@ -1,10 +1,11 @@
 class Produto {
-  constructor(id, name, description, price, categoria) {
+  constructor(id, name, description, price, categoria,userId) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.price = price;
     this.categoria = categoria;
+    this.userId = userId;
   }
 }
 
@@ -26,7 +27,7 @@ class ProdutoModel {
 
 
 
-    static findByName(name) {
+  static findByName(name) {
     const termo = String(name).toLowerCase(); // converte qualquer valor para string
 
     // Se termo convertido ficar vazio, devolve lista vazia
@@ -37,13 +38,13 @@ class ProdutoModel {
     );
   }
 
-  static create(name, description, price, categoria) {
-    const newProduto = new Produto(produtos.length + 1, name, description, price, categoria);
+  static create(name, description, price, categoria,userId) {
+    const newProduto = new Produto(produtos.length + 1, name, description, price, categoria,userId);
     produtos.push(newProduto);
     return newProduto;
   }
 
-  static update(id, name, description, price,categoria) {
+  static update(id, name, description, price, categoria) {
     const produto = produtos.find(p => p.id === id);
     if (!produto) return null;
 

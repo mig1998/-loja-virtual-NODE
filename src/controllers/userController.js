@@ -42,7 +42,7 @@ exports.getUserByName = (req, res) => {
   if (!name) {
     return res.status(400).json({ message: 'Nome é obrigatório.' });
   }
-  
+
   const users = userService.getUserByName(name);
 
 
@@ -90,3 +90,20 @@ exports.deleteUser = (req, res) => {
 
   res.status(204).send(); // 204: No Content
 };
+
+
+
+
+exports.adicionarProdutoAoUsuario = (userId, produtoId) => {
+
+  const user = userService.getUserById(userId);
+
+  if (!user) return false;
+
+  if (!user.produtos) user.produtos = [];
+  user.produtos.push(produtoId);
+  return true;
+};
+
+
+

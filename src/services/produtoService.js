@@ -5,8 +5,8 @@ exports.getAllProdutos = () => {
     return ProdutoModel.findAll();
 };
 
-exports.createProduto = (name, description, price, categoria) => {
-    return ProdutoModel.create(name, description, price, categoria);
+exports.createProduto = (name, description, price, categoria,userId) => {
+    return ProdutoModel.create(name, description, price, categoria,userId);
 };
 
 exports.getProdutoById = (id) => {
@@ -26,6 +26,4 @@ exports.updateProduto = (id, name,description, price, categoria) => {
 exports.deleteProduto = (id) => {
     return ProdutoModel.delete(id);
 };
-
-
 

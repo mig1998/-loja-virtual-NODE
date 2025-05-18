@@ -15,6 +15,7 @@ async function createProduto(event) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: "include", // ← importante para enviar cookie da sessão
         body: JSON.stringify(data),
     })
 
