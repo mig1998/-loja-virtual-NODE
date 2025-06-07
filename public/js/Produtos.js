@@ -44,7 +44,7 @@ async function updateProduto(id, data) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   });
-  listProdutos();
+window.location.reload();
 }
 
 
@@ -54,7 +54,7 @@ async function updateProduto(id, data) {
 async function deleteProduto(id) {
   if (!confirm("Deseja excluir?")) return;
   await fetch(`${"/products"}/${id}`, { method: "DELETE" });
-  listProdutos();
+window.location.reload();
 }
 
 

@@ -12,7 +12,7 @@ class User {
 
 // Simulando um banco de dados na memória
 let users = [
-  { id: 1, name: "miguel", email: "miguel@miguel.com", senha: "1234", type: "admin" },
+  { id: 1, name: "miguel", email: "miguel@miguel.com", senha: "1234", type: "admin", produtos: [1] },
   { id: 2, name: "joao", email: "joao@teste.com", senha: "abcd", type: "user" }
 ];
 
@@ -41,7 +41,14 @@ class UserModel {
 
 
   static create(name, email, senha, type = "user") {
-    const newUser = new User(users.length + 1, name, email, senha, type);
+    const maxId = produtos.length > 0
+      ? Math.max(...produtos.map(p => p.id))
+      : 0;
+
+
+
+
+    const newUser = new User(maxId + 1, name, email, senha, type);
     users.push(newUser);
     return newUser;
   }
@@ -62,7 +69,7 @@ class UserModel {
     const index = users.findIndex(u => u.id === id);
     if (index === -1) return false;
 
-    users.splice(index, 1);
+    users.splice(index, id);
     return true;
   }
 }

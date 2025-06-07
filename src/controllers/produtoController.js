@@ -1,5 +1,5 @@
 const produtoService = require('../services/produtoService');
-const userController= require('../controllers/userController');
+const userController = require('../controllers/userController');
 
 
 
@@ -76,6 +76,18 @@ exports.getProdutoByName = (req, res) => {
 };
 
 
+
+// (Opcional) Controller para buscar produto do user
+exports.getProdutoByUser = (req, res) => {
+    const user = req.session.user;
+
+    if (!user) {
+        return res.status(401).json({ message: 'Usuário não está logado' });
+    }
+
+    const produtos = produtoService.getProdutosDoUsuario(user.id);
+    res.status(200).json(produtos);
+};
 
 
 // (Opcional) Controller para atualizar produto

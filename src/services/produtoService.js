@@ -5,8 +5,8 @@ exports.getAllProdutos = () => {
     return ProdutoModel.findAll();
 };
 
-exports.createProduto = (name, description, price, categoria,userId) => {
-    return ProdutoModel.create(name, description, price, categoria,userId);
+exports.createProduto = (name, description, price, categoria, userId) => {
+    return ProdutoModel.create(name, description, price, categoria, userId);
 };
 
 exports.getProdutoById = (id) => {
@@ -19,8 +19,12 @@ exports.getProdutoByName = (name) => {
 };
 
 
-exports.updateProduto = (id, name,description, price, categoria) => {
-    return ProdutoModel.update(id, name,description, price, categoria);
+exports.getProdutosDoUsuario = (userId) => {
+    return ProdutoModel.findAllByUserId(userId);
+};
+
+exports.updateProduto = (id, name, description, price, categoria) => {
+    return ProdutoModel.update(id, name, description, price, categoria);
 };
 
 exports.deleteProduto = (id) => {

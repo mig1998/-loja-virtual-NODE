@@ -1,12 +1,6 @@
 <%- include('../layout', { title: title, body:` <h2>Meus Produtos</h2>
 
 
-
-
-  <div id="produtos-list"></div>
-
-
-
   <h2>Criar Novo Produto</h2>
   <form id="create-produto-form">
     <input type="text" placeholder="nome do produto" id="name" required>
@@ -16,12 +10,16 @@
       <option value="eletronicos">Eletrônicos</option>
       <option value="livros">Livros</option>
     </select>
-    <button type="submit">Criar Produto</button>
+    <button type="submit" onclick="listarMeusProdutos()">Criar Produto</button>
   </form>
 
 
+<div id="meus-produtos"></div>
 
 
+  <script src="/js/Produtos.js"></script>
+  <script src="/js/cadastroProduto.js"></script>
   <script src="/js/meusProdutos.js"></script>
-    
-    ` }) %>
+
+
+  ` }) %>

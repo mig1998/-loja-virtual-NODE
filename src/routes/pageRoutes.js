@@ -21,13 +21,13 @@ router.get('/', (req, res) => {
 
 // Criar Produto
 router.get('/cadastroproduto', autenticar, (req, res) => {
-  res.render('pages/cadastroProduto', { title: 'cadastroProduto',user: req.session.user });
+  res.render('pages/cadastroProduto', { title: 'cadastroProduto', user: req.session.user });
 });
 
 
 // Meus Produtos
-router.get('/meusprodutos', (req, res) => {
-  res.render('pages/meusProdutos', { title: 'Meus produtos' });
+router.get('/meusprodutos', autenticar,(req, res) => {
+  res.render('pages/meusProdutos', { title: 'Meus produtos', user: req.session.user });
 });
 
 // Produtos

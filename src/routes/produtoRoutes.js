@@ -11,6 +11,11 @@ router.post('/', produtoController.createProduto);
 // Rota: buscar por name
 router.get('/name/:name', produtoController.getProdutoByName);
 
+
+// Rota: buscar user
+router.get('/user/produtos', produtoController.getProdutoByUser);
+
+
 // Rota: buscar por id
 router.get('/:id', produtoController.getProdutoById);
 

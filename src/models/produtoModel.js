@@ -1,5 +1,5 @@
 class Produto {
-  constructor(id, name, description, price, categoria,userId) {
+  constructor(id, name, description, price, categoria, userId) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -11,9 +11,11 @@ class Produto {
 
 // Simulando um banco de dados na memória
 let produtos = [
-  { id: 1, name: "PC", description: "PC de ultima geracao", price: "1234 R$", categoria: "Tecnologia" },
+  { id: 1, name: "PC", description: "PC de ultima geracao", price: "1234 R$", categoria: "Tecnologia", userId: 1 },
   { id: 2, name: "panela", description: "joao@teste.com", price: "abcd", categoria: "cozinha" }
 ];
+
+
 
 class ProdutoModel {
 
@@ -38,8 +40,22 @@ class ProdutoModel {
     );
   }
 
-  static create(name, description, price, categoria,userId) {
-    const newProduto = new Produto(produtos.length + 1, name, description, price, categoria,userId);
+
+
+  static findAllByUserId(userId) {
+    return produtos.filter(produto => produto.userId === userId);
+  }
+
+
+
+  static create(name, description, price, categoria, userId) {
+
+    const maxId = produtos.length > 0
+      ? Math.max(...produtos.map(p => p.id))
+      : 0;
+
+
+    const newProduto = new Produto(maxId + 1, name, description, price, categoria, userId);
     produtos.push(newProduto);
     return newProduto;
   }
@@ -60,7 +76,7 @@ class ProdutoModel {
     const index = produtos.findIndex(p => p.id === id);
     if (index === -1) return false;
 
-    produtos.splice(index, 1);
+    produtos.splice(index, id);
     return true;
   }
 }
