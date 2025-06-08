@@ -1,12 +1,33 @@
 const produtoService = require('../services/produtoService');
 const userController = require('../controllers/userController');
-
+const userService = require('../services/userService');
+const UserModel = require('../models/userModel');
 
 
 // Controller para buscar todos os usuários
 exports.getAllProdutos = (req, res) => {
-    const produtos = produtoService.getAllProdutos();
+
+  const userSession = req.session.user;
+
+  const produtos = produtoService.getAllProdutos();
+
+  // Verificação de sessão
+  if (!userSession) {
     res.status(200).json(produtos);
+  }
+
+  const user = userService.getUserById(userSession.id);
+  if (!user) {
+    return res.status(404).json({ message: "Usuário não encontrado." });
+  }
+
+
+  res.status(200).json({
+    userType: user.type,
+    produtos: produtos
+  });
+
+
 };
 
 
@@ -75,19 +96,42 @@ exports.getProdutoByName = (req, res) => {
     res.status(200).json(produtos);
 };
 
+// (Opcional) Controller para buscar produto do user
+exports.getMeusProdutos = (req, res) => {
+    const userId = req.session.user.id;
+    if (!userId) return res.status(401).json({ message: 'Não autenticado' });
+
+    const produtos = UserModel.getProdutosCompletosByUserId(userId); // ou só getProdutosByUserId
+
+
+    const user = userService.getUserById(userId);
+
+
+    res.status(200).json({
+        userType: user.type,
+        produtos: produtos
+    });
+
+
+
+};
+
+
+
+
 
 
 // (Opcional) Controller para buscar produto do user
-exports.getProdutoByUser = (req, res) => {
-    const user = req.session.user;
+// exports.getProdutoByUser = (req, res) => {
+//     const user = req.session.user;
 
-    if (!user) {
-        return res.status(401).json({ message: 'Usuário não está logado' });
-    }
+//     if (!user) {
+//         return res.status(401).json({ message: 'Usuário não está logado' });
+//     }
 
-    const produtos = produtoService.getProdutosDoUsuario(user.id);
-    res.status(200).json(produtos);
-};
+//     const produtos = produtoService.getProdutosDoUsuario(user.id);
+//     res.status(200).json(produtos);
+// };
 
 
 // (Opcional) Controller para atualizar produto

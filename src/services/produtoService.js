@@ -19,9 +19,11 @@ exports.getProdutoByName = (name) => {
 };
 
 
-exports.getProdutosDoUsuario = (userId) => {
-    return ProdutoModel.findAllByUserId(userId);
-};
+// exports.getProdutosDoUsuario = (userId) => {
+//     return ProdutoModel.findAllByUserId(userId);
+// };
+
+
 
 exports.updateProduto = (id, name, description, price, categoria) => {
     return ProdutoModel.update(id, name, description, price, categoria);

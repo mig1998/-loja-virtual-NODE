@@ -6,15 +6,15 @@ async function listarMeusProdutos() {
     return;
   }
 
-  const produtos = await res.json();
+  const resposta = await res.json();
   const div = document.getElementById("meus-produtos");
 
-  if (produtos.length === 0) {
+  if (resposta.length === 0) {
     div.innerHTML = "<p>Você ainda não cadastrou produtos.</p>";
     return;
   }
 
-  div.innerHTML = produtos.map(p => `
+  div.innerHTML = resposta.produtos.map(p => `
     <div>
       <strong>${p.name}</strong><br>
       Descrição: ${p.description}<br>
@@ -22,8 +22,28 @@ async function listarMeusProdutos() {
        <button onclick="editProduto(${p.id})">✏️</button>
        <button onclick="deleteProduto(${p.id})">🗑️</button>
       Categoria: ${p.categoria}<hr>
+
+
+
     </div>
   `).join("");
 }
 
-window.onload = listarMeusProdutos;
+
+
+async function getLoggedUserType() {
+  const res = await fetch('/products/user/produtos');
+  if (res.ok) {
+    const user = await res.json();
+    console.log("tipi do usuário logado:", user.userType);
+    return user;
+  } else {
+    console.warn("Usuário não logado");
+    return null;
+  }
+}
+
+window.onload = async () => {
+  listarMeusProdutos();
+};
+

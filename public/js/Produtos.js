@@ -3,7 +3,7 @@ async function listProdutos() {
   const response = await fetch("products");
   const produtos = await response.json();
 
-
+ console.log(produtos)
 
   const div = document.getElementById("produtos-list");
   div.innerHTML = produtos.map(u =>

@@ -13,7 +13,7 @@ router.get('/name/:name', produtoController.getProdutoByName);
 
 
 // Rota: buscar user
-router.get('/user/produtos', produtoController.getProdutoByUser);
+router.get('/user/produtos', produtoController.getMeusProdutos);
 
 
 // Rota: buscar por id

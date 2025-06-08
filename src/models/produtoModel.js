@@ -42,9 +42,9 @@ class ProdutoModel {
 
 
 
-  static findAllByUserId(userId) {
-    return produtos.filter(produto => produto.userId === userId);
-  }
+  // static findAllByUserId(userId) {
+  //   return produtos.filter(produto => produto.userId === userId);
+  // }
 
 
 

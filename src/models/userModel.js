@@ -1,3 +1,7 @@
+
+const ProdutoModel = require('./produtoModel');
+
+
 class User {
   constructor(id, name, email, senha, type) {
     this.id = id;
@@ -13,7 +17,7 @@ class User {
 // Simulando um banco de dados na memória
 let users = [
   { id: 1, name: "miguel", email: "miguel@miguel.com", senha: "1234", type: "admin", produtos: [1] },
-  { id: 2, name: "joao", email: "joao@teste.com", senha: "abcd", type: "user" }
+  { id: 2, name: "joarolao", email: "rola@rola.com", senha: "1234", type: "user" }
 ];
 
 class UserModel {
@@ -39,6 +43,12 @@ class UserModel {
   }
 
 
+  static getProdutosCompletosByUserId(userId) {
+    const user = users.find(u => u.id === userId);
+    if (!user || !user.produtos) return [];
+
+    return user.produtos.map(produtoId => ProdutoModel.findById(produtoId));
+  }
 
   static create(name, email, senha, type = "user") {
     const maxId = produtos.length > 0
