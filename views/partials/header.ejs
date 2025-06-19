@@ -2,26 +2,36 @@
   <h1>Loja Virtual</h1>
 
 
+  <% if (user) { %>
+    Bem-vindo, <%= user.name %>!
+      <% } %>
 
 
-  <nav>
-    <a href="/">Início</a>
-    <a href="/cadastroProduto">Novo Produto</a>
+        <nav>
+          <a href="/">Início</a>
+          <a href="/cadastroProduto">Novo Produto</a>
 
-    <a href="/meusProdutos">Meus Produtos</a>
+          <a href="/meusProdutos">Meus Produtos</a>
 
-    <a href="/produtos">Produtos</a>
+          <a href="/produtos">Produtos</a>
 
-    <a href="/usuarios">Usuarios</a>
+          <% if (user && user.type==='admin' ) { %>
+            <a href="/usuarios">Usuários</a>
+            <% } %>
 
-    <a href="/contato">Contato</a>
-    <a href="/sobre">Sobre</a>
+              <a href="/contato">Contato</a>
+              <a href="/sobre">Sobre</a>
 
-    <a href="/carrinho">Carrinho</a>
+              <a href="/carrinho">Carrinho</a>
 
 
 
-    <a href="/login">Login</a>
-    <a href="/cadastroUsuario">Cadastro</a>
-  </nav>
+              <a href="/login">Login</a>
+              <a href="/cadastroUsuario">Cadastro</a>
+        </nav>
+
+
+
+
+
 </header>

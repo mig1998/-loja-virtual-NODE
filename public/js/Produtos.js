@@ -1,17 +1,41 @@
 // Função para listar produtos
 async function listProdutos() {
   const response = await fetch("products");
-  const produtos = await response.json();
+  const resposta = await response.json();
 
- console.log(produtos)
-
+ //console.log(resposta)
   const div = document.getElementById("produtos-list");
-  div.innerHTML = produtos.map(u =>
-    `<div data-id="${u.id}">
-       <strong>${u.name}</strong> – ${u.description}
-       <button onclick="editProduto(${u.id})">✏️</button>
-       <button onclick="deleteProduto(${u.id})">🗑️</button>
+ 
+if (resposta.produtos) {
+
+  div.innerHTML = resposta.produtos.map(p =>
+    `<div data-id="${p.id}">
+       <strong>${p.name}</strong> – ${p.description}
+
+  ${resposta.userType === 'admin' ? `
+      <button onclick="editProduto(${p.id})">✏️</button>
+      <button onclick="deleteProduto(${p.id})">🗑️</button>
+    ` : ''}
+    
+
      </div>`).join("");
+
+}else{
+  div.innerHTML = resposta.map(p =>
+    `<div data-id="${p.id}">
+       <strong>${p.name}</strong> – ${p.description}
+
+  ${resposta.userType === 'admin' ? `
+      <button onclick="editProduto(${p.id})">✏️</button>
+      <button onclick="deleteProduto(${p.id})">🗑️</button>
+    ` : ''}
+    
+
+     </div>`).join("");
+
+}
+
+ 
 
 }
 

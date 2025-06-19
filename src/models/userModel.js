@@ -51,17 +51,16 @@ class UserModel {
   }
 
   static create(name, email, senha, type = "user") {
+    
     const maxId = produtos.length > 0
       ? Math.max(...produtos.map(p => p.id))
       : 0;
-
-
-
 
     const newUser = new User(maxId + 1, name, email, senha, type);
     users.push(newUser);
     return newUser;
   }
+
 
   static update(id, name, email, senha, type) {
     const user = users.find(u => u.id === id);

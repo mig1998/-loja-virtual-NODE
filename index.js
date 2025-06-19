@@ -30,8 +30,12 @@ app.set('views', path.join(__dirname, 'views'));
 // Arquivos estáticos (CSS, imagens, etc.)
 app.use(express.static('public'));
 
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;  // Isso envia o user para todas as views EJS
+  next();
+});
 
-app.use('/',pageRoutes); // Prefixa as rotas com /users
+app.use('/',pageRoutes); // Prefixa as rotas com /pages
 
 app.use('/products', produtoRoutes); // Prefixa as rotas com /produtos
 app.use('/users', userRoutes); // Prefixa as rotas com /users
