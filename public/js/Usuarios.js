@@ -29,8 +29,13 @@ function editUser(id) {             // abre prompt simples
       const name = prompt("Novo nome:", u.name);
       const email = prompt("Novo email:", u.email);
       const senha = prompt("Nova Senha:", u.senha);
-      if (name && email) updateUser(id, { name, email, senha });
+      const type = prompt("tipo usuario :", u.type);
+      if (name && email) updateUser(id, { name, email, senha, type });
+
+        console.log(name, email, senha, type);
     });
+  
+   
 }
 
 
@@ -53,50 +58,50 @@ async function deleteUser(id) {
   listUsers();
 }
 
- async function buscarPorId() {
-      const id = document.getElementById('search-id').value;
-      if (!id) {
-        alert('Digite um ID válido');
-        return;
-      }
-      const user = await getUserById(id);
-      const div = document.getElementById('result-id');
-      if (user) {
-        div.innerHTML = `<p><strong>ID:</strong> ${user.id} <br> <strong>Nome:</strong> ${user.name} <br> <strong>Email:</strong> ${user.email}</p>`;
-      } else {
-        div.innerHTML = `<p>Nenhum usuário encontrado com ID ${id}</p>`;
-      }
-    }
+async function buscarPorId() {
+  const id = document.getElementById('search-id').value;
+  if (!id) {
+    alert('Digite um ID válido');
+    return;
+  }
+  const user = await getUserById(id);
+  const div = document.getElementById('result-id');
+  if (user) {
+    div.innerHTML = `<p><strong>ID:</strong> ${user.id} <br> <strong>Nome:</strong> ${user.name} <br> <strong>Email:</strong> ${user.email}</p>`;
+  } else {
+    div.innerHTML = `<p>Nenhum usuário encontrado com ID ${id}</p>`;
+  }
+}
 
-    // Função para buscar por nome e mostrar resultados
-    async function buscarPorNome() {
-      const nome = document.getElementById('search-name').value.trim();
-      if (!nome) {
-        alert('Digite um nome para buscar');
-        return;
-      }
-      const users = await getUsersByName(nome);
-      const div = document.getElementById('result-name');
-      if (users.length === 0) {
-        div.innerHTML = `<p>Nenhum usuário encontrado com nome "${nome}"</p>`;
-      } else {
-        div.innerHTML = users.map(u => 
-          `<div>
+// Função para buscar por nome e mostrar resultados
+async function buscarPorNome() {
+  const nome = document.getElementById('search-name').value.trim();
+  if (!nome) {
+    alert('Digite um nome para buscar');
+    return;
+  }
+  const users = await getUsersByName(nome);
+  const div = document.getElementById('result-name');
+  if (users.length === 0) {
+    div.innerHTML = `<p>Nenhum usuário encontrado com nome "${nome}"</p>`;
+  } else {
+    div.innerHTML = users.map(u =>
+      `<div>
             <strong>ID:</strong> ${u.id} <br>
             <strong>Nome:</strong> ${u.name} <br>
             <strong>Email:</strong> ${u.email}
           </div><hr>`
-        ).join('');
-      }
-    }
+    ).join('');
+  }
+}
 
-    // Suas funções originais para buscar dados via fetch:
-    async function getUserById(id) {
-      const res = await fetch(`/users/${id}`);
-      return res.ok ? res.json() : null;
-    }
+// Suas funções originais para buscar dados via fetch:
+async function getUserById(id) {
+  const res = await fetch(`/users/${id}`);
+  return res.ok ? res.json() : null;
+}
 
-    async function getUsersByName(name) {
-      const res = await fetch(`/users/name/${encodeURIComponent(name)}`);
-      return res.ok ? res.json() : [];
-    }
+async function getUsersByName(name) {
+  const res = await fetch(`/users/name/${encodeURIComponent(name)}`);
+  return res.ok ? res.json() : [];
+}
