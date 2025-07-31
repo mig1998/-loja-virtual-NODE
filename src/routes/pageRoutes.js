@@ -92,14 +92,10 @@ router.get('/carrinho', (req, res) => {
 });
 
 
+// Carrinho
+router.get('/logout', (req, res) => {
+  res.render('pages/logout', { title: 'logout' });
+});
 
-// router.use((req, res, next) => {
-//   if (req.user) {
-//     // Se o usuário estiver logado, permite que o request prossiga
-//     next();
-//   } else {
-//     // Se não estiver logado, retorna erro
-//     res.status(401).json({ message: 'Você precisa estar logado!' });
-//   }
-// });
+
 module.exports = router;

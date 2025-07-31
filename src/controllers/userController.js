@@ -59,11 +59,6 @@ exports.updateUser = (req, res) => {
   const { id } = req.params;
   const { name, email, senha, type } = req.body;
 
-
-  // if (type === 'admin' && req.user.type !== 'admin') {  // Verifica se o usuário é admin
-  //   return res.status(403).json({ message: 'Você não tem permissão para criar administradores.' });
-  // }
-
   const updatedUser = userService.updateUser(parseInt(id), name, email, senha, type);
 
   if (!updatedUser) {
@@ -75,10 +70,6 @@ exports.updateUser = (req, res) => {
 
 // (Opcional) Controller para deletar usuário
 exports.deleteUser = (req, res) => {
-
-  // if (type === 'admin' && req.user.type !== 'admin') {  // Verifica se o usuário é admin
-  //   return res.status(403).json({ message: 'Você não tem permissão para criar administradores.' });
-  // }
 
   const { id } = req.params;
 
@@ -107,3 +98,12 @@ exports.adicionarProdutoAoUsuario = (userId, produtoId) => {
 
 
 
+exports.logout = (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error("Erro ao deslogar:", err);
+      return res.status(500).send("Erro ao deslogar");
+    }
+    res.redirect('/login'); // ou qualquer outra rota que você queira
+  });
+};

@@ -2,9 +2,6 @@
   <h1>Loja Virtual</h1>
 
 
-  <% if (user) { %>
-    Bem-vindo, <%= user.name %>!
-      <% } %>
 
 
         <nav>
@@ -24,10 +21,13 @@
 
               <a href="/carrinho">Carrinho</a>
 
+              <% if (user) { %>
+                <a href="/logout">Sair (<%= user.name %>)</a>
+                <% } else { %>
+                  <a href="/login">Login</a>
+                  <a href="/cadastro">Cadastro</a>
+                  <% } %>
 
-
-              <a href="/login">Login</a>
-              <a href="/cadastroUsuario">Cadastro</a>
         </nav>
 
 
@@ -35,3 +35,7 @@
 
 
 </header>
+
+  <% if (user) { %>
+   <h5> Bem-vindo, <%= user.name %>!</h5>
+      <% } %>
