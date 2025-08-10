@@ -3,14 +3,14 @@ const ProdutoModel = require('./produtoModel');
 
 
 class User {
-  constructor(id, name, email, senha, type) {
+  constructor(id, name, email, senha, type, carrinho) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.senha = senha;
     this.type = type;
     this.produtos = [];          // ← IDs dos produtos do usuário
-
+    this.carrinho = [];
   }
 }
 
@@ -49,9 +49,19 @@ class UserModel {
 
     return user.produtos.map(produtoId => ProdutoModel.findById(produtoId));
   }
+  
+
+
+  static getProdutosCarrinho(userId) {
+    const user = users.find(u => u.id === userId);
+    if (!user || !user.carrinho) return [];
+
+    return user.carrinho.map(carrinhoId => carrinhoModel.findById(carrinhoId));
+  }
+
 
   static create(name, email, senha, type = "user") {
-    
+
     const maxId = produtos.length > 0
       ? Math.max(...produtos.map(p => p.id))
       : 0;

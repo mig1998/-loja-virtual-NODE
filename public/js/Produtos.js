@@ -17,6 +17,7 @@ if (resposta.produtos) {
       <button onclick="deleteProduto(${p.id})">🗑️</button>
     ` : ''}
     
+         <button onclick="adicionarAoCarrinho(${p.id})">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
 
@@ -30,6 +31,7 @@ if (resposta.produtos) {
       <button onclick="deleteProduto(${p.id})">🗑️</button>
     ` : ''}
     
+         <button onclick="adicionarAoCarrinho(${p.id})">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
 
@@ -37,6 +39,25 @@ if (resposta.produtos) {
 
  
 
+}
+
+
+
+
+
+
+async function adicionarAoCarrinho(produtoId) {
+  const response = await fetch('/carrinho/adicionar', {  // ajuste a rota conforme seu backend
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ produtoId })  // enviar o id do produto para o backend
+  });
+
+  if (response.ok) {
+    alert('Produto adicionado ao carrinho!');
+  } else {
+    alert('Erro ao adicionar produto ao carrinho.');
+  }
 }
 
 
