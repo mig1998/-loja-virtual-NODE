@@ -3,13 +3,16 @@ async function listProdutos() {
   const response = await fetch("products");
   const resposta = await response.json();
 
- //console.log(resposta)
+  //console.log(resposta)
   const div = document.getElementById("produtos-list");
- 
-if (resposta.produtos) {
 
-  div.innerHTML = resposta.produtos.map(p =>
-    `<div data-id="${p.id}">
+
+  //logado
+  if (resposta.produtos) {
+
+    div.innerHTML = resposta.produtos.map(p =>
+      `<div data-id="${p.id}">
+         <strong>${p.id}</strong>
        <strong>${p.name}</strong> – ${p.description}
 
   ${resposta.userType === 'admin' ? `
@@ -17,43 +20,50 @@ if (resposta.produtos) {
       <button onclick="deleteProduto(${p.id})">🗑️</button>
     ` : ''}
     
-         <button onclick="adicionarAoCarrinho(${p.id})">Adicionar ao carrinho 🛒</button>
+         <button onclick="adicionarAoCarrinho(${p.id, resposta.userId})">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
+     //parei aqui , empaquei aqui por enquanto;
+console.log(resposta.userId);
 
-}else{
-  div.innerHTML = resposta.map(p =>
-    `<div data-id="${p.id}">
+//não logado
+  } else {
+    div.innerHTML = resposta.map(p =>
+      `<div data-id="${p.id}">
        <strong>${p.name}</strong> – ${p.description}
 
   ${resposta.userType === 'admin' ? `
       <button onclick="editProduto(${p.id})">✏️</button>
       <button onclick="deleteProduto(${p.id})">🗑️</button>
     ` : ''}
-    
-         <button onclick="adicionarAoCarrinho(${p.id})">Adicionar ao carrinho 🛒</button>
+  
+         <button onclick="adicionarAoCarrinho(${p.id, response.userId})">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
 
+  }
+
+
+
 }
 
- 
-
-}
 
 
 
 
 
+async function adicionarAoCarrinho(produtoId, userId) {
 
-async function adicionarAoCarrinho(produtoId) {
+  const data = { produtoId, userId };  // Cria um objeto com os dados de login
+
+
   const response = await fetch("/cart/add", {  // ajuste a rota conforme seu backend
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ produtoId })  // enviar o id do produto para o backend
+    body: JSON.stringify({ data })  // enviar o id do produto para o backend
   });
 
-console.log(response);
+  console.log(data);
 
 
   if (response.ok) {
@@ -92,7 +102,7 @@ async function updateProduto(id, data) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   });
-window.location.reload();
+  window.location.reload();
 }
 
 
@@ -102,7 +112,7 @@ window.location.reload();
 async function deleteProduto(id) {
   if (!confirm("Deseja excluir?")) return;
   await fetch(`${"/products"}/${id}`, { method: "DELETE" });
-window.location.reload();
+  window.location.reload();
 }
 
 
@@ -116,7 +126,7 @@ async function buscarPorId() {
     return;
   }
 
-  const produto= await getProdutoById(id);
+  const produto = await getProdutoById(id);
   const div = document.getElementById('result-id');
   if (produto) {
     div.innerHTML = `<p><strong>ID:</strong> ${produto.id} <br> <strong>Nome:</strong> ${produto.name} <br> <strong>descrição:</strong> ${produto.description}</p>`;

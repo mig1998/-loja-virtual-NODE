@@ -23,6 +23,7 @@ exports.getAllProdutos = (req, res) => {
 
 
   res.status(200).json({
+    userId:userSession.id,
     userType: user.type,
     produtos: produtos
   });
