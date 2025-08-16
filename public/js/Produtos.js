@@ -20,13 +20,12 @@ async function listProdutos() {
       <button onclick="deleteProduto(${p.id})">🗑️</button>
     ` : ''}
     
-         <button onclick="adicionarAoCarrinho(${p.id, resposta.userId})">Adicionar ao carrinho 🛒</button>
+         <button onclick="adicionarAoCarrinho(${resposta.userId},${p.id})">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
-     //parei aqui , empaquei aqui por enquanto;
-console.log(resposta.userId);
 
-//não logado
+
+    //não logado
   } else {
     div.innerHTML = resposta.map(p =>
       `<div data-id="${p.id}">
@@ -37,7 +36,7 @@ console.log(resposta.userId);
       <button onclick="deleteProduto(${p.id})">🗑️</button>
     ` : ''}
   
-         <button onclick="adicionarAoCarrinho(${p.id, response.userId})">Adicionar ao carrinho 🛒</button>
+         <button onclick="adicionarAoCarrinho(${resposta.userId},${p.id})">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
 
@@ -52,18 +51,16 @@ console.log(resposta.userId);
 
 
 
-async function adicionarAoCarrinho(produtoId, userId) {
-
-  const data = { produtoId, userId };  // Cria um objeto com os dados de login
+async function adicionarAoCarrinho(userId, produtoId) {
 
 
   const response = await fetch("/cart/add", {  // ajuste a rota conforme seu backend
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ data })  // enviar o id do produto para o backend
+    body: JSON.stringify({ userId, produtoId })  // enviar o id do produto para o backend
   });
 
-  console.log(data);
+
 
 
   if (response.ok) {
