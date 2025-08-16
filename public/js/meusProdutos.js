@@ -45,5 +45,6 @@ async function getLoggedUserType() {
 
 window.onload = async () => {
   listarMeusProdutos();
+getLoggedUserType();
 };
 

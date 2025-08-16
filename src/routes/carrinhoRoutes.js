@@ -10,6 +10,9 @@ function autenticar(req, res, next) {
   }
 }
 
+
+router.get("/", carrinhoController.getAllCarts);
+
 router.post("/create", carrinhoController.createCart);
 
 router.post("/add", carrinhoController.addProduto);

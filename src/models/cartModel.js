@@ -11,6 +11,12 @@ const carts = [];
 class CartModel {
 
   // Encontra o carrinho do usuário
+
+  static findAll() {
+    return carts;
+  }
+
+  
   static findByUserId(userId) {
     return carts.find(cart => cart.userId === userId);
   }

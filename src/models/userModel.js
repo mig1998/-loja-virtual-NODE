@@ -3,7 +3,7 @@ const ProdutoModel = require('./produtoModel');
 
 
 class User {
-  constructor(id, name, email, senha, type, carrinho) {
+  constructor(id, name, email, senha, type) {
     this.id = id;
     this.name = name;
     this.email = email;

@@ -3,12 +3,15 @@ const express = require('express');
 const app = express();
 const path = require('path'); // <-- esta linha é essencial
 const cors = require('cors');  // Importa o CORS
+
 const session = require('express-session');
+
 
 
 app.use(cors());               // Habilita CORS para permitir acesso do front-end
 app.use(express.json());      // Permite receber dados JSON nas requisições
 
+app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
   secret: 'chave-secreta-bem-forte',
