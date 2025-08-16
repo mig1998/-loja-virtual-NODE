@@ -47,7 +47,7 @@ if (resposta.produtos) {
 
 
 async function adicionarAoCarrinho(produtoId) {
-  const response = await fetch('/carrinho/adicionar', {  // ajuste a rota conforme seu backend
+  const response = await fetch('/cart/add', {  // ajuste a rota conforme seu backend
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ produtoId })  // enviar o id do produto para o backend

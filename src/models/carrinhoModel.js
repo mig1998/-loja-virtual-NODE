@@ -1,4 +1,4 @@
-class carrinho {
+class Cart {
   constructor(userId) {
     this.userId = userId;
     this.items = []; // array de { produtoId, quantidade }
@@ -6,70 +6,70 @@ class carrinho {
 }
 
 // Simulando banco de dados em memória
-const carrinho = [];
+const carts = [];
 
-class carrinhoModel {
+class CartModel {
 
   // Encontra o carrinho do usuário
   static findByUserId(userId) {
-    return carrinho.find(carrinho => carrinho.userId === userId);
+    return carts.find(cart => cart.userId === userId);
   }
 
   // Cria um carrinho novo para o usuário, se não existir
-  static createcarrinhoForUser(userId) {
-    let carrinho = this.findByUserId(userId);
-    if (!carrinho) {
-      carrinho = new carrinho(userId);
-      carrinho.push(carrinho);
+  static createCartForUser(userId) {
+    let cart = this.findByUserId(userId);
+    if (!cart) {
+      cart = new Cart(userId);
+      carts.push(cart);
     }
-    return carrinho;
+    return cart;
   }
 
   // Adiciona produto no carrinho do usuário
   static addProduto(userId, produtoId, quantidade = 1) {
-    let carrinho = this.createcarrinhoForUser(userId);
+    let cart = this.createCartForUser(userId);
 
-    const item = carrinho.items.find(i => i.produtoId === produtoId);
+    const item = cart.items.find(i => i.produtoId === produtoId);
     if (item) {
       item.quantidade += quantidade; // soma quantidade
     } else {
-      carrinho.items.push({ produtoId, quantidade });
+      cart.items.push({ produtoId, quantidade });
     }
-    return carrinho;
+    return cart;
   }
 
   // Remove produto do carrinho (ou diminui quantidade)
   static removeProduto(userId, produtoId, quantidade = 1) {
-    const carrinho = this.findByUserId(userId);
-    if (!carrinho) return null;
+    const cart = this.findByUserId(userId);
+    if (!cart) return null;
 
-    const itemIndex = carrinho.items.findIndex(i => i.produtoId === produtoId);
-    if (itemIndex === -1) return carrinho;
+    const itemIndex = cart.items.findIndex(i => i.produtoId === produtoId);
+    if (itemIndex === -1) return cart;
 
-    if (carrinho.items[itemIndex].quantidade > quantidade) {
-      carrinho.items[itemIndex].quantidade -= quantidade;
+    if (cart.items[itemIndex].quantidade > quantidade) {
+      cart.items[itemIndex].quantidade -= quantidade;
     } else {
-      carrinho.items.splice(itemIndex, 1);
+      cart.items.splice(itemIndex, 1);
     }
 
-    return carrinho;
+    return cart;
   }
 
   // Limpar o carrinho do usuário
-  static clearcarrinho(userId) {
-    const carrinho = this.findByUserId(userId);
-    if (!carrinho) return null;
+  static clearCart(userId) {
+    const cart = this.findByUserId(userId);
+    if (!cart) return null;
 
-    carrinho.items = [];
-    return carrinho;
+    cart.items = [];
+    return cart;
   }
 
   // Listar produtos (só IDs e quantidades) do carrinho
   static getItems(userId) {
-    const carrinho = this.findByUserId(userId);
-    if (!carrinho) return [];
-    return carrinho.items;
+    const cart = this.findByUserId(userId);
+    if (!cart) return [];
+    return cart.items;
   }
 }
 
-module.exports = carrinhoModel;
+module.exports = CartModel;

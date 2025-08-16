@@ -1,45 +1,64 @@
-const carrinhoService = require('../services/carrinhoService');
+const CartService = require("../services/carrinhoService");
 
-// Buscar itens do carrinho do usuário logado
-exports.getCarrinho = (req, res) => {
-  const userId = req.session.user.id;
-  const itens = carrinhoService.getCarrinhoByUserId(userId);
-  res.status(200).json(itens);
-};
+class CartController {
+  static createCart(req, res) {
+    const { userId } = req.body;
 
-// Adicionar produto ao carrinho do usuário logado
-exports.adicionarProduto = (req, res) => {
-  const userId = req.session.user.id;
-  const { produtoId, quantidade } = req.body;
+    if (!userId) {
+      return res.status(400).json({ error: "Informe o userId" });
+    }
 
-  if (!produtoId) {
-    return res.status(400).json({ message: 'ProdutoId é obrigatório' });
+    const cart = CartService.createCartForUser(userId);
+    res.json(cart);
   }
 
-  const quantidadeNum = quantidade ? parseInt(quantidade) : 1;
-  const carrinho = carrinhoService.addProdutoAoCarrinho(userId, produtoId, quantidadeNum);
+  static addProduto(req, res) {
+    const { userId, produtoId, quantidade } = req.body;
 
-  res.status(200).json(carrinho);
-};
+    if (!userId || !produtoId) {
+      return res.status(400).json({ error: "Informe userId e produtoId" });
+    }
 
-// Remover produto do carrinho do usuário logado
-exports.removerProduto = (req, res) => {
-  const userId = req.session.user.id;
-  const { produtoId, quantidade } = req.body;
-
-  if (!produtoId) {
-    return res.status(400).json({ message: 'ProdutoId é obrigatório' });
+    const cart = CartService.addProduto(userId, produtoId, quantidade || 1);
+    res.json(cart);
   }
 
-  const quantidadeNum = quantidade ? parseInt(quantidade) : 1;
-  const carrinho = carrinhoService.removeProdutoDoCarrinho(userId, produtoId, quantidadeNum);
+  static removeProduto(req, res) {
+    const { userId, produtoId, quantidade } = req.body;
 
-  res.status(200).json(carrinho);
-};
+    if (!userId || !produtoId) {
+      return res.status(400).json({ error: "Informe userId e produtoId" });
+    }
 
-// Limpar carrinho do usuário logado
-exports.limparCarrinho = (req, res) => {
-  const userId = req.session.user.id;
-  const carrinho = carrinhoService.limparCarrinho(userId);
-  res.status(200).json(carrinho);
-};
+    const cart = CartService.removeProduto(userId, produtoId, quantidade || 1);
+    if (!cart) return res.status(404).json({ error: "Carrinho não encontrado" });
+
+    res.json(cart);
+  }
+
+  static clearCart(req, res) {
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: "Informe o userId" });
+    }
+
+    const cart = CartService.clearCart(userId);
+    if (!cart) return res.status(404).json({ error: "Carrinho não encontrado" });
+
+    res.json(cart);
+  }
+
+  static getItems(req, res) {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({ error: "Informe o userId" });
+    }
+
+    const items = CartService.getItems(userId);
+    res.json(items);
+  }
+}
+
+module.exports = CartController;

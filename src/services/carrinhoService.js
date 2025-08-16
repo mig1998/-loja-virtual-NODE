@@ -1,17 +1,25 @@
-const CarrinhoModel = require('../models/carrinhoModel');
+const CartModel = require("../models/carrinhoModel");
 
-exports.getCarrinhoByUserId = (userId) => {
-  return CarrinhoModel.getItems(userId);
-};
+class CartService {
+  static createCartForUser(userId) {
+    return CartModel.createCartForUser(userId);
+  }
 
-exports.addProdutoAoCarrinho = (userId, produtoId, quantidade = 1) => {
-  return CarrinhoModel.addProduto(userId, produtoId, quantidade);
-};
+  static addProduto(userId, produtoId, quantidade) {
+    return CartModel.addProduto(userId, produtoId, quantidade);
+  }
 
-exports.removeProdutoDoCarrinho = (userId, produtoId, quantidade = 1) => {
-  return CarrinhoModel.removeProduto(userId, produtoId, quantidade);
-};
+  static removeProduto(userId, produtoId, quantidade) {
+    return CartModel.removeProduto(userId, produtoId, quantidade);
+  }
 
-exports.limparCarrinho = (userId) => {
-  return CarrinhoModel.clearCart(userId);
-};
+  static clearCart(userId) {
+    return CartModel.clearCart(userId);
+  }
+
+  static getItems(userId) {
+    return CartModel.getItems(userId);
+  }
+}
+
+module.exports = CartService;
