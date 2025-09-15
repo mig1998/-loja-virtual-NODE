@@ -1,22 +1,25 @@
+let nextCartId = 1; // contador para gerar ids únicos de carrinho
+
 class Cart {
   constructor(userId) {
+    this.id = nextCartId++; // gera um id automático para o carrinho
     this.userId = userId;
     this.items = []; // array de { produtoId, quantidade }
   }
 }
 
 // Simulando banco de dados em memória
-const carts = [];
+const carts = [
+  { id: 1, userId: 1, items: [{ produtoId: 1, quantidade: 1 }] }
+];
 
 class CartModel {
-
-  // Encontra o carrinho do usuário
-
+  // Encontra todos os carrinhos
   static findAll() {
     return carts;
   }
 
-  
+  // Encontra o carrinho do usuário
   static findByUserId(userId) {
     return carts.find(cart => cart.userId === userId);
   }

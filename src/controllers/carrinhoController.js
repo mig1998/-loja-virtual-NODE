@@ -1,5 +1,5 @@
 const CartService = require("../services/carrinhoService");
-
+const userController = require('../controllers/userController');
 
 
 
@@ -10,19 +10,23 @@ exports.getAllCarts = (req, res) => {
 
 
 exports.createCart = (req, res) => {
+  console.log("📥 Dados recebidos:", req.body);
 
-  console.log(req.body);  // veja o que está chegando
   const { userId } = req.body || {};
-
-
   if (!userId) {
     return res.status(400).json({ error: "Informe o userId" });
   }
 
   const cart = CartService.createCartForUser(userId);
-  res.json(cart);
-}
 
+  // Garante que o usuário tenha esse carrinho associado
+  userController.adicionarCarrinhoAoUsuario(userId, cart.id);
+
+  return res.status(201).json({
+    message: "Carrinho criado com sucesso!",
+    carrinho: cart
+  });
+};
 exports.addProduto = (req, res) => {
   const { userId, produtoId, quantidade } = req.body;
 

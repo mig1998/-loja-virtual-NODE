@@ -97,6 +97,31 @@ exports.adicionarProdutoAoUsuario = (userId, produtoId) => {
 };
 
 
+exports.adicionarCarrinhoAoUsuario = (userId, carrinhoId) => {
+
+  const user = userService.getUserById(userId);
+
+  if (!user) return false;
+
+  if (!user.carrinho) user.carrinho = [];
+  user.carrinho.push(carrinhoId);
+  return true;
+};
+
+
+
+// exports.adicionarProdutoAoCarrinho = (userId, produtoId) => {
+
+//   const user = userService.getUserById(userId);
+
+//   if (!user) return false;
+
+//   if (!user.carrinho) user.carrinho = [];
+//   user.carrinho.push(produtoId);
+//   return true;
+// };
+
+
 
 exports.logout = (req, res) => {
   req.session.destroy(err => {

@@ -9,6 +9,8 @@ async function listarMeusProdutos() {
   const resposta = await res.json();
   const div = document.getElementById("meus-produtos");
 
+
+
   if (resposta.length === 0) {
     div.innerHTML = "<p>Você ainda não cadastrou produtos.</p>";
     return;
@@ -35,7 +37,7 @@ async function getLoggedUserType() {
   const res = await fetch('/products/user/produtos');
   if (res.ok) {
     const user = await res.json();
-    console.log("tipi do usuário logado:", user.userType);
+    console.log("tipo do usuário logado:", user.userType);
     return user;
   } else {
     console.warn("Usuário não logado");
