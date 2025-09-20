@@ -98,15 +98,20 @@ exports.adicionarProdutoAoUsuario = (userId, produtoId) => {
 
 
 exports.adicionarCarrinhoAoUsuario = (userId, carrinhoId) => {
-
   const user = userService.getUserById(userId);
 
   if (!user) return false;
 
-  if (!user.carrinho) user.carrinho = [];
-  user.carrinho.push(carrinhoId);
+  // Se o usuário já tem um carrinho, não sobrescreve
+  if (user.carrinho) {
+    console.log(`⚠️ Usuário ${userId} já tem um carrinho (${user.carrinho})`);
+    return false;
+  }
+
+  user.carrinho = carrinhoId; // atribui o ID do carrinho ao usuário
   return true;
 };
+
 
 
 
