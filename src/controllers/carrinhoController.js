@@ -1,6 +1,6 @@
 const CartService = require("../services/carrinhoService");
 const userController = require('../controllers/userController');
-
+const UserService = require("../services/userService");
 
 
 exports.getAllCarts = (req, res) => {
@@ -76,3 +76,15 @@ exports.getItems = (req, res) => {
   const items = CartService.getItems(userId);
   res.json(items);
 }
+
+
+exports.getCarrinhoByUser = (req, res) => {
+  const { userId } = req.params;
+  const cart = CartService.getAllCarrinho().find(c => c.userId === Number(userId));
+
+  if (!cart) {
+    return res.status(404).json({ error: "Carrinho não encontrado" });
+  }
+
+  return res.json(cart);
+};

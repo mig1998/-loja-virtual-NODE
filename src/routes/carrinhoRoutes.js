@@ -21,7 +21,8 @@ router.post("/remove", carrinhoController.removeProduto);
 
 router.post("/clear", carrinhoController.clearCart);
 
-router.get("/:userId", carrinhoController.getItems);
+//router.get("/:userId", carrinhoController.getItems);
 
+router.get("/cart/:userId", carrinhoController.getCarrinhoByUser);
 
 module.exports = router;

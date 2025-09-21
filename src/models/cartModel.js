@@ -1,4 +1,5 @@
-let nextCartId = 1; // contador para gerar ids únicos de carrinho
+
+
 
 class Cart {
   constructor(userId) {
@@ -13,6 +14,12 @@ const carts = [
   { id: 1, userId: 1, items: [{ produtoId: 1, quantidade: 1 }] }
 ];
 
+// contador baseado no maior ID atual (evita repetir id)
+let nextCartId = carts.length > 0
+  ? Math.max(...carts.map(c => c.id)) + 1
+  : 1;
+
+  
 class CartModel {
   // Encontra todos os carrinhos
   static findAll() {

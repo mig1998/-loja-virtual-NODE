@@ -49,7 +49,7 @@ class UserModel {
 
     return user.produtos.map(produtoId => ProdutoModel.findById(produtoId));
   }
-  
+
 
 
   static create(name, email, senha, type = "user") {
@@ -83,6 +83,20 @@ class UserModel {
     users.splice(index, id);
     return true;
   }
+
+
+  static getCarrinhoByUserId(userId) {
+    const user = users.find(u => u.id === userId);
+    if (!user || !user.carrinho) return null;
+    return user.carrinho;
+  }
+
+
+
 }
+
+
+
+
 
 module.exports = UserModel;
