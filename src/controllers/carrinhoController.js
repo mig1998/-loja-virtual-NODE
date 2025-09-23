@@ -4,8 +4,33 @@ const UserService = require("../services/userService");
 
 
 exports.getAllCarts = (req, res) => {
+
   const carts = CartService.getAllCarrinho();
   res.status(200).json(carts);
+};
+
+
+
+exports.getCart = (req, res) => {
+
+  const userSession = req.session.user;
+
+
+  const carts = CartService.getAllCarrinho();
+
+  // Verificação de sessão
+  let resultado;
+
+  if (!userSession) {
+    // Se não houver usuário logado, pode retornar vazio ou todos (como quiser)
+    resultado = [];
+  } else {
+    // Filtra apenas o carrinho do usuário logado
+    resultado = carts.filter(cart => cart.userId === userSession.id);
+  }
+
+  res.status(200).json(resultado);
+
 };
 
 
@@ -67,24 +92,44 @@ exports.clearCart = (req, res) => {
 }
 
 exports.getItems = (req, res) => {
-  const { userId } = req.params;
+  const userId = parseInt(req.params.userId); // ID passado na URL
+  const loggedUser = req.session.user.id; // Usuário logado na sessão
 
-  if (!userId) {
-    return res.status(400).json({ error: "Informe o userId" });
+  // 🔒 Verifica se o usuário está logado
+  if (!loggedUser) {
+    return res.status(401).json({ message: "Você precisa estar logado para acessar o carrinho." });
   }
+
+  // 🔒 Verifica se o usuário logado é o dono do carrinho
+  if (loggedUser != userId) {
+    return res.status(403).json({ message: "Acesso negado. Você só pode ver o seu próprio carrinho." });
+  }
+
 
   const items = CartService.getItems(userId);
   res.json(items);
 }
 
 
-exports.getCarrinhoByUser = (req, res) => {
-  const { userId } = req.params;
-  const cart = CartService.getAllCarrinho().find(c => c.userId === Number(userId));
+// exports.getCarrinhoByUser = (req, res) => {
+//   const userId = parseInt(req.params.userId); // ID passado na URL
+//   const loggedUser = req.session.user.id; // Usuário logado na sessão
 
-  if (!cart) {
-    return res.status(404).json({ error: "Carrinho não encontrado" });
-  }
+//   // 🔒 Verifica se o usuário está logado
+//   if (!loggedUser) {
+//     return res.status(401).json({ message: "Você precisa estar logado para acessar o carrinho." });
+//   }
 
-  return res.json(cart);
-};
+//   // 🔒 Verifica se o usuário logado é o dono do carrinho
+//   if (loggedUser != userId) {
+//     return res.status(403).json({ message: "Acesso negado. Você só pode ver o seu próprio carrinho." });
+//   }
+
+//   const cart = CartService.findByUserId(userId);
+
+//   if (!cart) {
+//     return res.status(404).json({ message: "Carrinho não encontrado." });
+//   }
+
+//   res.json(cart);
+// };

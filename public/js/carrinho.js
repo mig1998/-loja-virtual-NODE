@@ -1,5 +1,5 @@
 async function carregarCarrinho() {
-  const res = await fetch("/cart");
+  const res = await fetch("/cart/cart");
   if (!res.ok) {
     document.getElementById("carrinho-list").innerHTML = "<p>Faça login para ver o carrinho.</p>";
     return;

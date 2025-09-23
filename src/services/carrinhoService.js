@@ -2,13 +2,19 @@ const CartModel = require("../models/cartModel");
 
 
 exports.getAllCarrinho = () => {
-    return CartModel.findAll();
+  return CartModel.findAll();
 };
 
 
 exports.createCartForUser = (userId) => {
   return CartModel.createCartForUser(userId);
 }
+
+
+exports.findByUserId = (userId) => {
+  return CartModel.findByUserId(userId);
+};
+
 
 exports.addProduto = (userId, produtoId, quantidade) => {
   return CartModel.addProduto(userId, produtoId, quantidade);

@@ -11,7 +11,8 @@ class Cart {
 
 // Simulando banco de dados em memória
 const carts = [
-  { id: 1, userId: 1, items: [{ produtoId: 1, quantidade: 1 }] }
+  { id: 1, userId: 1, items: [{ produtoId: 1, quantidade: 1 }] },
+   { id: 1, userId: 2, items: [{ produtoId: 1, quantidade: 1 }] }
 ];
 
 // contador baseado no maior ID atual (evita repetir id)
