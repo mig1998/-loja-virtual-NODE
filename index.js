@@ -6,12 +6,18 @@ const cors = require('cors');  // Importa o CORS
 
 const session = require('express-session');
 
-
+const connectDB = require("./config/db");
 
 app.use(cors());               // Habilita CORS para permitir acesso do front-end
 app.use(express.json());      // Permite receber dados JSON nas requisições
 
 app.use(express.urlencoded({ extended: true }));
+
+// Conectar ao banco
+connectDB();
+
+
+
 
 app.use(session({
   secret: 'chave-secreta-bem-forte',
