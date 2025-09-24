@@ -28,6 +28,6 @@ router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 
 
-
+router.post('/logout', userController.logout);
 
 module.exports = router;
