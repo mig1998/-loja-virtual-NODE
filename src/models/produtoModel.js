@@ -1,84 +1,53 @@
+const mongoose = require("mongoose");
+
+// --- Schema do produto ---
+const produtoSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: { type: String },
+  price: { type: String },
+  categoria: { type: String },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" } // relaciona com usuário
+});
+
+// --- Model do produto ---
+const ProdutoModel = mongoose.model("Produto", produtoSchema,"products");
+
+// --- Classe que simula o "model antigo" mas usando MongoDB ---
 class Produto {
-  constructor(id, name, description, price, categoria, userId) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.price = price;
-    this.categoria = categoria;
-    this.userId = userId;
+  static async findAll() {
+    return await ProdutoModel.find();
+  }
+
+  static async findById(id) {
+    return await ProdutoModel.findById(id);
+  }
+
+  static async findByName(name) {
+    if (!name || typeof name !== "string" || !name.trim()) return [];
+    const termo = name.trim();
+    return await ProdutoModel.find({
+      name: { $regex: termo, $options: "i" } // case-insensitive
+    });
+  }
+
+  static async findAllByUserId(userId) {
+    return await ProdutoModel.find({ userId });
+  }
+
+  static async create(name, description, price, categoria, userId) {
+    const produto = new ProdutoModel({ name, description, price, categoria, userId });
+    return await produto.save();
+  }
+
+  static async update(id, updateData) {
+    // updateData = { name, email, senha, type }
+    return await ProdutoModel.findByIdAndUpdate(id, updateData, { new: true });
+  }
+
+  static async delete(id) {
+    const result = await ProdutoModel.findByIdAndDelete(id);
+    return !!result;
   }
 }
 
-// Simulando um banco de dados na memória
-let produtos = [
-  { id: 1, name: "PC", description: "PC de ultima geracao", price: "1234 R$", categoria: "Tecnologia", userId: 1 },
-  { id: 2, name: "panela", description: "joao@teste.com", price: "abcd", categoria: "cozinha" }
-];
-
-
-
-class ProdutoModel {
-
-  static findAll() {
-    return produtos;
-  }
-
-  static findById(id) {
-    return produtos.find(produto => produto.id === id);
-  }
-
-
-
-  static findByName(name) {
-    const termo = String(name).toLowerCase(); // converte qualquer valor para string
-
-    // Se termo convertido ficar vazio, devolve lista vazia
-    if (!termo.trim()) return [];
-
-    return produtos.filter(produto =>
-      produto.name.toLowerCase().includes(termo)
-    );
-  }
-
-
-
-  // static findAllByUserId(userId) {
-  //   return produtos.filter(produto => produto.userId === userId);
-  // }
-
-
-
-  static create(name, description, price, categoria, userId) {
-
-    const maxId = produtos.length > 0
-      ? Math.max(...produtos.map(p => p.id))
-      : 0;
-
-
-    const newProduto = new Produto(maxId + 1, name, description, price, categoria, userId);
-    produtos.push(newProduto);
-    return newProduto;
-  }
-
-  static update(id, name, description, price, categoria) {
-    const produto = produtos.find(p => p.id === id);
-    if (!produto) return null;
-
-    produto.name = name || produto.name;
-    produto.description = description || produto.description;
-    produto.price = price || produto.price;
-    produto.categoria = categoria || produto.categoria;
-
-    return produto;
-  }
-
-  static delete(id) {
-    const index = produtos.findIndex(p => p.id === id);
-    if (index === -1) return false;
-
-    produtos.splice(index, id);
-    return true;
-  }
-}
-
-module.exports = ProdutoModel;
+module.exports = Produto;

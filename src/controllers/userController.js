@@ -1,139 +1,145 @@
 const userService = require('../services/userService');
 
-
-
 // Controller para buscar todos os usuários
-exports.getAllUsers = (req, res) => {
-  const users = userService.getAllUsers();
-  res.status(200).json(users);
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await userService.getAllUsers();
+    res.status(200).json(users);
+  } catch (err) {
+    console.error("Erro ao buscar usuários:", err);
+    res.status(500).json({ message: "Erro interno ao buscar usuários." });
+  }
 };
 
 // Controller para criar um novo usuário
-exports.createUser = (req, res) => {
-  const { name, email, senha, type } = req.body;
+exports.createUser = async (req, res) => {
+  try {
+    const { name, email, senha, type } = req.body;
 
+    if (!name || !email || !senha) {
+      return res.status(400).json({ message: 'Nome, e-mail e senha são obrigatórios.' });
+    }
 
-
-  if (!name || !email || !senha) {
-    return res.status(400).json({ message: 'Nome e e-mail  e senha são obrigatórios.' });
+    const newUser = await userService.createUser(name, email, senha, type);
+    res.status(201).json(newUser);
+  } catch (err) {
+    console.error("Erro ao criar usuário:", err);
+    res.status(500).json({ message: "Erro interno ao criar usuário." });
   }
-
-  const newUser = userService.createUser(name, email, senha, type);
-  res.status(201).json(newUser);
 };
 
-// (Opcional) Controller para buscar usuário por ID
-exports.getUserById = (req, res) => {
-  const user = userService.getUserById(Number(req.params.id));
-
-  if (!user) {
-    return res.status(404).json({ message: 'Usuário não encontrado.' });
+// Buscar usuário por ID
+exports.getUserById = async (req, res) => {
+  try {
+    const user = await userService.getUserById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    console.error("Erro ao buscar usuário:", err);
+    res.status(500).json({ message: "Erro interno ao buscar usuário." });
   }
-  res.status(200).json(user);
 };
 
+// Buscar usuário por nome
+exports.getUserByName = async (req, res) => {
+  try {
+    const name = String(req.params.name || '').trim();
+    if (!name) {
+      return res.status(400).json({ message: 'Nome é obrigatório.' });
+    }
 
+    const users = await userService.getUserByName(name);
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
 
-// (Opcional) Controller para buscar usuário por nome
-exports.getUserByName = (req, res) => {
-
-  const name = String(req.params.name || '').trim();
-
-  if (!name) {
-    return res.status(400).json({ message: 'Nome é obrigatório.' });
+    res.status(200).json(users);
+  } catch (err) {
+    console.error("Erro ao buscar usuário por nome:", err);
+    res.status(500).json({ message: "Erro interno ao buscar usuário." });
   }
-
-  const users = userService.getUserByName(name);
-
-
-  if (!users) {
-    return res.status(404).json({ message: 'Usuário não encontrado.' });
-  }
-
-  res.status(200).json(users);
 };
 
+// Atualizar usuário
+// Controller
+exports.updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, senha, type } = req.body; // garantir que veio desestruturado
 
-// (Opcional) Controller para atualizar usuário
-exports.updateUser = (req, res) => {
-  const { id } = req.params;
-  const { name, email, senha, type } = req.body;
+    const updatedUser = await userService.updateUser(id, name, email, senha, type);
 
-  const updatedUser = userService.updateUser(parseInt(id), name, email, senha, type);
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
 
-  if (!updatedUser) {
-    return res.status(404).json({ message: 'Usuário não encontrado.' });
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    console.error("Erro ao atualizar usuário:", err);
+    res.status(500).json({ message: "Erro interno ao atualizar usuário." });
   }
-
-  res.status(200).json(updatedUser);
 };
 
-// (Opcional) Controller para deletar usuário
-exports.deleteUser = (req, res) => {
+// Deletar usuário
+exports.deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const success = await userService.deleteUser(id);
 
-  const { id } = req.params;
+    if (!success) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
 
-  const success = userService.deleteUser(parseInt(id));
-
-  if (!success) {
-    return res.status(404).json({ message: 'Usuário não encontrado.' });
+    res.status(204).send();
+  } catch (err) {
+    console.error("Erro ao deletar usuário:", err);
+    res.status(500).json({ message: "Erro interno ao deletar usuário." });
   }
-
-  res.status(204).send(); // 204: No Content
 };
 
+// Adicionar produto ao usuário
+exports.adicionarProdutoAoUsuario = async (req, res) => {
+  try {
+    const { userId, produtoId } = req.body;
+    const result = await userService.adicionarProdutoAoUsuario(userId, produtoId);
 
+    if (!result) {
+      return res.status(404).json({ message: "Usuário não encontrado." });
+    }
 
-
-exports.adicionarProdutoAoUsuario = (userId, produtoId) => {
-
-  const user = userService.getUserById(userId);
-
-  if (!user) return false;
-
-  if (!user.produtos) user.produtos = [];
-  user.produtos.push(produtoId);
-  return true;
-};
-
-
-exports.adicionarCarrinhoAoUsuario = (userId, carrinhoId) => {
-  const user = userService.getUserById(userId);
-
-  if (!user) return false;
-
-  // Se o usuário já tem um carrinho, não sobrescreve
-  if (user.carrinho) {
-    console.log(`⚠️ Usuário ${userId} já tem um carrinho (${user.carrinho})`);
-    return false;
+    res.status(200).json({ message: "Produto adicionado com sucesso!" });
+  } catch (err) {
+    console.error("Erro ao adicionar produto ao usuário:", err);
+    res.status(500).json({ message: "Erro interno." });
   }
-
-  user.carrinho = carrinhoId; // atribui o ID do carrinho ao usuário
-  return true;
 };
 
+// Adicionar carrinho ao usuário
+exports.adicionarCarrinhoAoUsuario = async (req, res) => {
+  try {
+    const { userId, carrinhoId } = req.body;
+    const result = await userService.adicionarCarrinhoAoUsuario(userId, carrinhoId);
 
+    if (!result) {
+      return res.status(400).json({ message: "Não foi possível atribuir carrinho (usuário não encontrado ou já tem carrinho)." });
+    }
 
+    res.status(200).json({ message: "Carrinho atribuído ao usuário." });
+  } catch (err) {
+    console.error("Erro ao atribuir carrinho:", err);
+    res.status(500).json({ message: "Erro interno." });
+  }
+};
 
-// exports.adicionarProdutoAoCarrinho = (userId, produtoId) => {
-
-//   const user = userService.getUserById(userId);
-
-//   if (!user) return false;
-
-//   if (!user.carrinho) user.carrinho = [];
-//   user.carrinho.push(produtoId);
-//   return true;
-// };
-
-
-
+// Logout (sessão)
 exports.logout = (req, res) => {
   req.session.destroy(err => {
     if (err) {
       console.error("Erro ao deslogar:", err);
       return res.status(500).send("Erro ao deslogar");
     }
-    res.redirect('/login'); // ou qualquer outra rota que você queira
+    res.redirect('/login');
   });
 };

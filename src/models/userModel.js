@@ -1,102 +1,80 @@
+const mongoose = require("mongoose");
 
-const ProdutoModel = require('./produtoModel');
+// --- Schema do usuário ---
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  senha: { type: String, required: true },
+  type: { type: String, default: "user" }, // "user" ou "admin"
+  produtos: [{ type: String }],            // IDs de produtos
+  carrinho: { type: String, default: null } // ID do carrinho
+});
 
+// --- Model do usuário ---
+const UserModel = mongoose.model("User", userSchema);
 
+// --- Classe que simula o "model antigo" mas usando banco ---
 class User {
-  constructor(id, name, email, senha, type) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.senha = senha;
-    this.type = type;
-    this.produtos = [];          // ← IDs dos produtos do usuário
-    this.carrinho = null;
-  }
-}
-
-// Simulando um banco de dados na memória
-let users = [
-  { id: 1, name: "miguel", email: "miguel@miguel.com", senha: "1234", type: "admin", produtos: [1] },
-  { id: 2, name: "joarolao", email: "rola@rola.com", senha: "1234", type: "user" }
-];
-
-class UserModel {
-
-  static findAll() {
-    return users;
+  static async findAll() {
+    return await UserModel.find();
   }
 
-  static findById(id) {
-    return users.find(user => user.id === id);
+  static async findById(id) {
+    return await UserModel.findById(id);
+  }
+
+  static async findByName(name) {
+    if (!name || typeof name !== "string" || !name.trim()) return [];
+
+    const termo = name.trim();
+    return await UserModel.find({
+      name: { $regex: termo, $options: "i" }
+    });
   }
 
 
-  static findByName(name) {
-    const termo = String(name).toLowerCase(); // converte qualquer valor para string
 
-    // Se termo convertido ficar vazio, devolve lista vazia
-    if (!termo.trim()) return [];
+  static async getProdutosCompletosByUserId(userId, ProdutoModel) {
+    const user = await UserModel.findById(userId);
+    if (!user || !user.produtos) return [];
+    return user.produtos.map(produtoId => ProdutoModel.findById(produtoId));
+  }
 
-    return users.filter(user =>
-      user.name.toLowerCase().includes(termo)
+  static async create(name, email, senha, type = "user") {
+    const user = new UserModel({ name, email, senha, type, produtos: [] });
+    return await user.save();
+  }
+
+  // userModel.js
+  static async update(id, updateData) {
+    // updateData = { name, email, senha, type }
+    return await UserModel.findByIdAndUpdate(id, updateData, { new: true });
+  }
+
+  static async delete(id) {
+    const result = await UserModel.findByIdAndDelete(id);
+    return !!result;
+  }
+
+  static async getCarrinhoByUserId(userId) {
+    const user = await UserModel.findById(userId);
+    return user ? user.carrinho : null;
+  }
+
+  static async setCarrinho(userId, carrinhoId) {
+    return await UserModel.findByIdAndUpdate(
+      userId,
+      { carrinho: carrinhoId },
+      { new: true }
     );
   }
 
 
-  static getProdutosCompletosByUserId(userId) {
-    const user = users.find(u => u.id === userId);
-    if (!user || !user.produtos) return [];
-
-    return user.produtos.map(produtoId => ProdutoModel.findById(produtoId));
+  static async findByEmailAndSenha(email, senha) {
+    if (!email || !senha) return null;
+    return await UserModel.findOne({ email, senha });
   }
-
-
-
-  static create(name, email, senha, type = "user") {
-
-    const maxId = produtos.length > 0
-      ? Math.max(...produtos.map(p => p.id))
-      : 0;
-
-    const newUser = new User(maxId + 1, name, email, senha, type);
-    users.push(newUser);
-    return newUser;
-  }
-
-
-  static update(id, name, email, senha, type) {
-    const user = users.find(u => u.id === id);
-    if (!user) return null;
-
-    user.name = name || user.name;
-    user.email = email || user.email;
-    user.senha = senha || user.senha;
-    user.type = type || user.type;
-
-    return user;
-  }
-
-  static delete(id) {
-    const index = users.findIndex(u => u.id === id);
-    if (index === -1) return false;
-
-    users.splice(index, id);
-    return true;
-  }
-
-
-  static getCarrinhoByUserId(userId) {
-    const user = users.find(u => u.id === userId);
-    if (!user || !user.carrinho) return null;
-    return user.carrinho;
-  }
-
-
 
 }
 
-
-
-
-
-module.exports = UserModel;
+module.exports = User;

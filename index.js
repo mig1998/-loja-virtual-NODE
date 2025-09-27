@@ -48,7 +48,7 @@ app.use('/',pageRoutes); // Prefixa as rotas com /pages
 
 app.use('/products', produtoRoutes); // Prefixa as rotas com /produtos
 app.use('/users', userRoutes); // Prefixa as rotas com /users
-app.use('/cart', carrinhoRoutes); // Prefixa as rotas com /cart
+app.use('/carts', carrinhoRoutes); // Prefixa as rotas com /cart
 
 app.listen(3000, () => {
   console.log('Servidor rodando na porta 3000');

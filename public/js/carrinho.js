@@ -1,5 +1,5 @@
 async function carregarCarrinho() {
-  const res = await fetch("/cart/cart");
+  const res = await fetch("/carts/cart");
   if (!res.ok) {
     document.getElementById("carrinho-list").innerHTML = "<p>Faça login para ver o carrinho.</p>";
     return;
@@ -38,7 +38,7 @@ async function carregarCarrinho() {
 }
 
 async function removerDoCarrinho(userId,produtoId) {
-  await fetch("/cart/remove", {
+  await fetch("/carts/remove", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId,produtoId })

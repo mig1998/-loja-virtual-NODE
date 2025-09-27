@@ -26,7 +26,7 @@ router.get('/cadastroproduto', autenticar, (req, res) => {
 
 
 // Meus Produtos
-router.get('/meusprodutos', autenticar,(req, res) => {
+router.get('/meusprodutos', autenticar, (req, res) => {
   res.render('pages/meusProdutos', { title: 'Meus produtos', user: req.session.user });
 });
 
@@ -69,19 +69,26 @@ router.get('/cadastroUsuario', (req, res) => {
 
 
 //logar
-router.post('/login', (req, res) => {
+const UserModel = require('../models/userModel');
+
+router.post('/login', async (req, res) => {
   const { email, senha } = req.body;
-  const allUsers = users.findAll();
-  const user = allUsers.find(u => u.email === email && u.senha === senha);
 
+  try {
+    const user = await UserModel.findByEmailAndSenha(email, senha);
 
-  if (user) {
-    req.session.user = { id: user.id, name: user.name, type: user.type };
-    return res.status(200).json({ message: 'Login bem-sucedido!' });
+    if (user) {
+      req.session.user = { id: user._id, name: user.name, type: user.type };
+      return res.status(200).json({ message: 'Login bem-sucedido!' });
+    }
+
+    res.status(401).json({ message: 'Email ou senha inválidos' });
+  } catch (err) {
+    console.error("Erro no login:", err);
+    res.status(500).json({ message: 'Erro interno' });
   }
-
-  res.status(401).json({ message: 'Email ou senha inválidos' });
 });
+
 
 
 
