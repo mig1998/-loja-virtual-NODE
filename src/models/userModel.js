@@ -34,11 +34,11 @@ class User {
 
 
 
-static async getProdutosCompletosByUserId(userId) {
-  const user = await UserModel.findById(userId).populate("produtos");
-  if (!user) return [];
-  return user.produtos;
-}
+  static async getProdutosCompletosByUserId(userId) {
+    const user = await UserModel.findById(userId).populate("produtos");
+    if (!user) return [];
+    return user.produtos;
+  }
 
 
   static async create(name, email, senha, type = "user") {
@@ -94,6 +94,48 @@ static async getProdutosCompletosByUserId(userId) {
       { $pull: { produtos: produtoObjectId } }
     );
   }
+
+
+
+  static async deleteAll(userId) {
+    if (!userId) throw new Error("É necessário informar o ID do usuário.");
+
+    // 1️⃣ Buscar o usuário
+    const user = await UserModel.findById(userId);
+    if (!user) return false;
+
+    // 2️⃣ Deletar produtos do usuário
+    if (user.produtos && user.produtos.length > 0) {
+      for (const produtoId of user.produtos) {
+        // Deletar produto
+        await ProdutoModel.delete(produtoId);
+
+        // Remover referência do produto de outros usuários
+        await UserModel.updateMany(
+          { produtos: produtoId },
+          { $pull: { produtos: produtoId } }
+        );
+      }
+    }
+
+    // 3️⃣ Deletar o carrinho do usuário
+    if (user.carrinho) {
+      await CarrinhoModel.delete(user.carrinho);
+
+      // Remover referência de carrinho de outros usuários
+      await UserModel.updateMany(
+        { carrinho: user.carrinho },
+        { $set: { carrinho: null } }
+      );
+    }
+
+    // 4️⃣ Deletar o usuário
+    await UserModel.findByIdAndDelete(userId);
+
+    return true;
+  }
+
+
 
 
 }

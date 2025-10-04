@@ -7,8 +7,8 @@ async function listUsers() {
   div.innerHTML = users.map(u =>
     `<div data-id="${u.id}">
        <strong>${u.name}</strong> – ${u.email}
-       <button onclick="editUser(${u.id})">✏️</button>
-       <button onclick="deleteUser(${u.id})">🗑️</button>
+       <button onclick="editUser('${u._id}')">✏️</button>
+       <button onclick="deleteUser('${u._id}')">🗑️</button>
      </div>`).join("");
 }
 
@@ -87,7 +87,7 @@ async function buscarPorNome() {
   } else {
     div.innerHTML = users.map(u =>
       `<div>
-            <strong>ID:</strong> ${u.id} <br>
+            <strong>ID:</strong> ${u._id} <br>
             <strong>Nome:</strong> ${u.name} <br>
             <strong>Email:</strong> ${u.email}
           </div><hr>`

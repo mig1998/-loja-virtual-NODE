@@ -1,6 +1,7 @@
 const CartService = require("../services/carrinhoService");
 const userController = require('../controllers/userController');
 const UserService = require("../services/userService");
+const UserModel = require("../models/userModel");
 
 exports.getAllCarts = async (req, res) => {
   const carts = await CartService.getAllCarrinho();
@@ -15,11 +16,14 @@ exports.getCart = async (req, res) => {
   if (!userSession) {
     resultado = [];
   } else {
-    resultado = carts.filter(cart => cart.userId === userSession.id);
+    // Converte ObjectId para string para comparar
+    resultado = carts.filter(
+      cart => cart.userId.toString() === userSession.id.toString()
+    );
   }
 
   res.status(200).json(resultado);
-};
+}; 
 
 exports.createCart = async (req, res) => {
   const { userId } = req.body || {};
@@ -28,7 +32,11 @@ exports.createCart = async (req, res) => {
   }
 
   const cart = await CartService.createCartForUser(userId);
-  userController.adicionarCarrinhoAoUsuario(userId, cart.id);
+
+
+  // Atualiza o carrinho do usuário no banco
+  await UserModel.setCarrinho(userId, cart._id || cart.id);
+
 
   return res.status(201).json({
     message: "Carrinho criado com sucesso!",

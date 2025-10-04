@@ -7,7 +7,7 @@ async function carregarCarrinho() {
   
   const data = await res.json(); 
 
-//  console.log(data[0].userId);
+ //console.log(data[0]);
   // 🔥 se data é um array, pega o carrinho do primeiro usuário (ou do logado)
   const carrinho = Array.isArray(data) ? data[0] : data;
 
@@ -27,12 +27,14 @@ async function carregarCarrinho() {
     })
   );
 
+console.log(produtosDetalhados)
+
   const div = document.getElementById("carrinho-list");
   div.innerHTML = produtosDetalhados.map(p => `
     <div>
 <strong>${data[0].userId}</strong>
       <strong>${p.name}</strong> – R$ ${p.price} (x${p.quantidade})
-      <button onclick="removerDoCarrinho(${data[0].userId},${p.id})">🗑</button>
+      <button onclick="removerDoCarrinho('${data[0].userId}','${p._id}')">🗑</button>
     </div>
   `).join("");
 }

@@ -12,15 +12,14 @@ async function listProdutos() {
 
     div.innerHTML = resposta.produtos.map(p =>
       `<div data-id="${p.id}">
-         <strong>${p.id}</strong>
        <strong>${p.name}</strong> – ${p.description}
 
   ${resposta.userType === 'admin' ? `
-      <button onclick="editProduto(${p.id})">✏️</button>
-      <button onclick="deleteProduto(${p.id})">🗑️</button>
+      <button onclick="editProduto('${p._id}')">✏️</button>
+      <button onclick="deleteProduto('${p._id}')">🗑️</button>
     ` : ''}
     
-         <button onclick="adicionarAoCarrinho(${resposta.userId},${p.id})">Adicionar ao carrinho 🛒</button>
+         <button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
 
@@ -32,11 +31,11 @@ async function listProdutos() {
        <strong>${p.name}</strong> – ${p.description}
 
   ${resposta.userType === 'admin' ? `
-      <button onclick="editProduto(${p.id})">✏️</button>
-      <button onclick="deleteProduto(${p.id})">🗑️</button>
+      <button onclick="editProduto('${p._id}')">✏️</button>
+      <button onclick="deleteProduto('${p._id}')">🗑️</button>
     ` : ''}
   
-         <button onclick="adicionarAoCarrinho(${resposta.userId},${p.id})">Adicionar ao carrinho 🛒</button>
+         <button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
 
@@ -54,7 +53,7 @@ async function listProdutos() {
 async function adicionarAoCarrinho(userId, produtoId) {
 
 
-  const response = await fetch("/cart/add", {  // ajuste a rota conforme seu backend
+  const response = await fetch("/carts/add", {  // ajuste a rota conforme seu backend
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ userId, produtoId })  // enviar o id do produto para o backend
@@ -146,7 +145,7 @@ async function buscarPorNome() {
   } else {
     div.innerHTML = produtos.map(u =>
       `<div>
-            <strong>ID:</strong> ${u.id} <br>
+            <strong>ID:</strong> ${u._id} <br>
             <strong>Nome:</strong> ${u.name} <br>
             <strong>descricao:</strong> ${u.description}
           </div><hr>`

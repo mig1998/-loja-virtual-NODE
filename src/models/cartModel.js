@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const UserModel = require("../models/userModel");
 
 // --- Schema do Carrinho ---
 const cartSchema = new mongoose.Schema({
@@ -9,13 +10,13 @@ const cartSchema = new mongoose.Schema({
       quantidade: { type: Number, default: 1 },
     },
   ],
-}, { timestamps: true });
+});
 
 // --- Model do Carrinho ---
 const CartModel = mongoose.model("Cart", cartSchema);
 
 // --- Classe com métodos similares ao antigo "CartModel" ---
-class CartService {
+class Cart {
   // Encontra todos os carrinhos
   static async findAll() {
     return await CartModel.find();
@@ -27,17 +28,22 @@ class CartService {
   }
 
   // Cria um carrinho novo para o usuário, se não existir
+  // Cria carrinho para usuário, se não existir
   static async createCartForUser(userId) {
     let cart = await this.findByUserId(userId);
     if (!cart) {
       cart = new CartModel({ userId, items: [] });
       await cart.save();
+
+      // Atualiza o usuário com o id do carrinho
+         await UserModel.setCarrinho(userId, cart._id);
     }
     return cart;
   }
 
   // Adiciona produto no carrinho do usuário
   static async addProduto(userId, produtoId, quantidade = 1) {
+    // Cria carrinho se não existir e já salva o ID no usuário
     const cart = await this.createCartForUser(userId);
 
     const item = cart.items.find(i => i.produtoId.toString() === produtoId.toString());
@@ -87,4 +93,4 @@ class CartService {
   }
 }
 
-module.exports = CartService;
+module.exports = Cart;

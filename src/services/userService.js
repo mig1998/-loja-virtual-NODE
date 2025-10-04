@@ -37,7 +37,7 @@ exports.updateUser = async (id, name, email, senha, type) => {
 
 // Deletar usuário
 exports.deleteUser = async (id) => {
-  const result = await UserModel.delete(id);
+  const result = await UserModel.deleteAll(id);
   return result !== null; // retorna true se conseguiu deletar
 };
 
