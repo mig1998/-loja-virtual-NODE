@@ -10,7 +10,7 @@ const produtoSchema = new mongoose.Schema({
 });
 
 // --- Model do produto ---
-const ProdutoModel = mongoose.model("Produto", produtoSchema,"products");
+const ProdutoModel = mongoose.model("Produto", produtoSchema, "products");
 
 // --- Classe que simula o "model antigo" mas usando MongoDB ---
 class Produto {
@@ -46,8 +46,15 @@ class Produto {
 
   static async delete(id) {
     const result = await ProdutoModel.findByIdAndDelete(id);
-    return !!result;
+    if (!result) return false;
+
+    const User = require('./userModel'); // importa sua classe User
+    await User.removeProdutoFromUsers(id); // chama o método que criamos
+
+    return true;
   }
+
+
 }
 
 module.exports = Produto;

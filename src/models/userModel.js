@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 
 // --- Schema do usuário ---
+
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   senha: { type: String, required: true },
   type: { type: String, default: "user" }, // "user" ou "admin"
-  produtos: [{ type: String }],            // IDs de produtos
-  carrinho: { type: String, default: null } // ID do carrinho
+  produtos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Produto" }],
+  carrinho: { type: mongoose.Schema.Types.ObjectId, ref: "Carrinho", default: null }
 });
 
-// --- Model do usuário ---
 const UserModel = mongoose.model("User", userSchema);
 
 // --- Classe que simula o "model antigo" mas usando banco ---
@@ -34,16 +34,19 @@ class User {
 
 
 
-  static async getProdutosCompletosByUserId(userId, ProdutoModel) {
-    const user = await UserModel.findById(userId);
-    if (!user || !user.produtos) return [];
-    return user.produtos.map(produtoId => ProdutoModel.findById(produtoId));
-  }
+static async getProdutosCompletosByUserId(userId) {
+  const user = await UserModel.findById(userId).populate("produtos");
+  if (!user) return [];
+  return user.produtos;
+}
+
 
   static async create(name, email, senha, type = "user") {
     const user = new UserModel({ name, email, senha, type, produtos: [] });
     return await user.save();
   }
+
+
 
   // userModel.js
   static async update(id, updateData) {
@@ -75,6 +78,29 @@ class User {
     return await UserModel.findOne({ email, senha });
   }
 
+
+
+
+  static async removeProdutoFromUsers(produtoId) {
+    if (!produtoId) return;
+
+    const mongoose = require("mongoose");
+    const produtoObjectId = mongoose.Types.ObjectId.isValid(produtoId)
+      ? new mongoose.Types.ObjectId(produtoId)
+      : produtoId;
+
+    await UserModel.updateMany(
+      { produtos: produtoObjectId },
+      { $pull: { produtos: produtoObjectId } }
+    );
+  }
+
+
 }
+
+
+
+
+
 
 module.exports = User;

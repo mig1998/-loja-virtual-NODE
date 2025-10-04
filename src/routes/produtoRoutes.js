@@ -6,6 +6,9 @@ const produtoController = require('../controllers/produtoController');
 
 // Definir rotas
 router.get('/', produtoController.getAllProdutos);
+
+
+
 router.post('/', produtoController.createProduto);
 
 // Rota: buscar por name

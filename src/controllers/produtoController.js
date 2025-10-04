@@ -27,6 +27,10 @@ exports.getAllProdutos = async (req, res) => {
     }
 };
 
+
+
+
+
 // Criar produto
 exports.createProduto = async (req, res) => {
     try {
@@ -79,22 +83,33 @@ exports.getProdutoByName = async (req, res) => {
 
 // Buscar produtos do usuário logado
 exports.getMeusProdutos = async (req, res) => {
-    try {
-        const user = req.session.user;
-        if (!user) return res.status(401).json({ message: 'Não autenticado' });
-
-        const produtos = await UserModel.getProdutosCompletosByUserId(user._id || user.id);
-        const userInfo = await userService.getUserById(user._id || user.id);
-
-        res.status(200).json({
-            userType: userInfo.type,
-            produtos
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Erro interno ao buscar produtos do usuário.' });
+  try {
+    const user = req.session.user;
+    if (!user) {
+      return res.status(401).json({ message: 'Não autenticado' });
     }
+
+    // importa o model de produtos
+    const ProdutoModel = require("../models/produtoModel");
+
+    // busca produtos e dados do usuário
+    const produtos = await UserModel.getProdutosCompletosByUserId(user._id || user.id, ProdutoModel);
+    const userInfo = await userService.getUserById(user._id || user.id);
+
+    res.status(200).json({
+      userType: userInfo.type,
+      produtos
+    });
+
+  } catch (err) {
+    console.error("Erro ao buscar produtos do usuário:", err);
+    res.status(500).json({
+      message: 'Erro interno ao buscar produtos do usuário.',
+      error: err.message
+    });
+  }
 };
+
 
 // Atualizar produto
 exports.updateProduto = async (req, res) => {

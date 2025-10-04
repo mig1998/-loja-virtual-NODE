@@ -10,7 +10,7 @@ async function listarMeusProdutos() {
   const div = document.getElementById("meus-produtos");
 
 
-
+console.log(resposta)
   if (resposta.length === 0) {
     div.innerHTML = "<p>Você ainda não cadastrou produtos.</p>";
     return;
@@ -21,8 +21,8 @@ async function listarMeusProdutos() {
       <strong>${p.name}</strong><br>
       Descrição: ${p.description}<br>
       Preço: R$ ${p.price}<br>
-       <button onclick="editProduto(${p.id})">✏️</button>
-       <button onclick="deleteProduto(${p.id})">🗑️</button>
+       <button onclick="editProduto('${p._id}')">✏️</button>
+       <button onclick="deleteProduto('${p._id}')">🗑️</button>
       Categoria: ${p.categoria}<hr>
 
 
