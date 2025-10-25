@@ -23,7 +23,7 @@ exports.getCart = async (req, res) => {
   }
 
   res.status(200).json(resultado);
-}; 
+};
 
 exports.createCart = async (req, res) => {
   const { userId } = req.body || {};
@@ -51,6 +51,9 @@ exports.addProduto = async (req, res) => {
   }
 
   const cart = await CartService.addProduto(userId, produtoId, quantidade || 1);
+
+
+  await UserModel.setCarrinho(userId, cart._id || cart.id);
   res.json(cart);
 };
 

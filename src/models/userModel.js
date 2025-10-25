@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const ProdutoModel = require("../models/produtoModel");
+
+const CarrinhoModel = require("../models/cartModel");
 
 // --- Schema do usuário ---
 
@@ -96,7 +99,6 @@ class User {
   }
 
 
-
   static async deleteAll(userId) {
     if (!userId) throw new Error("É necessário informar o ID do usuário.");
 
@@ -134,7 +136,6 @@ class User {
 
     return true;
   }
-
 
 
 

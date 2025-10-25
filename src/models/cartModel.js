@@ -36,7 +36,7 @@ class Cart {
       await cart.save();
 
       // Atualiza o usuário com o id do carrinho
-         await UserModel.setCarrinho(userId, cart._id);
+    
     }
     return cart;
   }
@@ -91,6 +91,16 @@ class Cart {
     if (!cart) return [];
     return cart.items;
   }
+
+
+
+  // 🧹 Novo método: deletar o carrinho completamente
+  static async delete(id) {
+    const result = await CartModel.findByIdAndDelete(id);
+    if (!result) return false;
+
+  }
+
 }
 
 module.exports = Cart;
