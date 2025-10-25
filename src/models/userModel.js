@@ -96,6 +96,9 @@ class User {
       { produtos: produtoObjectId },
       { $pull: { produtos: produtoObjectId } }
     );
+
+
+        await CarrinhoModel.removeProdutoFromCart(produtoId);
   }
 
 

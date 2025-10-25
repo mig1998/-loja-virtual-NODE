@@ -36,7 +36,7 @@ class Cart {
       await cart.save();
 
       // Atualiza o usuário com o id do carrinho
-    
+
     }
     return cart;
   }
@@ -100,6 +100,23 @@ class Cart {
     if (!result) return false;
 
   }
+
+
+
+  static async removeProdutoFromCart(produtoId) {
+    if (!produtoId) return;
+
+    const mongoose = require("mongoose");
+    const produtoObjectId = mongoose.Types.ObjectId.isValid(produtoId)
+      ? new mongoose.Types.ObjectId(produtoId)
+      : produtoId;
+
+    await CartModel.updateMany(
+      { "items.produtoId": produtoObjectId },
+      { $pull: { items: { produtoId: produtoObjectId } } }
+    );
+  }
+
 
 }
 
