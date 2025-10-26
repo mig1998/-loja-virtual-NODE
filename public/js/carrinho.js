@@ -32,10 +32,10 @@ console.log(produtosDetalhados)
   const div = document.getElementById("carrinho-list");
   div.innerHTML = produtosDetalhados.map(p => `
     <div>
-<strong>${data[0].userId}</strong>
-      <strong>${p.name}</strong> – R$ ${p.price} (x${p.quantidade})
+      <h2>${p.name}</h2>  <h2> R$: ${p.price}</h2>  <h2>quantidade: (x${p.quantidade})</h2>
       <button onclick="removerDoCarrinho('${data[0].userId}','${p._id}')">🗑</button>
     </div>
+    <hr>
   `).join("");
 }
 

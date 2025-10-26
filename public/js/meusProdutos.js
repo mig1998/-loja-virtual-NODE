@@ -18,9 +18,9 @@ console.log(resposta)
 
   div.innerHTML = resposta.produtos.map(p => `
     <div>
-      <strong>${p.name}</strong><br>
-      Descrição: ${p.description}<br>
-      Preço: R$ ${p.price}<br>
+     <h2>${p.name}</h2>  
+     <h3>Descrição:</h3> <p>${p.description}</p>
+        <h3>R$:${p.price}</h3>
        <button onclick="editProduto('${p._id}')">✏️</button>
        <button onclick="deleteProduto('${p._id}')">🗑️</button>
       Categoria: ${p.categoria}<hr>

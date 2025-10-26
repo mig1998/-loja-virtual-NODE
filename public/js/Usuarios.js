@@ -6,7 +6,7 @@ async function listUsers() {
   const div = document.getElementById("users-list");
   div.innerHTML = users.map(u =>
     `<div data-id="${u.id}">
-       <strong>${u.name}</strong> – ${u.email}
+       <h2>${u.name}</h2> <h2>email:</h2> <p>${u.email}</p> <h2>tipo:</h2> <p>${u.type}</p>
        <button onclick="editUser('${u._id}')">✏️</button>
        <button onclick="deleteUser('${u._id}')">🗑️</button>
      </div>`).join("");
@@ -60,10 +60,9 @@ async function deleteUser(id) {
 
 async function buscarPorId() {
   const id = document.getElementById('search-id').value;
-  if (!id) {
-    alert('Digite um ID válido');
-    return;
-  }
+
+
+  
   const user = await getUserById(id);
   const div = document.getElementById('result-id');
   if (user) {

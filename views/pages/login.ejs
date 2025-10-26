@@ -1,22 +1,24 @@
-<%- include('../layout', { title: title, body: ` <h2>Login</h2>
-  <p>Bem-vindo à lojad virtual!</p>
 
+<link rel="stylesheet" href="/css/login.css">
+
+
+<%- include('../layout', { title: title, body: ` 
   <div class="login-container">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+  <h2>Login</h2>
+  <form id="loginForm">
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
 
-      <label for="password">Senha:</label>
-      <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+    <label for="password">Senha:</label>
+    <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
 
-      <button type="submit">Entrar</button>
-    </form>
-    <p id="error-message" style="color: red;"></p> <!-- Mensagem de erro -->
+    <button type="submit">Entrar</button>
+  </form>
+  <p id="error-message" style="color: white;"></p> <!-- Mensagem de erro -->
   </div>
 
 
-<script src="/js/login.js"></script>
+  <script src="/js/login.js"></script>
 
   `
   }) %>

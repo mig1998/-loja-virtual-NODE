@@ -1,41 +1,38 @@
 <header>
   <h1>Loja Virtual</h1>
 
+  <nav>
+    <a href="/">Início</a>
+    <!-- <a href="/cadastroProduto">Novo Produto</a> -->
 
+    <a href="/meusProdutos">Meus Produtos</a>
 
+    <a href="/produtos">Produtos</a>
 
-        <nav>
-          <a href="/">Início</a>
-          <a href="/cadastroProduto">Novo Produto</a>
+    <% if (user && user.type==='admin' ) { %>
+      <a href="/usuarios">Usuários</a>
+      <% } %>
 
-          <a href="/meusProdutos">Meus Produtos</a>
+        <a href="/contato">Contato</a>
+        <a href="/sobre">Sobre</a>
 
-          <a href="/produtos">Produtos</a>
+        <a href="/carrinho">Carrinho</a>
 
-          <% if (user && user.type==='admin' ) { %>
-            <a href="/usuarios">Usuários</a>
+        <% if (user) { %>
+          <a href="/login" onclick="logout()">Sair (<%= user.name %>)</a>
+          <% } else { %>
+            <a href="/login">Login</a>
+            <a href="/cadastroUsuario">Cadastro</a>
             <% } %>
 
-              <a href="/contato">Contato</a>
-              <a href="/sobre">Sobre</a>
-
-              <a href="/carrinho">Carrinho</a>
-
-              <% if (user) { %>
-                <a href="/login"  onclick="logout()">Sair (<%= user.name %>)</a>
-                <% } else { %>
-                  <a href="/login">Login</a>
-                  <a href="/cadastroUsuario">Cadastro</a>
-                  <% } %>
-
-        </nav>
+  </nav>
 
 
-<script src="/js/logout.js"></script>
+  <script src="/js/logout.js"></script>
 
 
 </header>
 
-  <% if (user) { %>
-   <h5> Bem-vindo, <%= user.name %>!</h5>
-      <% } %>
+<% if (user) { %>
+  <h5> Bem-vindo, <%= user.name %>!</h5>
+  <% } %>

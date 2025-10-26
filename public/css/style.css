@@ -1,77 +1,134 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background-color: #f4f4f9;
+/* ===== RESET & BASE ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #2c3e50;
+  line-height: 1.6;
+}
 
-/* ===== HEADER / MENU NAVBAR ===== */
+/* ===== HEADER / NAVBAR ===== */
 header {
   background-color: #2c3e50;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 
-nav {
+header H1{
   text-align: center;
+COLOR:WHITE;
+}
+
+nav {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 15px 20px;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+nav h1 {
+  color: #fff;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
 nav a {
   color: #ffffff;
-  font-size: 1em;
-  font-weight: bold;
+  font-weight: 600;
   text-decoration: none;
-  margin: auto;
-  padding: 2em;
+  margin-left: 1.5rem;
+  transition: 0.3s ease;
 }
 
 nav a:hover {
   background-color: #42566b;
+  padding: 0.6em 1em;
+  border-radius: 6px;
 }
 
-
-h1{
-  color:white;
+/* ===== TITULOS ===== */
+h1,h2, h3, h4, h5, h6 {
+  color: #2c3e50;
+  margin-bottom: 10px;
   text-align: center;
 }
 
-h2,h3,h4,h5,h6 {
-  color: #2c3e50;
-
-}
-
-input {
+/* ===== FORMULÁRIOS ===== */
+input, select, textarea {
+  width: 100%;
   margin: 10px 0;
-  padding: 8px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   font-size: 14px;
+  transition: 0.2s ease;
 }
 
+input:focus, select:focus, textarea:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+/* ===== BOTÕES ===== */
 button {
-  padding: 8px 16px;
+  padding: 10px 18px;
   background-color: #4CAF50;
   color: white;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease;
+  margin-top:10px;
 }
 
 button:hover {
   background-color: #45a049;
+  transform: scale(1.05);
 }
 
+/* ===== CONTAINERS / CARDS ===== */
+.container {
+  max-width: 1100px;
+  margin: 20px auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
 
+/* ===== FOOTER ===== */
 footer {
   background-color: #2c3e50;
   color: #fff;
   text-align: center;
-  padding: 15px 0;
+  padding: 2.5%;
   margin-top: 40px;
+  font-size: 0.9rem;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+  }
+
+  nav a {
+    margin: 8px 0;
+    display: block;
+  }
+
+  .container {
+    padding: 1rem;
+  }
 }

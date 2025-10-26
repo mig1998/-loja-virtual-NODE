@@ -11,8 +11,9 @@ async function listProdutos() {
   if (resposta.produtos) {
 
     div.innerHTML = resposta.produtos.map(p =>
-      `<div data-id="${p.id}">
-       <strong>${p.name}</strong> – ${p.description}
+      `<div data-id="${p.id}"> 
+       <h2>${p.name}</h2>  <h3>Descrição:</h3> <p>${p.description}</p>
+        <h3>R$:${p.price}</h3>
 
   ${resposta.userType === 'admin' ? `
       <button onclick="editProduto('${p._id}')">✏️</button>
@@ -28,7 +29,8 @@ async function listProdutos() {
   } else {
     div.innerHTML = resposta.map(p =>
       `<div data-id="${p.id}">
-       <strong>${p.name}</strong> – ${p.description}
+    <h2>${p.name}</h2>  <h3>Descrição:</h3> <p>${p.description}</p>
+        <h3>R$:${p.price}</h3>
 
   ${resposta.userType === 'admin' ? `
       <button onclick="editProduto('${p._id}')">✏️</button>
@@ -117,15 +119,15 @@ async function deleteProduto(id) {
 
 async function buscarPorId() {
   const id = document.getElementById('search-id').value;
-  if (!id) {
-    alert('Digite um ID válido');
-    return;
-  }
+
 
   const produto = await getProdutoById(id);
+
+  console.log(produto)
+
   const div = document.getElementById('result-id');
   if (produto) {
-    div.innerHTML = `<p><strong>ID:</strong> ${produto.id} <br> <strong>Nome:</strong> ${produto.name} <br> <strong>descrição:</strong> ${produto.description}</p>`;
+    div.innerHTML = `<p><strong>ID:</strong> ${produto._id} <br> <strong>Nome:</strong> ${produto.name} <br> <strong>descrição:</strong> ${produto.description}</p>`;
   } else {
     div.innerHTML = `<p>Nenhum produto encontrado com ID ${id}</p>`;
   }

@@ -1,8 +1,15 @@
-<%- include('../layout', { title: title, body:` <h2>Meus Produtos</h2>
+<link rel="stylesheet" href="/css/meusProdutos.css">
 
 
-  <h2>Criar Novo Produto</h2>
+
+<%- include('../layout', { title: title, body:` 
+
+
+ 
+
+  
   <form id="create-produto-form">
+     <h2>Criar Novo Produto</h2>
     <input type="text" placeholder="nome do produto" id="name" required>
     <input type="text" placeholder="descrição" id="description">
     <input type="number" placeholder="R$" id="price" required>
@@ -13,7 +20,7 @@
     <button type="submit" onclick="listarMeusProdutos()">Criar Produto</button>
   </form>
 
-
+<h2>Meus Produtos</h2>
 <div id="meus-produtos"></div>
 
 
