@@ -50,6 +50,8 @@ body: JSON.stringify({ userId,produtoId })
 carregarCarrinho();
 }
 
+//
+
 function pagar(total) {
 alert("Pagamento ainda não implementado. Total: R$ " + total.toFixed(2));
 }
