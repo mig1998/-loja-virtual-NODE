@@ -4,11 +4,12 @@ async function createProduto(event) {
 
     const name = document.getElementById('name').value;
     const description = document.getElementById('description').value;
+    const image = document.getElementById('image').value;
     const price = document.getElementById('price').value;
     const categoria = document.getElementById('categoria').value;
 
 
-    const data = { name, description, price, categoria };
+    const data = { name, description, image, price, categoria };
 
     const response = await fetch("/products", {
         method: 'POST',

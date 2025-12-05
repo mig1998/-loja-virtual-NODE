@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const produtoSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
+  image:{type:String},
   price: { type: String },
   categoria: { type: String },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" } // relaciona com usuário
@@ -34,8 +35,8 @@ class Produto {
     return await ProdutoModel.find({ userId });
   }
 
-  static async create(name, description, price, categoria, userId) {
-    const produto = new ProdutoModel({ name, description, price, categoria, userId });
+  static async create(name, description, image,price, categoria, userId) {
+    const produto = new ProdutoModel({ name, description,image, price, categoria, userId });
     return await produto.save();
   }
 

@@ -4,8 +4,8 @@ exports.getAllProdutos = async () => {
     return await ProdutoModel.findAll();
 };
 
-exports.createProduto = async (name, description, price, categoria, userId) => {
-    return await ProdutoModel.create(name, description, price, categoria, userId);
+exports.createProduto = async (name, description, image, price, categoria, userId) => {
+    return await ProdutoModel.create(name, description, image, price, categoria, userId);
 };
 
 exports.getProdutoById = async (id) => {
@@ -27,10 +27,11 @@ exports.getProdutosDoUsuario = async (userId) => {
     return await ProdutoModel.findAllByUserId(userId);
 };
 
-exports.updateProduto = async (id, name, description, price, categoria) => {
+exports.updateProduto = async (id, name, description, image, price, categoria) => {
     const updateData = {};
     if (name !== undefined) updateData.name = name;
     if (description !== undefined) updateData.description = description;
+    if (image !== undefined) updateData.image = image;
     if (price !== undefined) updateData.price = price;
     if (categoria !== undefined) updateData.categoria = categoria;
 

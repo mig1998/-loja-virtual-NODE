@@ -4,6 +4,8 @@ const app = express();
 const path = require('path'); // <-- esta linha é essencial
 const cors = require('cors');  // Importa o CORS
 
+require("dotenv").config();
+
 const session = require('express-session');
 
 const connectDB = require("./config/db");

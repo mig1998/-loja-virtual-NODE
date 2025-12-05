@@ -9,7 +9,9 @@ router.get('/', produtoController.getAllProdutos);
 
 
 
-router.post('/', produtoController.createProduto);
+//router.post('/', produtoController.createProduto);
+
+router.post("/", upload.single("image"), produtoController.createProduto);
 
 // Rota: buscar por name
 router.get('/name/:name', produtoController.getProdutoByName);
