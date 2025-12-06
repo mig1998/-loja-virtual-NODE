@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const produtoController = require('../controllers/produtoController');
 
+const upload = require("../../config/multer"); // << AQUI
 //
 
 // Definir rotas

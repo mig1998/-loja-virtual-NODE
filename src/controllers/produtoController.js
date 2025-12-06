@@ -4,7 +4,7 @@ const userService = require('../services/userService');
 const UserModel = require('../models/userModel');
 
 
-const cloudinary = require("../config/cloudinary");
+const cloudinary = require("../../config/cloudinary");
 
 
 // Buscar todos os produtos

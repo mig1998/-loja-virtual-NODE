@@ -114,6 +114,13 @@
   transform: translateY(-2px);
 }
 
+#meus-produtos .foto-produto {
+  width: 60%;
+  height: 60%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
 /* ===== RESPONSIVIDADE ===== */
 @media (max-width: 600px) {
   #meus-produtos {

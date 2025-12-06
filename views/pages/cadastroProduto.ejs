@@ -1,19 +1,24 @@
 <%- include('../layout', { title: title, body: ` <h2>Cadastro Produto</h2>
  
  
+<form id="create-produto-form" enctype="multipart/form-data">
+  <input type="text" name="name" placeholder="nome do produto" id="name" required>
+  
+  <input type="text" name="description" placeholder="descrição" id="description">
 
-  <h2>Criar Novo Produto</h2>
-  <form id="create-produto-form" enctype="multipart/form-data">
-    <input type="text" placeholder="nome do produto" id="name" required>
-    <input type="text" placeholder="descrição" id="description">
-    <input type="file" name="image" id="image">
-    <input type="number" placeholder="R$" id="price" required>
-    <select name="categoria" id="categoria">
-      <option value="eletronicos">Eletrônicos</option>
-      <option value="livros">Livros</option>
-    </select>
-    <button type="submit">Criar Produto</button>
-  </form>
+  <input type="file" name="image" id="image">
+
+  <input type="number" name="price" placeholder="R$" id="price" required>
+
+  <select name="categoria" id="categoria">
+    <option value="eletronicos">Eletrônicos</option>
+    <option value="livros">Livros</option>
+  </select>
+
+  <button type="submit">Criar Produto</button>
+</form>
+
+  
   
 <script src="/js/cadastroProduto.js"></script>
 

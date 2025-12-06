@@ -1,4 +1,6 @@
 // Função para criar produto
+
+/*
 async function createProduto(event) {
     event.preventDefault();
 
@@ -25,6 +27,27 @@ async function createProduto(event) {
     alert(`produto ${newProduto.name} criado com sucesso!`);
     event.target.reset();
 
+}
+*/
+
+async function createProduto(event) {
+  event.preventDefault();
+
+  const form = document.getElementById("create-produto-form");
+  const formData = new FormData(form);   // ← já pega tudo: text + file
+
+  const response = await fetch("/products", {
+      method: "POST",
+      body: formData,
+      credentials: "include"
+  });
+console.log(form)
+
+console.log(formData)
+  const newProduto = await response.json();
+ console.log(newProduto)
+  alert(`Produto ${newProduto.name} criado com sucesso!`);
+  form.reset();
 }
 
 // Adiciona o evento do formulário

@@ -12,6 +12,7 @@ async function listProdutos() {
 
     div.innerHTML = resposta.produtos.map(p =>
       `<div data-id="${p.id}"> 
+         <img src="${p.image}" class="foto-produto">  
        <h2>${p.name}</h2>  <h3>Descrição:</h3> <p>${p.description}</p>
         <h3>R$:${p.price}</h3>
 
@@ -29,6 +30,7 @@ async function listProdutos() {
   } else {
     div.innerHTML = resposta.map(p =>
       `<div data-id="${p.id}">
+ <img src="${p.image}" class="foto-produto">  
     <h2>${p.name}</h2>  <h3>Descrição:</h3> <p>${p.description}</p>
         <h3>R$:${p.price}</h3>
 

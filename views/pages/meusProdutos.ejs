@@ -6,26 +6,28 @@
 
 
  
-
+<form id="create-produto-form" enctype="multipart/form-data">
+  <input type="text" name="name" placeholder="nome do produto" id="name" required>
   
-  <form id="create-produto-form">
-     <h2>Criar Novo Produto</h2>
-    <input type="text" placeholder="nome do produto" id="name" required>
-    <input type="text" placeholder="descrição" id="description">
-        <input type="file" name="image" id="image">
-    <input type="number" placeholder="R$" id="price" required>
-    <select name="categoria" id="categoria">
-      <option value="eletronicos">Eletrônicos</option>
-      <option value="livros">Livros</option>
-    </select>
-    <button type="submit" onclick="listarMeusProdutos()">Criar Produto</button>
-  </form>
+  <input type="text" name="description" placeholder="descrição" id="description">
+
+  <input type="file" name="image" id="image">
+
+  <input type="number" name="price" placeholder="R$" id="price" required>
+
+  <select name="categoria" id="categoria">
+    <option value="eletronicos">Eletrônicos</option>
+    <option value="livros">Livros</option>
+  </select>
+
+  <button type="submit">Criar Produto</button>
+</form>
 
 <h2>Meus Produtos</h2>
 <div id="meus-produtos"></div>
 
 
-  <script src="/js/Produtos.js"></script>
+  <script src="/js/produtos.js"></script>
   <script src="/js/cadastroProduto.js"></script>
   <script src="/js/meusProdutos.js"></script>
 

@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   senha: { type: String, required: true },
+  image:{type:String},
   type: { type: String, default: "user" }, // "user" ou "admin"
   produtos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Produto" }],
   carrinho: { type: mongoose.Schema.Types.ObjectId, ref: "Carrinho", default: null }
@@ -44,8 +45,8 @@ class User {
   }
 
 
-  static async create(name, email, senha, type = "user") {
-    const user = new UserModel({ name, email, senha, type, produtos: [] });
+  static async create(name, email, senha, image, type = "user") {
+    const user = new UserModel({ name, email, senha, image, type, produtos: [] });
     return await user.save();
   }
 
