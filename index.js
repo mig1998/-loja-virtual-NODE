@@ -15,6 +15,7 @@ app.use(express.json());      // Permite receber dados JSON nas requisições
 
 app.use(express.urlencoded({ extended: true }));
 
+app.use('./uploads', express.static('uploads'));
 // Conectar ao banco
 connectDB();
 

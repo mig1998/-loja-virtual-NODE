@@ -1,14 +1,15 @@
-<%- include('../layout', { title: title, body: ` <h2>Cadastro Usuário</h2>
- 
- 
- 
-  <p>Cadastro</p>
+<%- include('../layout', { title: title, body: ` 
 
   <h2>Criar Novo Usuário</h2>
-  <form id="create-user-form">
-    <input type="text" id="name" placeholder="Nome" required>
-    <input type="email" id="email" placeholder="E-mail" required>
-    <input type="password" id="senha" placeholder="senha" required>
+  <form id="create-user-form" enctype="multipart/form-data">
+    <input type="file" name="image" id="image">
+    
+    <input type="text" name="name" id="name" placeholder="Nome" required>
+    
+    <input type="email" name="email" id="email" placeholder="E-mail" required>
+    
+    <input type="password" name="senha" id="senha" placeholder="senha" required>
+    
     <button type="submit">Criar Usuário</button>
   </form>
 

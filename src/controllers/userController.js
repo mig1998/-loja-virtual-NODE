@@ -1,5 +1,9 @@
 const userService = require('../services/userService');
 
+const cloudinary = require("../../config/cloudinary");
+
+
+
 // Controller para buscar todos os usuários
 exports.getAllUsers = async (req, res) => {
   try {
@@ -14,13 +18,21 @@ exports.getAllUsers = async (req, res) => {
 // Controller para criar um novo usuário
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, senha, type } = req.body;
+    const { name, email, senha, image, type } = req.body;
 
     if (!name || !email || !senha) {
       return res.status(400).json({ message: 'Nome, e-mail e senha são obrigatórios.' });
     }
 
-    const newUser = await userService.createUser(name, email, senha, type);
+let imageUrl = null;
+
+        // 📌 SE O USUÁRIO MANDOU IMAGEM
+        if (req.file) {
+            const upload = await cloudinary.uploader.upload(req.file.path);
+            imageUrl = upload.secure_url;
+        }
+
+    const newUser = await userService.createUser(name, email, senha, imageUrl, type);
     res.status(201).json(newUser);
   } catch (err) {
     console.error("Erro ao criar usuário:", err);
@@ -67,9 +79,19 @@ exports.getUserByName = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, senha, type } = req.body; // garantir que veio desestruturado
+    const { name, email, senha, image, type } = req.body; // garantir que veio desestruturado
 
-    const updatedUser = await userService.updateUser(id, name, email, senha, type);
+
+let imageUrl = null;
+
+        // 📌 SE O USUÁRIO MANDOU IMAGEM
+        if (req.file) {
+            const upload = await cloudinary.uploader.upload(req.file.path);
+            imageUrl = upload.secure_url;
+        }
+
+
+    const updatedUser = await userService.updateUser(id, name, email, senha, imageUrl, type);
 
     if (!updatedUser) {
       return res.status(404).json({ message: 'Usuário não encontrado.' });

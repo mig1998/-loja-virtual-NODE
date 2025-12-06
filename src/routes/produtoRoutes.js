@@ -26,7 +26,7 @@ router.get('/user/produtos', produtoController.getMeusProdutos);
 router.get('/:id', produtoController.getProdutoById);
 
 // Rota: atualizar
-router.put('/:id', produtoController.updateProduto);
+router.put('/:id', upload.single("image"), produtoController.updateProduto);
 
 // Rota: deletar
 router.delete('/:id', produtoController.deleteProduto);

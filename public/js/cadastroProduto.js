@@ -41,11 +41,9 @@ async function createProduto(event) {
       body: formData,
       credentials: "include"
   });
-console.log(form)
 
-console.log(formData)
   const newProduto = await response.json();
- console.log(newProduto)
+// console.log(newProduto)
   alert(`Produto ${newProduto.name} criado com sucesso!`);
   form.reset();
 }

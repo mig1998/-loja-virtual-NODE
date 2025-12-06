@@ -3,11 +3,12 @@ const router = express.Router();
 
 const userController = require('../controllers/userController');
 
-
+const upload = require("../../config/multer"); //
 
 // Definir rotas
 router.get('/', userController.getAllUsers);
-router.post('/', userController.createUser);
+
+router.post('/', upload.single("image"), userController.createUser);
 
 
 // Rota: buscar por nome
@@ -22,7 +23,7 @@ router.get('/:id', userController.getUserById);
 
 
 // Rota: atualizar
-router.put('/:id', userController.updateUser);
+router.put('/:id', upload.single("image"), userController.updateUser);
 
 // Rota: deletar
 router.delete('/:id', userController.deleteUser);

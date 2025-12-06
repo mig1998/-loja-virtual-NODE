@@ -131,7 +131,17 @@ exports.updateProduto = async (req, res) => {
         const { id } = req.params;
         const { name, description, image, price, categoria } = req.body;
 
-        const updatedProduto = await produtoService.updateProduto(id, name, description, image, price, categoria);
+
+let imageUrl = null;
+
+        // 📌 SE O USUÁRIO MANDOU IMAGEM
+        if (req.file) {
+            const upload = await cloudinary.uploader.upload(req.file.path);
+            imageUrl = upload.secure_url;
+        }
+
+
+        const updatedProduto = await produtoService.updateProduto(id, name, description, imageUrl, price, categoria);
         if (!updatedProduto) return res.status(404).json({ message: 'Produto não encontrado.' });
 
         res.status(200).json(updatedProduto);

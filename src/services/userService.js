@@ -5,9 +5,9 @@ exports.getAllUsers = async () => {
   return await UserModel.findAll(); // Mongoose retorna array de usuários
 };
 
-exports.createUser = async (name, email, senha, type = 'user') => {
+exports.createUser = async (name, email, senha, image, type = 'user') => {
   // Usa o método estático da classe que já faz new + save
-  return await UserModel.create(name, email, senha, type);
+  return await UserModel.create(name, email, senha, image, type);
 };
 
 // Buscar usuário por ID
@@ -25,11 +25,12 @@ exports.getUserByName = async (name) => {
   return await UserModel.findByName(termo);
 };
 // Atualizar usuário
-exports.updateUser = async (id, name, email, senha, type) => {
+exports.updateUser = async (id, name, email, senha, image, type) => {
   const updateData = {};
   if (name !== undefined) updateData.name = name;
   if (email !== undefined) updateData.email = email;
   if (senha !== undefined) updateData.senha = senha;
+  if (senha !== undefined) updateData.image = image;
   if (type !== undefined) updateData.type = type;
 
   return await UserModel.update(id, updateData);

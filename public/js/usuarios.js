@@ -6,6 +6,7 @@ async function listUsers() {
   const div = document.getElementById("users-list");
   div.innerHTML = users.map(u =>
     `<div data-id="${u.id}">
+     <img src="${u.image}" class="foto-usuario">
        <h2>${u.name}</h2> <h2>email:</h2> <p>${u.email}</p> <h2>tipo:</h2> <p>${u.type}</p>
        <button onclick="editUser('${u._id}')">✏️</button>
        <button onclick="deleteUser('${u._id}')">🗑️</button>
@@ -66,7 +67,9 @@ async function buscarPorId() {
   const user = await getUserById(id);
   const div = document.getElementById('result-id');
   if (user) {
-    div.innerHTML = `<p><strong>ID:</strong> ${user.id} <br> <strong>Nome:</strong> ${user.name} <br> <strong>Email:</strong> ${user.email}</p>`;
+    div.innerHTML = `<p><strong>ID:</strong> ${user.id} <br> 
+     <img src="${user.image}" class="foto-usuario">
+    <strong>Nome:</strong> ${user.name} <br> <strong>Email:</strong> ${user.email}</p>`;
   } else {
     div.innerHTML = `<p>Nenhum usuário encontrado com ID ${id}</p>`;
   }
@@ -87,6 +90,7 @@ async function buscarPorNome() {
     div.innerHTML = users.map(u =>
       `<div>
             <strong>ID:</strong> ${u._id} <br>
+             <img src="${u.image}" class="foto-usuario">
             <strong>Nome:</strong> ${u.name} <br>
             <strong>Email:</strong> ${u.email}
           </div><hr>`
