@@ -102,12 +102,6 @@ button:hover {
 }
 
 
-#users-list .foto-usuario {
-  width: 60%;
-  height: 50%;
-  object-fit: cover;
-  border-radius: 10px;
-}
 
 /* ===== RESPONSIVIDADE ===== */
 @media (max-width: 600px) {
@@ -123,4 +117,27 @@ button:hover {
   button {
     width: 100%;
   }
+      .foto-usuario{
+    width: 90px;
+    height: 90px;
+  }
+}
+
+/* ================= FOTO PADRÃO (bolinha cinza) ================= */
+.foto-usuario {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;          /* bolinha */
+  border: 3px solid #4CAF50;   /* borda verde elegante */
+  background-color: #ccc;      /* caso a imagem não carregue */
+  display: block;
+  margin: 0 auto 10px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease;
+}
+
+.foto-usuario:hover,
+.foto-produto:hover {
+  transform: scale(1.06);
 }

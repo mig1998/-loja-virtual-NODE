@@ -133,3 +133,34 @@
     margin: 5px 0;
   }
 }
+
+.produto-upload {
+    margin-bottom: 15px;
+}
+
+.produto-preview {
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    background: #eee;
+    border: 2px dashed #aaa;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.produto-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+#empty-produto {
+    font-size: 18px;
+    color: #666;
+}

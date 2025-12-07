@@ -51,3 +51,15 @@ window.onload = async () => {
 getLoggedUserType();
 };
 
+
+document.getElementById("produto-image").addEventListener("change", function () {
+    const file = this.files[0];
+    const preview = document.getElementById("produto-preview");
+    const empty = document.getElementById("empty-produto");
+
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+        empty.style.display = "none";
+    }
+});

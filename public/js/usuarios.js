@@ -1,4 +1,5 @@
 // Função para listar usuários
+/*
 async function listUsers() {
   const response = await fetch("users");
   const users = await response.json();
@@ -12,10 +13,39 @@ async function listUsers() {
        <button onclick="deleteUser('${u._id}')">🗑️</button>
      </div>`).join("");
 }
+*/
 
 
+// Função para listar usuários
+async function listUsers() {
+  const response = await fetch("users");
+  const users = await response.json();
 
+  const div = document.getElementById("users-list");
+  div.innerHTML = users.map(u => {
+    
+    // Se não tiver imagem, usar bolinha cinza
+    const foto = u.image && u.image.length > 5 
+      ? u.image 
+      : "https://via.placeholder.com/200/cccccc/ffffff?text=+";  // ← bolinha vazia
 
+    return `
+      <div data-id="${u.id}">
+        <img src="${foto}" class="foto-usuario">
+
+        <h2>${u.name}</h2>
+        <h2>Email:</h2> <p>${u.email}</p>
+        <h2>Tipo:</h2> <p>${u.type}</p>
+
+        <button onclick="editUser('${u._id}')">✏️</button>
+        <button onclick="deleteUser('${u._id}')">🗑️</button>
+      </div>
+    `;
+  }).join("");
+}
+
+// Inicializa ao carregar a página
+window.onload = listUsers;
 
 // Inicializa a lista de usuários ao carregar a página
 window.onload = listUsers;

@@ -1,5 +1,6 @@
 // Função para criar usuário
 
+/*
 async function createUser(event) {
 event.preventDefault();
 
@@ -24,10 +25,10 @@ event.target.reset();
 // listUsers();  // Atualiza a lista de usuários
 
 }
+*/
 
 
-
-async function createProduto(event) {
+async function createUser(event) {
   event.preventDefault();
 
   const form = document.getElementById("create-user-form");
@@ -46,7 +47,20 @@ async function createProduto(event) {
 }
 
 
+const fileInput = document.getElementById("user-image-input");
+const preview = document.getElementById("user-photo-preview");
+
+fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        preview.style.backgroundImage = `url('${reader.result}')`;
+    };
+    reader.readAsDataURL(file);
+});
 
 
 // Adiciona o evento do formulário
-document.getElementById('create-user-form').addEventListener('submit', createProduto);
+document.getElementById('create-user-form').addEventListener('submit', createUser);

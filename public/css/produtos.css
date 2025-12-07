@@ -60,12 +60,12 @@ button[onclick^="deleteProduto"]:hover {
 }
 
 button[onclick^="adicionarAoCarrinho"] {
-  background-color: #4CAF50;
+  background-color: brown;
   color: white;
 }
 
 button[onclick^="adicionarAoCarrinho"]:hover {
-  background-color: #45a049;
+  background-color: crimson;
   transform: translateY(-2px);
 }
 

@@ -1,9 +1,58 @@
 <%- include('../layout', { title: title, body: ` 
 
+<style>
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .upload-preview-user {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #ddd;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    border: 3px solid #aaa;
+  }
+
+  #user-image-input {
+    display: none;
+  }
+
+  .upload-btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #4F46E5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+</style>
+
+
+
   <h2>Criar Novo Usuário</h2>
   <form id="create-user-form" enctype="multipart/form-data">
-    <input type="file" name="image" id="image">
-    
+
+<div class="upload-container">
+    <!-- imagem/bolinha -->
+    <div id="user-photo-preview" class="upload-preview-user"></div>
+
+    <!-- botão -->
+    <button type="button" class="upload-btn" onclick="document.getElementById('user-image-input').click()">
+      Selecionar Foto
+    </button>
+
+    <!-- input escondido -->
+    <input type="file" name="image" id="user-image-input" accept="image/*">
+  </div>
+
+
     <input type="text" name="name" id="name" placeholder="Nome" required>
     
     <input type="email" name="email" id="email" placeholder="E-mail" required>

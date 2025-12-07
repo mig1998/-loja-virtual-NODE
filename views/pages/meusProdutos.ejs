@@ -11,7 +11,17 @@
   
   <input type="text" name="description" placeholder="descrição" id="description">
 
-  <input type="file" name="image" id="image">
+  
+
+<div class="produto-upload">
+    <label for="produto-image" class="produto-preview">
+        <img id="produto-preview" src="" alt="Preview">
+        <span id="empty-produto">Adicionar Imagem</span>
+    </label>
+
+    <input type="file" id="produto-image" name="image" accept="image/*" hidden>
+</div>
+
 
   <input type="number" name="price" placeholder="R$" id="price" required>
 
