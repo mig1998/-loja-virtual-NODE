@@ -130,8 +130,9 @@ async function buscarPorId() {
   const div = document.getElementById('result-id');
   if (produto) {
     div.innerHTML = `<p><strong>ID:</strong> 
-     <img src="${produto.image}" class="foto-produto">
-    ${produto._id} <br> <strong>Nome:</strong> ${produto.name} <br> <strong>descrição:</strong> ${produto.description}</p>`;
+    ${produto._id} <br> 
+         <img src="${produto.image}" class="foto-produto"><br>
+  <strong>Nome:</strong> ${produto.name} <br> <strong>descrição:</strong> ${produto.description}</p>`;
   } else {
     div.innerHTML = `<p>Nenhum produto encontrado com ID ${id}</p>`;
   }
@@ -152,7 +153,7 @@ async function buscarPorNome() {
     div.innerHTML = produtos.map(p =>
       `<div>
             <strong>ID:</strong> ${p._id} <br>
-        <img src="${p.image}" class="foto-produto">
+        <img src="${p.image}" class="foto-produto"> <br>
             <strong>Nome:</strong> ${p.name} <br>
             <strong>descricao:</strong> ${p.description}
           </div><hr>`

@@ -97,9 +97,10 @@ input:focus {
 }
 
 
-#produtos-list .foto-produto {
-  width: 60%;
-  height: 50%;
+.foto-produto {
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -113,4 +114,10 @@ input:focus {
     width: 100%;
     margin: 5px 0;
   }
+  
+.foto-produto {
+  width: 90px;
+  height: 90px;
+}
+  
 }

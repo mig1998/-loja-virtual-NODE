@@ -32,18 +32,51 @@ async function createUser(event) {
   event.preventDefault();
 
   const form = document.getElementById("create-user-form");
-  const formData = new FormData(form);   // ← já pega tudo: text + file
+  const formData = new FormData(form);
 
-  const response = await fetch("/users", {
+  try {
+
+    const response = await fetch("/users", {
       method: "POST",
       body: formData,
       credentials: "include"
-  });
+    });
 
-  const newUser = await response.json();
-// console.log(newProduto)
-  alert(`Usuário ${newUser.name} criado com sucesso!`);
-  form.reset();
+    // Se o backend retornar erro (status 400, 500, etc)
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: "Erro desconhecido" }));
+
+      return Swal.fire({
+        title: "Erro!",
+        text: errorData.message || "Não foi possível criar o usuário.",
+        icon: "error",
+        confirmButtonText: "OK"
+      });
+    }
+
+    // Sucesso
+    const newUser = await response.json();
+
+    Swal.fire({
+      title: 'Sucesso!',
+      text: `Usuário ${newUser.name} criado com sucesso!`,
+      icon: 'success',
+      confirmButtonText: 'OK'
+    }).then(() => {
+      window.location.href = "/login";
+    });
+
+    form.reset();
+
+  } catch (error) {
+    // Erros de rede, servidor offline, path errado, etc
+    Swal.fire({
+      title: "Erro!",
+      text: "Ocorreu um erro de conexão. Tente novamente.",
+      icon: "error",
+      confirmButtonText: "OK"
+    });
+  }
 }
 
 
