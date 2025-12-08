@@ -31,55 +31,66 @@ event.target.reset();
 async function createUser(event) {
   event.preventDefault();
 
-  const form = document.getElementById("create-user-form");
-  const formData = new FormData(form);
+  const btn = document.getElementById("btn-submit-user");
+  let timer = 5; // segundos
+
+  // DESABILITA O BOTÃO
+  btn.disabled = true;
+  btn.style.opacity = "0.5";
+  btn.textContent = `Aguarde (${timer})...`;
+
+  const interval = setInterval(() => {
+      timer--;
+      btn.textContent = `Aguarde (${timer})...`;
+
+      if (timer <= 0) {
+          clearInterval(interval);
+          btn.disabled = false;
+          btn.style.opacity = "1";
+          btn.textContent = "Criar Usuário";
+      }
+  }, 1000);
 
   try {
+      const form = document.getElementById("create-user-form");
+      const formData = new FormData(form);
 
-    const response = await fetch("/users", {
-      method: "POST",
-      body: formData,
-      credentials: "include"
-    });
-
-    // Se o backend retornar erro (status 400, 500, etc)
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ message: "Erro desconhecido" }));
-
-      return Swal.fire({
-        title: "Erro!",
-        text: errorData.message || "Não foi possível criar o usuário.",
-        icon: "error",
-        confirmButtonText: "OK"
+      const response = await fetch("/users", {
+          method: "POST",
+          body: formData,
+          credentials: "include"
       });
-    }
 
-    // Sucesso
-    const newUser = await response.json();
+      if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || "Erro ao criar usuário");
+      }
 
-    Swal.fire({
-      title: 'Sucesso!',
-      text: `Usuário ${newUser.name} criado com sucesso!`,
-      icon: 'success',
-      confirmButtonText: 'OK'
-    }).then(() => {
-      window.location.href = "/login";
-    });
+      const newUser = await response.json();
 
-    form.reset();
+      Swal.fire({
+          title: "Sucesso!",
+          text: `Usuário ${newUser.name} criado com sucesso!`,
+          icon: "success",
+          confirmButtonText: "OK"
+      }).then(() => {
+          window.location.href = "/login";
+      });
 
-  } catch (error) {
-    // Erros de rede, servidor offline, path errado, etc
-    Swal.fire({
-      title: "Erro!",
-      text: "Ocorreu um erro de conexão. Tente novamente.",
-      icon: "error",
-      confirmButtonText: "OK"
-    });
+      form.reset();
+      document.getElementById("user-photo-preview").style.backgroundImage = "";
+
+  } catch (err) {
+      Swal.fire({
+          title: "Erro!",
+          text: err.message,
+          icon: "error",
+          confirmButtonText: "OK"
+      });
   }
 }
 
-
+// Preview da imagem
 const fileInput = document.getElementById("user-image-input");
 const preview = document.getElementById("user-photo-preview");
 
@@ -94,6 +105,4 @@ fileInput.addEventListener("change", () => {
     reader.readAsDataURL(file);
 });
 
-
-// Adiciona o evento do formulário
-document.getElementById('create-user-form').addEventListener('submit', createUser);
+document.getElementById("create-user-form").addEventListener("submit", createUser);

@@ -1,24 +1,26 @@
-<%- include('../layout', { title: title, body: ` <h2>Cadastro Produto</h2>
- 
+<link rel="stylesheet" href="/css/meusProdutos.css">
+
+
+
+<%- include('../layout', { title: title, body:` 
+
+
  
 <form id="create-produto-form" enctype="multipart/form-data">
   <input type="text" name="name" placeholder="nome do produto" id="name" required>
   
   <input type="text" name="description" placeholder="descrição" id="description">
 
-  <input type="file" name="image" id="image">
+  
 
+<div class="produto-upload">
+    <label for="produto-image" class="produto-preview">
+        <img id="produto-preview" src="" alt="Preview">
+        <span id="empty-produto">Adicionar Imagem</span>
+    </label>
 
-  <!-- PREVIEW -->
-  <img id="image-preview" alt="Prévia da imagem">
-
-  <!-- BOTÃO ESTILIZADO -->
-  <label id="custom-file-btn" for="image">📁Escolher Foto</label>
-
-  <!-- INPUT REAL (ESCONDIDO) -->
-  <input type="file" name="image" id="image" accept="image/*">
-
-
+    <input type="file" id="produto-image" name="image" accept="image/*" hidden>
+</div>
 
 
   <input type="number" name="price" placeholder="R$" id="price" required>
@@ -28,12 +30,13 @@
     <option value="livros">Livros</option>
   </select>
 
-  <button type="submit">Criar Produto</button>
+  <button type="submit" id="btn-submit-produto">Criar Produto</button>
 </form>
 
-  
-  
-<script src="/js/cadastroProduto.js"></script>
 
-  `
-  }) %>
+  <script src="/js/produtos.js"></script>
+  <script src="/js/cadastroProduto.js"></script>
+
+
+
+  ` }) %>

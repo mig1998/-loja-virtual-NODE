@@ -10,7 +10,7 @@ async function listarMeusProdutos() {
   const div = document.getElementById("meus-produtos");
 
 
-console.log(resposta)
+//console.log(resposta)
   if (resposta.length === 0) {
     div.innerHTML = "<p>Você ainda não cadastrou produtos.</p>";
     return;
@@ -48,18 +48,6 @@ async function getLoggedUserType() {
 
 window.onload = async () => {
   listarMeusProdutos();
-getLoggedUserType();
+//getLoggedUserType();
 };
 
-
-document.getElementById("produto-image").addEventListener("change", function () {
-    const file = this.files[0];
-    const preview = document.getElementById("produto-preview");
-    const empty = document.getElementById("empty-produto");
-
-    if (file) {
-        preview.src = URL.createObjectURL(file);
-        preview.style.display = "block";
-        empty.style.display = "none";
-    }
-});

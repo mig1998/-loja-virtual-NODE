@@ -133,3 +133,37 @@ footer {
   }
 }
 
+
+
+.btn-cad-produto {
+    display: inline-block;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #4F46E5, #6366F1);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+
+  .btn-cad-produto:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #4338CA, #4F46E5);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+  }
+
+  .btn-cad-produto:active {
+    transform: scale(0.97);
+  }
+
+  /* RESPONSIVO */
+  @media (max-width: 480px) {
+    .btn-cad-produto {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+    }
+  }

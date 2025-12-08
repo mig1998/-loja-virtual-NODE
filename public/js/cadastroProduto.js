@@ -31,22 +31,82 @@ async function createProduto(event) {
 */
 
 async function createProduto(event) {
-  event.preventDefault();
+    event.preventDefault();
 
-  const form = document.getElementById("create-produto-form");
-  const formData = new FormData(form);   // ← já pega tudo: text + file
+    const btn = document.getElementById("btn-submit-produto");
+    let timer = 5;
 
-  const response = await fetch("/products", {
-      method: "POST",
-      body: formData,
-      credentials: "include"
-  });
+    // DESABILITA O BOTÃO
+    btn.disabled = true;
+    btn.style.opacity = "0.5";
+    btn.textContent = `Aguarde (${timer})...`;
 
-  const newProduto = await response.json();
-// console.log(newProduto)
-  alert(`Produto ${newProduto.name} criado com sucesso!`);
-  form.reset();
+    const interval = setInterval(() => {
+        timer--;
+        btn.textContent = `Aguarde (${timer})...`;
+
+        if (timer <= 0) {
+            clearInterval(interval);
+            btn.disabled = false;
+            btn.style.opacity = "1";
+            btn.textContent = "Criar Produto";
+        }
+    }, 1000);
+
+    try {
+        const form = document.getElementById("create-produto-form");
+        const formData = new FormData(form);
+
+        const response = await fetch("/products", {
+            method: "POST",
+            body: formData,
+            credentials: "include"
+        });
+
+        let result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || "Erro ao cadastrar produto");
+        }
+
+        Swal.fire({
+            title: "Sucesso!",
+            text: `Produto ${result.name} criado com sucesso!`,
+            icon: "success",
+            confirmButtonText: "OK"
+        }).then(() => {
+            window.location.href = "/meusProdutos";
+        });
+
+        form.reset();
+        document.getElementById("produto-preview").style.backgroundImage = "";
+
+    } catch (err) {
+        Swal.fire({
+            title: "Erro!",
+            text: err.message,
+            icon: "error",
+            confirmButtonText: "OK"
+        });
+    }
 }
+
 
 // Adiciona o evento do formulário
 document.getElementById('create-produto-form').addEventListener('submit', createProduto);
+
+
+
+
+
+document.getElementById("produto-image").addEventListener("change", function () {
+    const file = this.files[0];
+    const preview = document.getElementById("produto-preview");
+    const empty = document.getElementById("empty-produto");
+
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+        empty.style.display = "none";
+    }
+});

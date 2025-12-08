@@ -132,6 +132,12 @@
     width: 100%;
     margin: 5px 0;
   }
+      .btn-cad-produto {
+        width: 100%;
+        padding: 14px;
+        font-size: 18px;
+        margin-top: 10px;
+    }
 }
 
 .produto-upload {
@@ -164,3 +170,5 @@
     font-size: 18px;
     color: #666;
 }
+
+

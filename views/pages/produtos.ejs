@@ -2,15 +2,15 @@
 <link rel="stylesheet" href="/css/produtos.css">
 
 
-<%- include('../layout', { title: title, body: ` <h2>Produtos</h2>
- 
- 
- 
- 
-  <h2>Destaques</h2>
- <h2>Lista de Produtos</h2>
-  <div id="produtos-list"></div>
+<%- include('../layout', { title: title, body: ` 
 
+<a href="/cadastroproduto" class="btn-cad-produto">Cadastrar Produto</a>
+
+
+  <h2>Buscar Produto por Nome</h2>
+  <input type="text" id="search-name" placeholder="Digite o nome" />
+  <button onclick="buscarPorNome()">Buscar por Nome</button>
+  <div id="result-name"></div>
 
 
   <h2>Buscar Produto por ID</h2>
@@ -18,11 +18,10 @@
   <button onclick="buscarPorId()">Buscar por ID</button>
   <div id="result-id"></div>
 
-  <h2>Buscar Produto por Nome</h2>
-  <input type="text" id="search-name" placeholder="Digite o nome" />
-  <button onclick="buscarPorNome()">Buscar por Nome</button>
-  <div id="result-name"></div>
 
+
+  <h2>Destaques</h2>
+  <div id="produtos-list"></div>
  
  
 
