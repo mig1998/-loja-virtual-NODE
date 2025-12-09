@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 
 // Criar Produto
 router.get('/cadastroproduto', autenticar, (req, res) => {
-  res.render('pages/cadastroProduto', { title: 'cadastroProduto', user: req.session.user });
+  res.render('pages/cadastroProduto', { title: 'cadastro Produto', user: req.session.user });
 });
 
 
@@ -67,6 +67,11 @@ router.get('/cadastroUsuario', (req, res) => {
 });
 
 
+// meu perfil
+router.get('/meuPerfil', autenticar, (req, res) => {
+  res.render('pages/meuPerfil', { title: 'meu Perfil', user: req.session.user });
+});
+
 
 //logar
 const UserModel = require('../models/userModel');
@@ -78,7 +83,7 @@ router.post('/login', async (req, res) => {
     const user = await UserModel.findByEmailAndSenha(email, senha);
 
     if (user) {
-      req.session.user = { id: user._id, name: user.name, type: user.type };
+      req.session.user = { id: user._id, name: user.name, image:user.image ,type: user.type};
       return res.status(200).json({ message: 'Login bem-sucedido!' });
     }
 

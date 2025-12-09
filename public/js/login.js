@@ -21,7 +21,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
     .then(data => {
       if (data.message === "Login bem-sucedido!") {
         // Redireciona para o home ou página principal
-        window.location.href = "/";  // Alterar para a página que deseja
+        window.location.href = "/produtos";  // Alterar para a página que deseja
       } else {
         // Exibe mensagem de erro se o login falhar
         document.getElementById("error-message").textContent = data.message;

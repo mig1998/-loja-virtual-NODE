@@ -22,7 +22,7 @@ async function carregarCarrinho() {
     })
   );
 
-  console.log(produtosDetalhados);
+//  console.log(produtosDetalhados);
 
   const total = produtosDetalhados.reduce((acc, p) => acc + (p.price * p.quantidade), 0);
 

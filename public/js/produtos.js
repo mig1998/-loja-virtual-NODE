@@ -20,7 +20,9 @@ async function listProdutos() {
       <button onclick="editProduto('${p._id}')">✏️</button>
       <button onclick="deleteProduto('${p._id}')">🗑️</button>
     ` : ''}
-    
+      
+<input type="number" id="qtd-${p._id}" value="1" min="10" class="input-qtd">
+
          <button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
@@ -34,45 +36,41 @@ async function listProdutos() {
     <h2>${p.name}</h2>  <h3>Descrição:</h3> <p>${p.description}</p>
         <h3>R$:${p.price}</h3>
 
-  ${resposta.userType === 'admin' ? `
-      <button onclick="editProduto('${p._id}')">✏️</button>
-      <button onclick="deleteProduto('${p._id}')">🗑️</button>
-    ` : ''}
+  
+  
+<input type="number" id="qtd-${p._id}" value="1" min="1" class="input-qtd">
+
   
          <button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
 
   }
-
-
-
 }
-
-
-
 
 
 
 async function adicionarAoCarrinho(userId, produtoId) {
 
+  const quantidade = document.getElementById(`qtd-${produtoId}`).value || 1;
 
-  const response = await fetch("/carts/add", {  // ajuste a rota conforme seu backend
+  const response = await fetch("/carts/add", {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId, produtoId })  // enviar o id do produto para o backend
+    body: JSON.stringify({ userId, produtoId, quantidade })
   });
 
-
-
-
   if (response.ok) {
-    alert('Produto adicionado ao carrinho!');
+    Swal.fire({
+      title: "Sucesso!",
+      text: `Produto adicionado ao carrinho! Quantidade: ${quantidade}`,
+      icon: "success",
+      confirmButtonText: "OK"
+    })
   } else {
-    alert('Erro ao adicionar produto ao carrinho.');
+    window.location.href = "/login";
   }
 }
-
 
 // Inicializa a lista de usuários ao carregar a página
 window.onload = listProdutos;

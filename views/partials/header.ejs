@@ -1,7 +1,43 @@
 <header>
   <h1>Loja Virtual</h1>
 
+<% if (user) { %>
+
+  <% 
+    //console.log("User logado:", user); 
+    
+const foto = user.image && user.image.length > 5 
+      ? user.image 
+      : "https://via.placeholder.com/200/cccccc/ffffff?text=+";  // ← bolinha vazia
+
+  %>
+
+  <div style="
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:10px;
+      text-align:right;
+  ">
+    
+    <a href="/meuPerfil">
+    <h5 style="color:white; margin:0;">
+      Meu Perfil
+    </h5>
+
+    <img 
+      src="<%= foto %>" 
+      
+      style="width:60px; height:60px; border-radius:50%; object-fit:cover;"
+    >
+    </a>
+
+  </div>
+
+<% } %>
+
   <nav>
+    
     <a href="/">Início</a>
     <!-- <a href="/cadastroProduto">Novo Produto</a> -->
 
@@ -33,6 +69,3 @@
 
 </header>
 
-<% if (user) { %>
-  <h5> Bem-vindo, <%= user.name %>!</h5>
-  <% } %>

@@ -54,6 +54,32 @@ exports.getUserById = async (req, res) => {
   }
 };
 
+exports.getUserPerfil = async (req, res) => {
+  try {
+    // Verifica sessão
+    const sessionUser = req.session.user;
+    if (!sessionUser) {
+      return res.status(401).json({ message: "Não autenticado" });
+    }
+
+    // Busca dados atualizados no banco
+    const id = sessionUser._id || sessionUser.id;
+
+    const user = await userService.getUserById(id);
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado" });
+    }
+
+    return res.status(200).json(user);
+
+  } catch (err) {
+    console.error("Erro ao buscar usuário:", err);
+    return res.status(500).json({ message: "Erro interno ao buscar usuário." });
+  }
+};
+
+
+
 // Buscar usuário por nome
 exports.getUserByName = async (req, res) => {
   try {

@@ -14,9 +14,10 @@ router.post('/', upload.single("image"), userController.createUser);
 // Rota: buscar por nome
 router.get('/name/:name', userController.getUserByName);
 
-// Rota: buscar por id
-router.get('/:id', userController.getUserById);
 
+router.get('/perfil', userController.getUserPerfil); 
+
+router.get('/:id', userController.getUserById);
 
 
 
