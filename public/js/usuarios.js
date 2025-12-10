@@ -21,6 +21,8 @@ async function listUsers() {
   const response = await fetch("users");
   const users = await response.json();
 
+
+
   const div = document.getElementById("users-list");
   div.innerHTML = users.map(u => {
     
@@ -44,8 +46,6 @@ async function listUsers() {
   }).join("");
 }
 
-// Inicializa ao carregar a página
-window.onload = listUsers;
 
 // Inicializa a lista de usuários ao carregar a página
 window.onload = listUsers;

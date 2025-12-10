@@ -4,11 +4,16 @@
 <% if (user) { %>
 
   <% 
-    //console.log("User logado:", user); 
-    
-const foto = user.image && user.image.length > 5 
-      ? user.image 
-      : "https://via.placeholder.com/200/cccccc/ffffff?text=+";  // ← bolinha vazia
+   // console.log("User logado:", user); 
+   let foto;
+   if(user.image!=null){
+     foto=user.image;
+   }else{
+     foto="../../assets/background.png";
+     
+   }
+
+
 
   %>
 

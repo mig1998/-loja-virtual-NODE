@@ -55,7 +55,7 @@ exports.getUserById = async (req, res) => {
 };
 
 exports.getUserPerfil = async (req, res) => {
-  try {
+try {
     // Verifica sessão
     const sessionUser = req.session.user;
     if (!sessionUser) {

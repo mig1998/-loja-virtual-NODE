@@ -34,7 +34,7 @@ async function createProduto(event) {
     event.preventDefault();
 
     const btn = document.getElementById("btn-submit-produto");
-    let timer = 5;
+    let timer = 60;
 
     // DESABILITA O BOTÃO
     btn.disabled = true;
