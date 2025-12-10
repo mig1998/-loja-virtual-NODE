@@ -1,76 +1,58 @@
 <header>
   <h1>Loja Virtual</h1>
 
-<% if (user) { %>
+  <% if (user) { %>
 
-  <% 
-   // console.log("User logado:", user); 
-   let foto;
-   if(user.image!=null){
-     foto=user.image;
-   }else{
-     foto="../../assets/background.png";
-     
-   }
+    <% 
+      let foto = user && user.image ? user.image : "../../assets/user.png";
+    %>
 
-
-
-  %>
-
-  <div style="
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap:10px;
-      text-align:right;
-  ">
-    
-    <a href="/meuPerfil">
-    <h5 style="color:white; margin:0;">
-      Meu Perfil
-    </h5>
-
-    <img 
-      src="<%= foto %>" 
+    <div style="
+        display:flex;
+        align-items:center;
+        justify-content:flex-end;
+        gap:10px;
+        text-align:right;
+    ">
       
-      style="width:60px; height:60px; border-radius:50%; object-fit:cover;"
-    >
-    </a>
+      <a href="/meuPerfil">
+        <h5 style="color:white; margin:0;">
+          Meu Perfil
+        </h5>
 
-  </div>
+        <img 
+          src="<%= foto %>" 
+          style="width:60px; height:60px; border-radius:50%; object-fit:cover;"
+        >
+      </a>
 
-<% } %>
+    </div>
+
+  <% } %>
 
   <nav>
     
     <a href="/">Início</a>
-    <!-- <a href="/cadastroProduto">Novo Produto</a> -->
-
     <a href="/meusProdutos">Meus Produtos</a>
-
     <a href="/produtos">Produtos</a>
 
-    <% if (user && user.type==='admin' ) { %>
+    <% if (user && user.type === 'admin') { %>
       <a href="/usuarios">Usuários</a>
-      <% } %>
+    <% } %>
 
-        <a href="/contato">Contato</a>
-        <a href="/sobre">Sobre</a>
+    <a href="/contato">Contato</a>
+    <a href="/sobre">Sobre</a>
+    <a href="/carrinho">Carrinho</a>
 
-        <a href="/carrinho">Carrinho</a>
-
-        <% if (user) { %>
-          <a href="/login" onclick="logout()">Sair (<%= user.name %>)</a>
-          <% } else { %>
-            <a href="/login">Login</a>
-            <a href="/cadastroUsuario">Cadastro</a>
-            <% } %>
+    <% if (user) { %>
+      <a href="/login" onclick="logout()">Sair (<%= user.name %>)</a>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <a href="/cadastroUsuario">Cadastro</a>
+    <% } %>
 
   </nav>
 
-
-  <script src="/js/logout.js"></script>
-
+  <script type="module"  src="/js/logout.js"></script>
 
 </header>
-

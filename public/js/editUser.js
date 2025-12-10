@@ -1,3 +1,7 @@
+
+import { logout } from "./logout.js";
+
+
 console.log("Edit user JS carregado");
 
 // PREVIEW DA IMAGEM
@@ -17,16 +21,15 @@ fileInput.addEventListener("change", () => {
 
 
 // ---------- CARREGAR DADOS DO USUÁRIO LOGADO ----------
-async function carregarUsuarioLogado() {
+async function carregarUsuarioLogado(){
     try {
-        const res = await fetch("/users/user/perfil"); // você deve ter essa rota
-        if (!res.ok) return;
-
+        const res =await fetch("/users/perfil"); // você deve ter essa rota
+        
         const user = await res.json();
 
         document.getElementById("name").value = user.name;
         document.getElementById("email").value = user.email;
-
+        document.getElementById("senha").value = user.senha;
         // FOTO
         preview.style.backgroundImage = `url('${user.image || ""}')`;
 
@@ -38,15 +41,17 @@ async function carregarUsuarioLogado() {
     } catch (err) {
         console.log("Erro ao carregar usuário", err);
     }
+
 }
 
 
+carregarUsuarioLogado();
 // ---------- ATUALIZAR USUÁRIO (FORMDATA) ----------
 async function updateUser(event) {
     event.preventDefault();
 
     const btn = document.getElementById("btn-submit-user");
-    let timer = 5;
+    let timer = 60;
 
     // desabilita botão
     btn.disabled = true;
@@ -87,7 +92,8 @@ async function updateUser(event) {
             icon: "success",
             confirmButtonText: "OK"
         }).then(() => {
-            window.location.reload();
+         logout();
+            window.location.href="/login"
         });
 
     } catch (err) {
@@ -105,4 +111,4 @@ async function updateUser(event) {
 document.getElementById("edit-user-form").addEventListener("submit", updateUser);
 
 // ao carregar página
-window.onload = carregarUsuarioLogado;
+//window.onload = carregarUsuarioLogado();

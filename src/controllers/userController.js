@@ -48,6 +48,7 @@ exports.getUserById = async (req, res) => {
       return res.status(404).json({ message: 'Usuário não encontrado.' });
     }
     res.status(200).json(user);
+    
   } catch (err) {
     console.error("Erro ao buscar usuário:", err);
     res.status(500).json({ message: "Erro interno ao buscar usuário." });
@@ -124,6 +125,7 @@ let imageUrl = null;
     }
 
     res.status(200).json(updatedUser);
+    
   } catch (err) {
     console.error("Erro ao atualizar usuário:", err);
     res.status(500).json({ message: "Erro interno ao atualizar usuário." });
