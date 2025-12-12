@@ -45,7 +45,7 @@
     <a href="/carrinho">Carrinho</a>
 
     <% if (user) { %>
-      <a href="/login" onclick="logout()">Sair (<%= user.name %>)</a>
+    <a id="logoutBtn">Sair (<%= user.name %>)</a>
     <% } else { %>
       <a href="/login">Login</a>
       <a href="/cadastroUsuario">Cadastro</a>
@@ -53,6 +53,7 @@
 
   </nav>
 
-  <script type="module"  src="/js/logout.js"></script>
+  <script type="module" src="/js/logout.js"></script>
+
 
 </header>

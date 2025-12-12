@@ -17,12 +17,15 @@ async function listProdutos() {
         <h3>R$:${p.price}</h3>
 
   ${resposta.userType === 'admin' ? `
-      <button onclick="editProduto('${p._id}')">✏️</button>
+   <a style="background-color: #f39c12;border: none;padding: 10px 16px;border-radius: 8px; cursor: pointer;font-weight: bold;margin: 8px 4px 0 0;transition: transform 0.2s ease, background-color 0.3s ease;"           href="/editProduto?id=${p._id}"<button>✏️</button></a>
       <button onclick="deleteProduto('${p._id}')">🗑️</button>
     ` : ''}
-      
-<input type="number" id="qtd-${p._id}" value="1" min="10" class="input-qtd">
+       <h3>R$:estoque: ${p.quantidade}</h3>
 
+<input type="number" id="qtd-${p._id}" value="1" min="${p.quantidade}" class="input-qtd">
+       
+    
+     
          <button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">Adicionar ao carrinho 🛒</button>
 
      </div>`).join("");
@@ -36,9 +39,9 @@ async function listProdutos() {
     <h2>${p.name}</h2>  <h3>Descrição:</h3> <p>${p.description}</p>
         <h3>R$:${p.price}</h3>
 
-  
-  
-<input type="number" id="qtd-${p._id}" value="1" min="1" class="input-qtd">
+         <h3>:estoque: ${p.quantidade}</h3>
+
+<input type="number" id="qtd-${p._id}" value="1" min="${p.quantidade}" class="input-qtd">
 
   
          <button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">Adicionar ao carrinho 🛒</button>
@@ -108,9 +111,20 @@ async function updateProduto(id, data) {
 
 // ---------- DELETE ----------
 async function deleteProduto(id) {
-  if (!confirm("Deseja excluir?")) return;
+  const result = await Swal.fire({
+    title: "Tem certeza?",
+    text: "Você não poderá desfazer isso!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sim",
+    cancelButtonText: "Não"
+  });
+  
+  
+  if (result.isConfirmed) {
   await fetch(`${"/products"}/${id}`, { method: "DELETE" });
   window.location.reload();
+  }
 }
 
 

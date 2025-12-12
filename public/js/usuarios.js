@@ -51,7 +51,7 @@ async function listUsers() {
 window.onload = listUsers;
 
 
-
+/*
 // ---------- UPDATE ----------
 function editUser(id) {             // abre prompt simples
   fetch(`${"/users"}/${id}`)
@@ -79,14 +79,24 @@ async function updateUser(id, data) {
   listUsers();
 }
 
-
+*/
 
 
 // ---------- DELETE ----------
 async function deleteUser(id) {
-  if (!confirm("Deseja excluir?")) return;
-  await fetch(`${"/users"}/${id}`, { method: "DELETE" });
-  listUsers();
+  const result = await Swal.fire({
+    title: "Tem certeza?",
+    text: "Você não poderá desfazer isso!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sim",
+    cancelButtonText: "Não"
+  });
+
+  if (result.isConfirmed) {
+    await fetch(`/users/${id}`, { method: "DELETE" });
+    listUsers();
+  }
 }
 
 async function buscarPorId() {

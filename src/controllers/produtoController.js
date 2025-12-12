@@ -41,7 +41,7 @@ exports.createProduto = async (req, res) => {
         const user = req.session.user;
         if (!user) return res.status(401).json({ message: "Usuário não autenticado." });
 
-        const { name, description, image, price, categoria } = req.body;
+        const { name, description, image, price, quantidade, categoria } = req.body;
         if (!name || !price) return res.status(400).json({ message: 'Nome e preço são obrigatórios.' });
 
 
@@ -54,7 +54,7 @@ exports.createProduto = async (req, res) => {
         }
 
 
-        const newProduto = await produtoService.createProduto(name, description, imageUrl, price, categoria, user._id || user.id);
+        const newProduto = await produtoService.createProduto(name, description, imageUrl, price, quantidade, categoria, user._id || user.id);
 
         await userService.adicionarProdutoAoUsuario(user._id || user.id, newProduto._id);
 
@@ -129,7 +129,7 @@ exports.getMeusProdutos = async (req, res) => {
 exports.updateProduto = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, description, image, price, categoria } = req.body;
+        const { name, description, image, price, quantidade, categoria } = req.body;
 
 
 let imageUrl = null;
@@ -141,7 +141,7 @@ let imageUrl = null;
         }
 
 
-        const updatedProduto = await produtoService.updateProduto(id, name, description, imageUrl, price, categoria);
+        const updatedProduto = await produtoService.updateProduto(id, name, description, imageUrl, price, quantidade, categoria);
         if (!updatedProduto) return res.status(404).json({ message: 'Produto não encontrado.' });
 
         res.status(200).json(updatedProduto);

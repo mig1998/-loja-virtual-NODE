@@ -6,7 +6,7 @@ console.log("Edit user JS carregado");
 
 // PREVIEW DA IMAGEM
 const fileInput = document.getElementById("user-image-input");
-const preview = document.getElementById("user-photo-preview");
+const preview = document.getElementById("produto-preview");
 
 fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
@@ -31,7 +31,7 @@ async function carregarUsuarioLogado(){
         document.getElementById("email").value = user.email;
         document.getElementById("senha").value = user.senha;
         // FOTO
-        preview.style.backgroundImage = `url('${user.image || ""}')`;
+        preview.src = `url('${user.image || ""}')`;
 
         // Guarda ID para atualizar depois
         window.USER_ID = user._id;

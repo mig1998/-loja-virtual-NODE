@@ -7,4 +7,7 @@ async function logout() {
     }
 }
 
+document.getElementById("logoutBtn").onclick = logout;
+
+
 export { logout };

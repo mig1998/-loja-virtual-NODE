@@ -39,6 +39,7 @@
   <h2>Criar Novo Usuário</h2>
   <form id="create-user-form" enctype="multipart/form-data">
 
+  <p>Foto de Perfil:</p>
 <div class="upload-container">
     <!-- imagem/bolinha -->
     <div id="user-photo-preview" class="upload-preview-user"></div>
@@ -52,11 +53,13 @@
     <input type="file" name="image" id="user-image-input" accept="image/*">
   </div>
 
-
+ <p>Nome:</p>
     <input type="text" name="name" id="name" placeholder="Nome" required>
     
+ <p>Email:</p>
     <input type="email" name="email" id="email" placeholder="E-mail" required>
     
+     <p>Senha:</p>
     <input type="password" name="senha" id="senha" placeholder="senha" required>
     
    <button type="submit" id="btn-submit-user">Criar Usuário</button>
