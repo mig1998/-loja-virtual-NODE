@@ -39,7 +39,7 @@ async function listUsers() {
         <h2>Email:</h2> <p>${u.email}</p>
         <h2>Tipo:</h2> <p>${u.type}</p>
 
-        <button onclick="editUser('${u._id}')">✏️</button>
+   <a style="background-color: #f39c12;border: none;padding: 10px 16px;border-radius: 8px; cursor: pointer;font-weight: bold;margin: 8px 4px 0 0;transition: transform 0.2s ease, background-color 0.3s ease;"           href="/editUser?id=${u._id}"<button>✏️</button></a>
         <button onclick="deleteUser('${u._id}')">🗑️</button>
       </div>
     `;

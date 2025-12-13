@@ -40,6 +40,10 @@ router.get('/editProduto', autenticar,(req, res) => {
 }); 
 
 
+router.get('/editUser', autenticar,(req, res) => {
+  res.render('pages/editUser', { title: 'editar Usuario',user:req.session.user });
+}); 
+
 // Usuarios
 router.get('/usuarios', autenticar, (req, res) => {
   res.render('pages/usuarios', { title: 'usuarios', user: req.session.user });

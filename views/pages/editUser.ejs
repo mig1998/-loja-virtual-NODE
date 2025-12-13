@@ -36,10 +36,10 @@
 
 
 
-  <h2>Meu Perfil</h2>
-  <form id="editMeuPerfil-user-form" enctype="multipart/form-data">
+  <h2>Editar Usuário</h2>
+  <form id="edit-user-form" enctype="multipart/form-data">
 
- <p>Foto de Perfil:</p>
+  <p>Foto de Perfil:</p>
 <div class="upload-container">
     <!-- imagem/bolinha -->
     <div id="user-photo-preview" class="upload-preview-user"></div>
@@ -55,15 +55,15 @@
 
  <p>Nome:</p>
     <input type="text" name="name" id="name" placeholder="Nome" required>
- 
-  <p>Email:</p>   
+    
+ <p>Email:</p>
     <input type="email" name="email" id="email" placeholder="E-mail" required>
     
      <p>Senha:</p>
     <input type="password" name="senha" id="senha" placeholder="senha" required>
     
-   <button type="submit" id="btn-submit-user">Enviar</button>
+   <button type="submit" id="btn-submit-user">Atualizar Usuário</button>
 
-  <script type="module" src="/js/meuPerfil.js"></script>
+  <script src="/js/editUser.js"></script>
   `
   }) %>

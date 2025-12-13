@@ -81,7 +81,7 @@ window.onload = listProdutos;
 
 
 
-
+/*
 
 // ---------- UPDATE ----------
 function editProduto(id) {             // abre prompt simples
@@ -106,7 +106,7 @@ async function updateProduto(id, data) {
   window.location.reload();
 }
 
-
+*/
 
 
 // ---------- DELETE ----------

@@ -1,5 +1,5 @@
-const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get("id");
+
+import { logout } from "./logout.js";
 
 
 console.log("Edit user JS carregado");
@@ -21,9 +21,9 @@ fileInput.addEventListener("change", () => {
 
 
 // ---------- CARREGAR DADOS DO USUÁRIO LOGADO ----------
-async function carregarDadosUsuario(){
+async function carregarUsuarioLogado(){
     try {
-        const res = await fetch(`/users/${id}`); // você deve ter essa rota
+        const res =await fetch("/users/perfil"); // você deve ter essa rota
         
         const user = await res.json();
 
@@ -33,7 +33,8 @@ async function carregarDadosUsuario(){
         // FOTO
         preview.style.backgroundImage = `url('${user.image || ""}')`;
 
-     
+        // Guarda ID para atualizar depois
+        window.USER_ID = user._id;
 
         console.log("Usuário carregado:", user);
 
@@ -44,7 +45,7 @@ async function carregarDadosUsuario(){
 }
 
 
-carregarDadosUsuario();
+carregarUsuarioLogado();
 // ---------- ATUALIZAR USUÁRIO (FORMDATA) ----------
 async function updateUser(event) {
     event.preventDefault();
@@ -70,10 +71,10 @@ async function updateUser(event) {
     }, 1000);
 
     try {
-        const form = document.getElementById("edit-user-form");
+        const form = document.getElementById("editMeuPerfil-user-form");
         const formData = new FormData(form);
 
-        const response = await fetch(`/users/${id}`, {
+        const response = await fetch(`/users/${window.USER_ID}`, {
             method: "PUT",
             body: formData
         });
@@ -91,7 +92,8 @@ async function updateUser(event) {
             icon: "success",
             confirmButtonText: "OK"
         }).then(() => {
-            window.location.href="/usuarios"
+         logout();
+            window.location.href="/login"
         });
 
     } catch (err) {
@@ -106,7 +108,7 @@ async function updateUser(event) {
 
 
 // eventos
-document.getElementById("edit-user-form").addEventListener("submit", updateUser);
+document.getElementById("editMeuPerfil-user-form").addEventListener("submit", updateUser);
 
 // ao carregar página
 //window.onload = carregarUsuarioLogado();
