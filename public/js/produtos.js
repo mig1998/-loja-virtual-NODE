@@ -22,7 +22,7 @@ async function listProdutos() {
     ` : ''}
        <h3>R$:estoque: ${p.quantidade}</h3>
 
-<input type="number" id="qtd-${p._id}" value="1" min="${p.quantidade}" class="input-qtd">
+<input type="number" id="qtd-${p._id}" value="1" min="1"  max="${p.quantidade}" class="input-qtd">
        
     
      

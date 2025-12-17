@@ -32,7 +32,7 @@ async function createUser(event) {
   event.preventDefault();
 
   const btn = document.getElementById("btn-submit-user");
-  let timer = 60; // segundos
+  let timer = 10; // segundos
 
   // DESABILITA O BOTÃO
   btn.disabled = true;

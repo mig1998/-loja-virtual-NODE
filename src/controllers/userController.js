@@ -101,6 +101,9 @@ exports.getUserByName = async (req, res) => {
   }
 };
 
+
+
+
 // Atualizar usuário
 // Controller
 exports.updateUser = async (req, res) => {
@@ -108,8 +111,13 @@ exports.updateUser = async (req, res) => {
     const { id } = req.params;
     const { name, email, senha, image, type } = req.body; // garantir que veio desestruturado
 
+    // 1️⃣ Busca o usuário atual
+    const userAtual = await userService.getUserById(id);
+    if (!userAtual) {
+      return res.status(404).json({ message: "Usuário não encontrado." });
+    }
 
-let imageUrl = null;
+    let imageUrl = userAtual.image; // 👈 mantém a imagem atual
 
         // 📌 SE O USUÁRIO MANDOU IMAGEM
         if (req.file) {

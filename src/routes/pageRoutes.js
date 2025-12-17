@@ -15,7 +15,7 @@ function autenticar(req, res, next) {
 
 // Página inicial
 router.get('/', (req, res) => {
-  res.render('pages/home', { title: 'home' });
+  res.render('pages/produtos', { title: 'Produtos' });
 });
 
 
@@ -31,9 +31,11 @@ router.get('/meusprodutos', autenticar, (req, res) => {
 });
 
 // Produtos
+/*
 router.get('/produtos', (req, res) => {
   res.render('pages/produtos', { title: 'produtos' });
 }); 
+*/
 
 router.get('/editProduto', autenticar,(req, res) => {
   res.render('pages/editProduto', { title: 'editar Produto',user:req.session.user });

@@ -131,8 +131,14 @@ exports.updateProduto = async (req, res) => {
         const { id } = req.params;
         const { name, description, image, price, quantidade, categoria } = req.body;
 
+    // 1️⃣ Busca o usuário atual
+    const produtoAtual = await produtoService.getProdutoById(id);
+    if (!produtoAtual) {
+      return res.status(404).json({ message: "Produto não encontrado." });
+    }
 
-let imageUrl = null;
+    let imageUrl = produtoAtual.image; // 👈 mantém a imagem atual
+
 
         // 📌 SE O USUÁRIO MANDOU IMAGEM
         if (req.file) {

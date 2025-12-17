@@ -43,20 +43,24 @@ class Cart {
 
   // Adiciona produto no carrinho do usuário
   static async addProduto(userId, produtoId, quantidade = 1) {
-    // Cria carrinho se não existir e já salva o ID no usuário
-    const cart = await this.createCartForUser(userId);
+  const cart = await this.createCartForUser(userId);
 
-    const item = cart.items.find(i => i.produtoId.toString() === produtoId.toString());
-    if (item) {
-      item.quantidade += quantidade;
-    } else {
-      cart.items.push({ produtoId, quantidade });
-    }
+  // 🔥 GARANTE QUE É NÚMERO
+  quantidade = Number(quantidade);
 
-    await cart.save();
-    return cart;
+  const item = cart.items.find(
+    i => i.produtoId.toString() === produtoId.toString()
+  );
+
+  if (item) {
+    item.quantidade = Number(item.quantidade) + quantidade;
+  } else {
+    cart.items.push({ produtoId, quantidade });
   }
 
+  await cart.save();
+  return cart;
+}
   // Remove produto do carrinho (ou diminui quantidade)
   static async removeProduto(userId, produtoId, quantidade = 1) {
     const cart = await this.findByUserId(userId);

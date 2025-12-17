@@ -22,7 +22,7 @@ async function listarMeusProdutos() {
      <h2>${p.name}</h2>  
      <h3>Descrição:</h3> <p>${p.description}</p>
         <h3>R$:${p.price}</h3>
-       <button onclick="editProduto('${p._id}')">✏️</button>
+   <a style="background-color: #f39c12;border: none;padding: 10px 16px;border-radius: 8px; cursor: pointer;font-weight: bold;margin: 8px 4px 0 0;transition: transform 0.2s ease, background-color 0.3s ease;"           href="/editProduto?id=${p._id}"<button>✏️</button></a>
        <button onclick="deleteProduto('${p._id}')">🗑️</button>
       Categoria: ${p.categoria}<hr>
 

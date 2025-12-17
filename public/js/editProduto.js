@@ -52,7 +52,7 @@ async function updateProduto(event) {
     event.preventDefault();
 
     const btn = document.getElementById("btn-submit-produto");
-    let timer = 60;
+    let timer = 10;
 
     // desabilita botão
     btn.disabled = true;
@@ -93,7 +93,7 @@ async function updateProduto(event) {
             icon: "success",
             confirmButtonText: "OK"
         }).then(() => {
-            window.location.href="/produtos"
+            window.location.href="/"
         });
 
     } catch (err) {

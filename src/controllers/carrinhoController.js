@@ -50,6 +50,10 @@ exports.addProduto = async (req, res) => {
     return res.status(400).json({ error: "Informe userId e produtoId" });
   }
 
+
+
+
+
   const cart = await CartService.addProduto(userId, produtoId, quantidade || 1);
 
 

@@ -50,7 +50,7 @@ async function updateUser(event) {
     event.preventDefault();
 
     const btn = document.getElementById("btn-submit-user");
-    let timer = 60;
+    let timer = 10;
 
     // desabilita botão
     btn.disabled = true;
