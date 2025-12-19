@@ -22,8 +22,15 @@ async function listProdutos() {
     ` : ''}
        <h3>R$:estoque: ${p.quantidade}</h3>
 
-<input type="number" id="qtd-${p._id}" value="1" min="1"  max="${p.quantidade}" class="input-qtd">
-       
+<input 
+  type="number"
+  id="qtd-${p._id}"
+  value="1"
+  min="1"
+  max="${p.quantidade}"
+  class="input-qtd"
+  oninput="limitarQuantidade(this)"
+>
     
      
          <button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">Adicionar ao carrinho 🛒</button>
@@ -41,7 +48,15 @@ async function listProdutos() {
 
          <h3>:estoque: ${p.quantidade}</h3>
 
-<input type="number" id="qtd-${p._id}" value="1" min="${p.quantidade}" class="input-qtd">
+<input 
+  type="number"
+  id="qtd-${p._id}"
+  value="1"
+  min="1"
+  max="${p.quantidade}"
+  class="input-qtd"
+  oninput="limitarQuantidade(this)"
+>
 
   
          <button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">Adicionar ao carrinho 🛒</button>
@@ -69,16 +84,20 @@ async function adicionarAoCarrinho(userId, produtoId) {
       text: `Produto adicionado ao carrinho! Quantidade: ${quantidade}`,
       icon: "success",
       confirmButtonText: "OK"
-    })
+    }).then(() => {
+            window.location.reload();
+        });
   } else {
-    window.location.href = "/login";
+    Swal.fire({
+    title: "Erro",
+    text: "Erro ao adicionar ao carrinho, faça login pra adicionar items ao carrinho",
+    icon: "error"
+  });
   }
 }
 
 // Inicializa a lista de usuários ao carregar a página
 window.onload = listProdutos;
-
-
 
 
 /*
@@ -182,4 +201,16 @@ async function getProdutoById(id) {
 async function getProdutosByName(name) {
   const res = await fetch(`/products/name/${encodeURIComponent(name)}`);
   return res.ok ? res.json() : [];
+}
+
+
+function limitarQuantidade(input) {
+  const min = parseInt(input.min);
+  const max = parseInt(input.max);
+  let valor = parseInt(input.value);
+
+  if (isNaN(valor)) valor = min;
+
+  if (valor < min) input.value = min;
+  if (valor > max) input.value = max;
 }

@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const UserModel = require("../models/userModel");
+const produtoModel = require("../models/produtoModel");
+
 
 // --- Schema do Carrinho ---
 const cartSchema = new mongoose.Schema({
@@ -41,12 +43,24 @@ class Cart {
     return cart;
   }
 
+
+
   // Adiciona produto no carrinho do usuário
   static async addProduto(userId, produtoId, quantidade = 1) {
   const cart = await this.createCartForUser(userId);
 
   // 🔥 GARANTE QUE É NÚMERO
   quantidade = Number(quantidade);
+  
+ // 1️⃣ busca produto
+  const produto = await produtoModel.findById(produtoId);
+  if (!produto) throw new Error("Produto não encontrado");
+
+  // 2️⃣ verifica estoque
+  if (produto.quantidade < quantidade) {
+    throw new Error("Estoque insuficiente");
+  }
+
 
   const item = cart.items.find(
     i => i.produtoId.toString() === produtoId.toString()
@@ -58,6 +72,12 @@ class Cart {
     cart.items.push({ produtoId, quantidade });
   }
 
+
+// 5️⃣ REMOVE DO ESTOQUE
+  produto.quantidade -= quantidade;
+
+  // 6️⃣ salva tudo
+  await produto.save();
   await cart.save();
   return cart;
 }
