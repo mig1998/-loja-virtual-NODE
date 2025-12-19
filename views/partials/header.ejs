@@ -53,7 +53,29 @@
 
   </nav>
 
+<section>
+  <h6>Buscar Produto</h6>
+  <input type="text" id="search-name" placeholder="Procurar..." />
+  
+  <button style="background-color:purple;"  onclick="buscarPorNome()">🔎</button>
+</section>
+
+
+
   <script type="module" src="/js/logout.js"></script>
 
 
 </header>
+
+
+
+
+<script>function buscarPorNome() {
+  const nome = document.getElementById('search-name').value.trim();
+  if (!nome) {
+    alert('Digite um nome para buscar');
+    return;
+  }
+
+  window.location.href = `/buscar?nome=${encodeURIComponent(nome)}`;
+}</script>

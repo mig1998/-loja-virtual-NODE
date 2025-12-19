@@ -25,6 +25,9 @@ exports.getCart = async (req, res) => {
   res.status(200).json(resultado);
 };
 
+
+
+
 exports.createCart = async (req, res) => {
   const { userId } = req.body || {};
   if (!userId) {
@@ -44,14 +47,13 @@ exports.createCart = async (req, res) => {
   });
 };
 
+
+
 exports.addProduto = async (req, res) => {
   const { userId, produtoId, quantidade } = req.body;
   if (!userId || !produtoId) {
     return res.status(400).json({ error: "Informe userId e produtoId" });
   }
-
-
-
 
 
   const cart = await CartService.addProduto(userId, produtoId, quantidade || 1);
@@ -60,6 +62,9 @@ exports.addProduto = async (req, res) => {
   await UserModel.setCarrinho(userId, cart._id || cart.id);
   res.json(cart);
 };
+
+
+
 
 exports.removeProduto = async (req, res) => {
   const { userId, produtoId, quantidade } = req.body;
@@ -73,6 +78,8 @@ exports.removeProduto = async (req, res) => {
   res.json(cart);
 };
 
+
+
 exports.clearCart = async (req, res) => {
   const { userId } = req.body;
   if (!userId) {
@@ -84,6 +91,8 @@ exports.clearCart = async (req, res) => {
 
   res.json(cart);
 };
+
+
 
 exports.getItems = async (req, res) => {
   const userId = parseInt(req.params.userId);

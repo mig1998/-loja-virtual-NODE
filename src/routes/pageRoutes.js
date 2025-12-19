@@ -18,6 +18,10 @@ router.get('/', (req, res) => {
   res.render('pages/produtos', { title: 'Produtos' });
 });
 
+//buscar produto
+router.get('/buscar', (req, res) => {
+  res.render('pages/buscar', { title: 'resultado da busca' });
+});
 
 // Criar Produto
 router.get('/cadastroproduto', autenticar, (req, res) => {
@@ -37,11 +41,13 @@ router.get('/produtos', (req, res) => {
 }); 
 */
 
+//editar produto
 router.get('/editProduto', autenticar,(req, res) => {
   res.render('pages/editProduto', { title: 'editar Produto',user:req.session.user });
 }); 
 
 
+//editar Usuario
 router.get('/editUser', autenticar,(req, res) => {
   res.render('pages/editUser', { title: 'editar Usuario',user:req.session.user });
 }); 
@@ -114,7 +120,7 @@ router.get('/carrinho', (req, res) => {
 });
 
 
-// Carrinho
+// logout
 router.get('/logout', (req, res) => {
   res.render('pages/logout', { title: 'logout' });
 });

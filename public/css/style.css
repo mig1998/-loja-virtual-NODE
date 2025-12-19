@@ -167,3 +167,10 @@ footer {
       font-size: 1.1rem;
     }
   }
+  
+  
+  
+  section input{
+    width:50%;
+    text-align: center;
+  }

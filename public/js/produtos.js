@@ -21,19 +21,30 @@ async function listProdutos() {
       <button onclick="deleteProduto('${p._id}')">🗑️</button>
     ` : ''}
        <h3>R$:estoque: ${p.quantidade}</h3>
+  <input
+    type="number"
+    id="qtd-${p._id}"
+    value="1"
+    min="1"
+    max="${p.quantidade}"
+    class="input-qtd"
+    oninput="limitarQuantidade(this)"
+    ${p.quantidade === 0 ? "disabled" : ""}
+  >
 
-<input 
-  type="number"
-  id="qtd-${p._id}"
-  value="1"
-  min="1"
-  max="${p.quantidade}"
-  class="input-qtd"
-  oninput="limitarQuantidade(this)"
->
-    
-     
-         <button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">Adicionar ao carrinho 🛒</button>
+  ${
+    p.quantidade > 0
+      ? `<button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">
+           Adicionar ao carrinho 🛒
+         </button>`
+      : `<button disabled style="
+           background:#ccc;
+           cursor:not-allowed;
+           opacity:0.7;
+         ">
+           Esgotado ❌
+         </button>`
+  }
 
      </div>`).join("");
 
@@ -47,20 +58,31 @@ async function listProdutos() {
         <h3>R$:${p.price}</h3>
 
          <h3>:estoque: ${p.quantidade}</h3>
+         
+  <input
+    type="number"
+    id="qtd-${p._id}"
+    value="1"
+    min="1"
+    max="${p.quantidade}"
+    class="input-qtd"
+    oninput="limitarQuantidade(this)"
+    ${p.quantidade === 0 ? "disabled" : ""}
+  >
 
-<input 
-  type="number"
-  id="qtd-${p._id}"
-  value="1"
-  min="1"
-  max="${p.quantidade}"
-  class="input-qtd"
-  oninput="limitarQuantidade(this)"
->
-
-  
-         <button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">Adicionar ao carrinho 🛒</button>
-
+  ${
+    p.quantidade > 0
+      ? `<button onclick="adicionarAoCarrinho('${resposta.userId}','${p._id}')">
+           Adicionar ao carrinho 🛒
+         </button>`
+      : `<button disabled style="
+           background:#ccc;
+           cursor:not-allowed;
+           opacity:0.7;
+         ">
+           Esgotado ❌
+         </button>`
+  }
      </div>`).join("");
 
   }
@@ -170,6 +192,9 @@ async function buscarPorId() {
 }
 
 // Função para buscar por nome e mostrar resultados
+
+
+/*
 async function buscarPorNome() {
   const nome = document.getElementById('search-name').value.trim();
   if (!nome) {
@@ -191,6 +216,20 @@ async function buscarPorNome() {
     ).join('');
   }
 }
+*/
+
+
+function buscarPorNome() {
+  const nome = document.getElementById('search-name').value.trim();
+  if (!nome) {
+    alert('Digite um nome para buscar');
+    return;
+  }
+
+  window.location.href = `/buscar?nome=${encodeURIComponent(nome)}`;
+}
+
+
 
 // Suas funções originais para buscar dados via fetch:
 async function getProdutoById(id) {
