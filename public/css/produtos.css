@@ -62,6 +62,7 @@ button[onclick^="deleteProduto"]:hover {
 button[onclick^="adicionarAoCarrinho"] {
   background-color: brown;
   color: white;
+  width:50%;
 }
 
 button[onclick^="adicionarAoCarrinho"]:hover {

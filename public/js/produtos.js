@@ -1,3 +1,6 @@
+/*
+
+
 // Função para listar produtos
 async function listProdutos() {
   const response = await fetch("products");
@@ -88,37 +91,30 @@ async function listProdutos() {
   }
 }
 
+// Inicializa a lista de usuários ao carregar a página
+window.onload = listProdutos;
+
+*/
 
 
-async function adicionarAoCarrinho(userId, produtoId) {
 
-  const quantidade = document.getElementById(`qtd-${produtoId}`).value || 1;
 
-  const response = await fetch("/carts/add", {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId, produtoId, quantidade })
-  });
+async function listProdutos() {
+  const res = await fetch("/products");
+  const data = await res.json();
 
-  if (response.ok) {
-    Swal.fire({
-      title: "Sucesso!",
-      text: `Produto adicionado ao carrinho! Quantidade: ${quantidade}`,
-      icon: "success",
-      confirmButtonText: "OK"
-    }).then(() => {
-            window.location.reload();
-        });
+  if (data.produtos) {
+    renderProdutos(data.produtos, {
+      userId: data.userId,
+      userType: data.userType
+    });
   } else {
-    Swal.fire({
-    title: "Erro",
-    text: "Erro ao adicionar ao carrinho, faça login pra adicionar items ao carrinho",
-    icon: "error"
-  });
+    renderProdutos(data, {});
   }
 }
 
-// Inicializa a lista de usuários ao carregar a página
+
+
 window.onload = listProdutos;
 
 
@@ -150,24 +146,6 @@ async function updateProduto(id, data) {
 */
 
 
-// ---------- DELETE ----------
-async function deleteProduto(id) {
-  const result = await Swal.fire({
-    title: "Tem certeza?",
-    text: "Você não poderá desfazer isso!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Sim",
-    cancelButtonText: "Não"
-  });
-  
-  
-  if (result.isConfirmed) {
-  await fetch(`${"/products"}/${id}`, { method: "DELETE" });
-  window.location.reload();
-  }
-}
-
 
 
 
@@ -191,43 +169,7 @@ async function buscarPorId() {
   }
 }
 
-// Função para buscar por nome e mostrar resultados
 
-
-/*
-async function buscarPorNome() {
-  const nome = document.getElementById('search-name').value.trim();
-  if (!nome) {
-    alert('Digite um nome para buscar');
-    return;
-  }
-  const produtos = await getProdutosByName(nome);
-  const div = document.getElementById('result-name');
-  if (produtos.length === 0) {
-    div.innerHTML = `<p>Nenhum Produto encontrado com nome "${nome}"</p>`;
-  } else {
-    div.innerHTML = produtos.map(p =>
-      `<div>
-            <strong>ID:</strong> ${p._id} <br>
-        <img src="${p.image}" class="foto-produto"> <br>
-            <strong>Nome:</strong> ${p.name} <br>
-            <strong>descricao:</strong> ${p.description}
-          </div><hr>`
-    ).join('');
-  }
-}
-*/
-
-
-function buscarPorNome() {
-  const nome = document.getElementById('search-name').value.trim();
-  if (!nome) {
-    alert('Digite um nome para buscar');
-    return;
-  }
-
-  window.location.href = `/buscar?nome=${encodeURIComponent(nome)}`;
-}
 
 
 
@@ -237,10 +179,6 @@ async function getProdutoById(id) {
   return res.ok ? res.json() : null;
 }
 
-async function getProdutosByName(name) {
-  const res = await fetch(`/products/name/${encodeURIComponent(name)}`);
-  return res.ok ? res.json() : [];
-}
 
 
 function limitarQuantidade(input) {

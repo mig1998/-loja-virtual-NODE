@@ -13,7 +13,7 @@ exports.getAllProdutos = async (req, res) => {
         const userSession = req.session.user;
         const produtos = await produtoService.getAllProdutos();
 
-        if (!userSession) {
+         if (!userSession) {
             return res.status(200).json(produtos);
         }
 
@@ -65,6 +65,7 @@ exports.createProduto = async (req, res) => {
     }
 };
 
+
 // Buscar produto por ID
 exports.getProdutoById = async (req, res) => {
     try {
@@ -79,16 +80,42 @@ exports.getProdutoById = async (req, res) => {
     }
 };
 
+
+
 // Buscar produto por nome
 exports.getProdutoByName = async (req, res) => {
     try {
         const name = String(req.params.name || '').trim();
         if (!name) return res.status(400).json({ message: 'Nome é obrigatório.' });
 
+        const userSession = req.session.user;
+
         const produtos = await produtoService.getProdutoByName(name);
+      
+      
+      
         if (!produtos || produtos.length === 0) return res.status(404).json({ message: 'Produto não encontrado.' });
 
-        res.status(200).json(produtos);
+          if (!userSession) {
+            return res.status(200).json(produtos);
+        }
+       
+       
+        const user = await userService.getUserById(userSession.id);
+        
+        if (!user) return res.status(404).json({ message: "Usuário não encontrado." });
+
+
+
+       // res.status(200).json(produtos);
+     
+        
+        res.status(200).json({
+            userId: userSession.id,
+            userType: user.type,
+            produtos
+        });
+        
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Erro interno ao buscar produto por nome.' });

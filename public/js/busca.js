@@ -1,7 +1,5 @@
-const params = new URLSearchParams(window.location.search);
 
-const nome = params.get("nome");
-
+/*
 async function carregarBusca() {
   if (!nome) return;
 
@@ -27,5 +25,27 @@ async function carregarBusca() {
     </div>
   `).join("");
 }
+*/
 
-carregarBusca();
+
+
+
+async function carregarBusca() {
+  const params = new URLSearchParams(window.location.search);
+  const nome = params.get("nome");
+  if (!nome) return;
+
+  const res = await fetch(`/products/name/${encodeURIComponent(nome)}`);
+  const data = await res.json();
+
+if (data.produtos) {
+  renderProdutos(data.produtos, {
+    userId: data.userId,
+    userType: data.userType
+  });
+} else {
+    renderProdutos(data, {});
+  }
+}
+
+window.onload =carregarBusca;
