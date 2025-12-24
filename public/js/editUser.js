@@ -2,7 +2,6 @@ const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 
 
-console.log("Edit user JS carregado");
 
 // PREVIEW DA IMAGEM
 const fileInput = document.getElementById("user-image-input");
@@ -35,8 +34,7 @@ async function carregarDadosUsuario(){
 
      
 
-        console.log("Usuário carregado:", user);
-
+        
     } catch (err) {
         console.log("Erro ao carregar usuário", err);
     }

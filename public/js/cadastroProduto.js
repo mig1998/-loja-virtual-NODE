@@ -37,11 +37,14 @@ async function carregarCategorias() {
   const select = document.getElementById("categoria");
 
   select.innerHTML = categorias.map(c => `
-    <option value="${c.nome}">${c.nome}</option>
+    <option value="${c.name}">${c.name}</option>
   `).join("");
 }
 
 carregarCategorias();
+
+
+
 
 async function createProduto(event) {
     event.preventDefault();

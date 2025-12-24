@@ -1,9 +1,23 @@
-const CategoriaModel = require('../models/categoriaModel');
+const categoriaModel = require('../models/categoriaModel');
 
 exports.getAllCategorias = async () => {
-  return await CategoriaModel.findAll();
+  return await categoriaModel.findAll();
 };
 
-exports.createCategoria = async (nome) => {
-  return await CategoriaModel.create(nome);
+exports.createCategoria = async (name) => {
+  return await categoriaModel.create(name);
+};
+
+
+exports.updateCategoria = async (id, name) => {
+  const updateData = {};
+
+  if (name !== undefined) updateData.name = name;
+
+  return await categoriaModel.update(id, updateData);
+};
+
+
+exports.deleteCategoria = async (id) => {
+  return await categoriaModel.delete(id);
 };

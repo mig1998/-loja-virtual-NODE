@@ -33,18 +33,19 @@ async function listarMeusProdutos() {
 }
 
 
-
+/*
 async function getLoggedUserType() {
   const res = await fetch('/products/user/produtos');
   if (res.ok) {
     const user = await res.json();
-    console.log("tipo do usuário logado:", user.userType);
+  //  console.log("tipo do usuário logado:", user.userType);
     return user;
   } else {
     console.warn("Usuário não logado");
     return null;
   }
 }
+*/
 
 window.onload = async () => {
   listarMeusProdutos();

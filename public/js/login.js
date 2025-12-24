@@ -15,7 +15,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
     body: JSON.stringify(data)  // Converte o objeto para JSON
   })
     .then(response => {
-      console.log("Resposta bruta:", response); // 👈 Mostra a resposta recebida
+      //console.log("Resposta bruta:", response); // 👈 Mostra a resposta recebida
       return response.json(); // Tenta converter
     })
     .then(data => {

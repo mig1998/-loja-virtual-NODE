@@ -156,7 +156,7 @@ async function buscarPorId() {
 
   const produto = await getProdutoById(id);
 
-  console.log(produto)
+  
 
   const div = document.getElementById('result-id');
   if (produto) {

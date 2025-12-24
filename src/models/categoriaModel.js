@@ -1,18 +1,31 @@
 const mongoose = require("mongoose");
 
 const categoriaSchema = new mongoose.Schema({
-  nome: { type: String, required: true, unique: true }
+  name: { type: String, required: true, unique: true }
 });
 
 const CategoriaModel = mongoose.model("Categoria", categoriaSchema);
 
 class Categoria {
   static async findAll() {
-    return await CategoriaModel.find().sort({ nome: 1 });
+    // corrigido: name em vez de nome
+    return await CategoriaModel.find().sort({ name: 1 });
   }
 
-  static async create(nome) {
-    return await CategoriaModel.create({ nome });
+  static async create(name) {
+    return await CategoriaModel.create({ name });
+  }
+
+  static async update(id, data) {
+    return await CategoriaModel.findByIdAndUpdate(
+      id,
+      data,
+      { new: true }
+    );
+  }
+
+  static async delete(id) {
+    return await CategoriaModel.findByIdAndDelete(id);
   }
 }
 

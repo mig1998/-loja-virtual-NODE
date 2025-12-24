@@ -15,6 +15,23 @@ document.getElementById("produto-image").addEventListener("change", function () 
     }
 });
 
+
+
+
+async function carregarCategorias() {
+  const res = await fetch("/tag");
+  const categorias = await res.json();
+
+  const select = document.getElementById("categoria");
+
+  select.innerHTML = categorias.map(c => `
+    <option value="${c.name}">${c.name}</option>
+  `).join("");
+}
+
+carregarCategorias();
+
+
 // CARREGAR PRODUTO EXISTENTE
 async function carregarDadosProduto() {
     try {
@@ -37,7 +54,7 @@ async function carregarDadosProduto() {
             empty.style.display = "none";
         }
 
-        console.log("Produto carregado:", produto);
+        
 
     } catch (err) {
         console.error("Erro ao carregar produto:", err);
