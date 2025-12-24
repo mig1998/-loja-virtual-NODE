@@ -23,6 +23,19 @@ exports.getProdutoByName = async (name) => {
 
 };
 
+exports.getProdutoByCategoria = async (categoria) => {
+
+  // Garantir que seja string
+  const termo = String(categoria || '').trim();
+  if (!termo) return [];
+
+  // Busca parcial (case-insensitive) usando o método do model
+  return await ProdutoModel.findByCategoria(termo);
+
+};
+
+
+
 exports.getProdutosDoUsuario = async (userId) => {
     return await ProdutoModel.findAllByUserId(userId);
 };

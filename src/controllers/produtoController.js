@@ -122,6 +122,25 @@ exports.getProdutoByName = async (req, res) => {
     }
 };
 
+
+
+//buscs por categoria
+exports.getProdutosByCategoria = async (req, res) => {
+  try {
+    const { categoria } = req.params;
+
+    const produtos = await produtoService.getProdutoByCategoria(categoria);
+
+    res.json(produtos);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erro ao buscar produtos por categoria" });
+  }
+};
+
+
+
+
 // Buscar produtos do usuário logado
 exports.getMeusProdutos = async (req, res) => {
     try {

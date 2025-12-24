@@ -13,6 +13,20 @@ function autenticar(req, res, next) {
 
 
 
+function adm(req, res, next) {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+
+  if (req.session.user.type !== 'admin') {
+    return res.status(403).send('Acesso negado: apenas administradores');
+  }
+
+  next();
+}
+
+
+
 // Página inicial
 router.get('/', (req, res) => {
   res.render('pages/produtos', { title: 'Produtos' });
@@ -52,9 +66,20 @@ router.get('/editUser', autenticar,(req, res) => {
   res.render('pages/editUser', { title: 'editar Usuario',user:req.session.user });
 }); 
 
+// admin
+router.get('/admin', autenticar, adm, (req, res) => {
+  res.render('pages/admin', { title: 'admin', user: req.session.user });
+});
+
+
 // Usuarios
-router.get('/usuarios', autenticar, (req, res) => {
+router.get('/usuarios', autenticar,adm, (req, res) => {
   res.render('pages/usuarios', { title: 'usuarios', user: req.session.user });
+});
+
+// catwgorias
+router.get('/categoria', autenticar,adm, (req, res) => {
+  res.render('pages/categoria', { title: 'usuarios', user: req.session.user });
 });
 
 // Contato

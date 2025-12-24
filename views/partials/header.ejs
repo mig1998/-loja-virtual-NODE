@@ -15,6 +15,12 @@
         text-align:right;
     ">
       
+      
+      
+          <% if (user && user.type === 'admin') { %>
+      <a href="/admin">Admin</a>
+    <% } %>
+    
       <a href="/meuPerfil">
         <h5 style="color:white; margin:0;">
           Meu Perfil
@@ -34,12 +40,6 @@
     
     <a href="/">Início</a>
     <a href="/meusProdutos">Meus Produtos</a>
-    
-
-    <% if (user && user.type === 'admin') { %>
-      <a href="/usuarios">Usuários</a>
-    <% } %>
-
     <a href="/contato">Contato</a>
     <a href="/sobre">Sobre</a>
     <a href="/carrinho">Carrinho</a>

@@ -30,6 +30,19 @@ async function createProduto(event) {
 }
 */
 
+async function carregarCategorias() {
+  const res = await fetch("/tag");
+  const categorias = await res.json();
+
+  const select = document.getElementById("categoria");
+
+  select.innerHTML = categorias.map(c => `
+    <option value="${c.nome}">${c.nome}</option>
+  `).join("");
+}
+
+carregarCategorias();
+
 async function createProduto(event) {
     event.preventDefault();
 
@@ -110,3 +123,6 @@ document.getElementById("produto-image").addEventListener("change", function () 
         empty.style.display = "none";
     }
 });
+
+
+

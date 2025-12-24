@@ -17,6 +17,9 @@ router.post("/", upload.single("image"), produtoController.createProduto);
 // Rota: buscar por name
 router.get('/name/:name', produtoController.getProdutoByName);
 
+// buscar por categoria
+router.get("/categoria/:categoria", produtoController.getProdutosByCategoria);
+
 
 // Rota: buscar user
 router.get('/user/produtos', produtoController.getMeusProdutos);

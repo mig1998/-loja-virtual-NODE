@@ -34,6 +34,9 @@ const userRoutes = require('./src/routes/userRoutes'); // Importa as rotas
 const produtoRoutes = require('./src/routes/produtoRoutes'); // Importa as rotas
 const pageRoutes = require('./src/routes/pageRoutes'); // Importa as rotas
 const carrinhoRoutes = require('./src/routes/carrinhoRoutes'); // Importa as rotas
+const categoriaRoutes = require('./src/routes/categoriaRoutes'); // Importa as rotas
+
+
 
 // Configura EJS
 app.set('view engine', 'ejs');
@@ -52,6 +55,9 @@ app.use('/',pageRoutes); // Prefixa as rotas com /pages
 app.use('/products', produtoRoutes); // Prefixa as rotas com /produtos
 app.use('/users', userRoutes); // Prefixa as rotas com /users
 app.use('/carts', carrinhoRoutes); // Prefixa as rotas com /cart
+app.use('/tag', categoriaRoutes); // Prefixa as rotas com /tag
+
+
 
 app.listen(3000, () => {
   console.log('Servidor rodando na porta 3000');

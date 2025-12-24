@@ -31,6 +31,15 @@ class Produto {
       name: { $regex: termo, $options: "i" } // case-insensitive
     });
   }
+  
+  
+  static async findByCategoria(categoria) {
+    if (!categoria || typeof categoria !== "string" || !categoria.trim()) return [];
+    const termo = categoria.trim();
+    return await ProdutoModel.find({
+      categoria: { $regex: termo, $options: "i" } // case-insensitive
+    });
+  }
 
   static async findAllByUserId(userId) {
     return await ProdutoModel.find({ userId });
