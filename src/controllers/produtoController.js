@@ -70,7 +70,12 @@ exports.createProduto = async (req, res) => {
 exports.getProdutoById = async (req, res) => {
     try {
         const { id } = req.params;
+                
+    const sessionUser = req.session.user;
+        
         const produto = await produtoService.getProdutoById(id); // agora é objeto
+
+       
         if (!produto) return res.status(404).json({ message: 'Produto não encontrado.' });
 
         res.status(200).json(produto); // retorna um objeto, não array
@@ -176,12 +181,24 @@ exports.updateProduto = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, description, image, price, quantidade, categoria } = req.body;
+        
+    const sessionUser = req.session.user;
 
     // 1️⃣ Busca o usuário atual
     const produtoAtual = await produtoService.getProdutoById(id);
     if (!produtoAtual) {
       return res.status(404).json({ message: "Produto não encontrado." });
     }
+
+//protecao
+if (
+  sessionUser.type !== 'admin' &&
+  sessionUser.id !== produtoAtual.userId.toString()
+) {
+  return res.status(403).json({ error: "Sem permissão" });
+}
+
+
 
     let imageUrl = produtoAtual.image; // 👈 mantém a imagem atual
 
@@ -207,6 +224,22 @@ exports.updateProduto = async (req, res) => {
 exports.deleteProduto = async (req, res) => {
     try {
         const { id } = req.params;
+        
+                
+    const sessionUser = req.session.user;
+    
+    
+        const produto = await produtoService.getProdutoById(id);
+        
+        
+if (
+  sessionUser.type !== 'admin' &&
+  sessionUser.id !== produto.userId.toString()
+) {
+  return res.status(403).json({ error: "Sem permissão" });
+}
+        
+        
         const success = await produtoService.deleteProduto(id);
         if (!success) return res.status(404).json({ message: 'Produto não encontrado.' });
 

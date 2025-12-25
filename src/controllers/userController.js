@@ -7,6 +7,16 @@ const cloudinary = require("../../config/cloudinary");
 // Controller para buscar todos os usuários
 exports.getAllUsers = async (req, res) => {
   try {
+    
+    const sessionUser = req.session.user;
+  
+
+  // usuário comum só pode editar ele mesmo
+  if (sessionUser.type !== 'admin') {
+    return res.status(403).json({ error: "Sem permissão" });
+  }
+
+    
     const users = await userService.getAllUsers();
     res.status(200).json(users);
   } catch (err) {
@@ -15,10 +25,16 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+
+
+
 // Controller para criar um novo usuário
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, senha, image, type } = req.body;
+    const { name, email, senha, image} = req.body;
+
+
+const type="user";
 
     if (!name || !email || !senha) {
       return res.status(400).json({ message: 'Nome, e-mail e senha são obrigatórios.' });
@@ -40,13 +56,33 @@ let imageUrl = null;
   }
 };
 
+
+
 // Buscar usuário por ID
 exports.getUserById = async (req, res) => {
   try {
+    
+    
+    const sessionUser = req.session.user;
+  
+
     const user = await userService.getUserById(req.params.id);
+    
+
+    
     if (!user) {
       return res.status(404).json({ message: 'Usuário não encontrado.' });
     }
+    
+    
+    
+  // usuário comum só pode editar ele mesmo
+  if (sessionUser.type !== 'admin' && sessionUser.id !== user._id.toString()){
+    return res.status(403).json({ error: "Sem permissão" });
+  }
+    
+    
+    
     res.status(200).json(user);
     
   } catch (err) {
@@ -54,6 +90,8 @@ exports.getUserById = async (req, res) => {
     res.status(500).json({ message: "Erro interno ao buscar usuário." });
   }
 };
+
+
 
 exports.getUserPerfil = async (req, res) => {
 try {
@@ -84,6 +122,14 @@ try {
 // Buscar usuário por nome
 exports.getUserByName = async (req, res) => {
   try {
+    
+    const sessionUser = req.session.user;
+    
+  // usuário comum só pode editar ele mesmo
+  if (sessionUser.type !== 'admin') {
+    return res.status(403).json({ error: "Sem permissão" });
+  }
+    
     const name = String(req.params.name || '').trim();
     if (!name) {
       return res.status(400).json({ message: 'Nome é obrigatório.' });
@@ -108,8 +154,23 @@ exports.getUserByName = async (req, res) => {
 // Controller
 exports.updateUser = async (req, res) => {
   try {
+    
+    const sessionUser = req.session.user;
+    
     const { id } = req.params;
-    const { name, email, senha, image, type } = req.body; // garantir que veio desestruturado
+    const { name, email, senha, image } = req.body; // garantir que veio desestruturado
+
+const type="user";
+
+    
+  
+
+  // usuário comum só pode editar ele mesmo
+  if (sessionUser.type !== 'admin' && sessionUser.id !== id) {
+    return res.status(403).json({ error: "Sem permissão" });
+  }
+
+
 
     // 1️⃣ Busca o usuário atual
     const userAtual = await userService.getUserById(id);
@@ -140,10 +201,20 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+
+
 // Deletar usuário
 exports.deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
+    const sessionUser = req.session.user;
+    
+    if (sessionUser.type !== 'admin' && sessionUser.id !== id) {
+    return res.status(403).json({ error: "Sem permissão" });
+  }
+
+    
+    
     const success = await userService.deleteUser(id);
 
     if (!success) {
@@ -157,10 +228,24 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+
+
 // Adicionar produto ao usuário
 exports.adicionarProdutoAoUsuario = async (req, res) => {
   try {
+    
+    
     const { userId, produtoId } = req.body;
+    
+    const sessionUser = req.session.user;
+    
+    
+    
+    if (sessionUser.type !== 'admin' && sessionUser.id !== userId) {
+    return res.status(403).json({ error: "Sem permissão" });
+  }
+    
+    
     const result = await userService.adicionarProdutoAoUsuario(userId, produtoId);
 
     if (!result) {
@@ -174,10 +259,21 @@ exports.adicionarProdutoAoUsuario = async (req, res) => {
   }
 };
 
+
+
 // Adicionar carrinho ao usuário
 exports.adicionarCarrinhoAoUsuario = async (req, res) => {
   try {
     const { userId, carrinhoId } = req.body;
+    
+      
+
+/*
+  if (sessionUser.type !== 'admin' && sessionUser.id !== userId) {
+    return res.status(403).json({ error: "Sem permissão" });
+  }
+  */
+    
     const result = await userService.adicionarCarrinhoAoUsuario(userId, carrinhoId);
 
     if (!result) {

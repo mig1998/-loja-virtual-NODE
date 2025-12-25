@@ -44,6 +44,10 @@ async function carregarDadosProduto() {
         document.getElementById("quantidade").value = produto.quantidade;
         document.getElementById("categoria").value = produto.categoria;
 
+
+
+console.log(produto)
+
         // PREVIEW DA IMAGEM EXISTENTE
         const preview = document.getElementById("produto-preview");
         const empty = document.getElementById("empty-produto");
