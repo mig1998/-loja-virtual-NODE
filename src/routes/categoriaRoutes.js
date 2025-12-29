@@ -2,20 +2,7 @@ const express = require("express");
 const router = express.Router();
 const categoriaController = require("../controllers/categoriaController");
 
-
-function adm(req, res, next) {
-  if (!req.session.user) {
-    return res.redirect('/login');
-  }
-
-  if (req.session.user.type !== 'admin') {
-    return res.status(403).send('Acesso negado: apenas administradores');
-  }
-
-  next();
-}
-
-
+const { adm } = require("./controleAcesso");
 
 
 
@@ -23,13 +10,13 @@ function adm(req, res, next) {
 router.get("/", categoriaController.getCategorias);
 
 
-router.post("/", categoriaController.createCategoria);
+router.post("/", adm,categoriaController.createCategoria);
 
 
 // Rota: atualizar
-router.put('/:id', categoriaController.updateCategoria);
+router.put('/:id',adm, categoriaController.updateCategoria);
 
-router.delete("/:id", categoriaController.deleteCategoria);
+router.delete("/:id",adm, categoriaController.deleteCategoria);
 
 
 

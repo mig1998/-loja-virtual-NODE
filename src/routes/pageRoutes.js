@@ -1,6 +1,9 @@
 const express = require('express');
 const users = require('../models/userModel');
 
+const { adm } = require("./controleAcesso");
+
+
 const router = express.Router();
 
 function autenticar(req, res, next) {
@@ -12,7 +15,7 @@ function autenticar(req, res, next) {
 }
 
 
-
+/*
 function adm(req, res, next) {
   if (!req.session.user) {
     return res.redirect('/login');
@@ -25,7 +28,7 @@ function adm(req, res, next) {
   next();
 }
 
-
+*/
 
 // Página inicial
 router.get('/', (req, res) => {

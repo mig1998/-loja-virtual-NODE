@@ -131,12 +131,43 @@ exports.getProdutoByName = async (req, res) => {
 
 //buscs por categoria
 exports.getProdutosByCategoria = async (req, res) => {
+  
+  
   try {
+    
     const { categoria } = req.params;
+
+
+    const userSession = req.session.user;
+
 
     const produtos = await produtoService.getProdutoByCategoria(categoria);
 
-    res.json(produtos);
+
+        if (!produtos || produtos.length === 0) return res.status(404).json({ message: 'Produto não encontrado.' });
+
+          if (!userSession) {
+            return res.status(200).json(produtos);
+        }
+
+
+    const user = await userService.getUserById(userSession.id);
+        
+        if (!user) return res.status(404).json({ message: "Usuário não encontrado." });
+
+
+
+       // res.status(200).json(produtos);
+     
+        
+        res.status(200).json({
+            userId: userSession.id,
+            userType: user.type,
+            produtos
+        });
+    
+    
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Erro ao buscar produtos por categoria" });

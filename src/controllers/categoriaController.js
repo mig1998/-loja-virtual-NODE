@@ -15,6 +15,9 @@ exports.getCategorias = async (req, res) => {
 exports.createCategoria = async (req, res) => {
   try {
     const { name } = req.body;
+    
+
+
 
     const categoria = await categoriaService.createCategoria(name);
 
@@ -30,6 +33,9 @@ exports.updateCategoria = async (req, res) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
+
+
+
 
     const categoriaAtualizada = await categoriaService.updateCategoria(id, name);
 
@@ -49,6 +55,9 @@ exports.updateCategoria = async (req, res) => {
 
 exports.deleteCategoria = async (req, res) => {
   try {
+    
+    
+    
     await categoriaService.deleteCategoria(req.params.id);
     res.json({ success: true });
   } catch (err) {
@@ -56,7 +65,5 @@ exports.deleteCategoria = async (req, res) => {
     res.status(500).json({ message: "Erro ao deletar categoria" });
   }
 };
-
-
 
 

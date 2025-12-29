@@ -5,17 +5,6 @@ const userController = require('../controllers/userController');
 
 const upload = require("../../config/multer"); //
 
-function adm(req, res, next) {
-  if (!req.session.user) {
-    return res.redirect('/login');
-  }
-
-  if (req.session.user.type !== 'admin') {
-    return res.status(403).send('Acesso negado: apenas administradores');
-  }
-
-  next();
-}
 
 
 

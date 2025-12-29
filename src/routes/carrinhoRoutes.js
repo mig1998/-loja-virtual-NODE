@@ -10,7 +10,11 @@ function autenticar(req, res, next) {
   }
 }
 
-router.get("/", carrinhoController.getAllCarts);
+const { adm } = require("./controleAcesso");
+
+
+
+router.get("/",adm, carrinhoController.getAllCarts);
 
 router.get("/cart", carrinhoController.getCart);
 

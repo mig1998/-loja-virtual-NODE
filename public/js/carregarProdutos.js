@@ -3,7 +3,11 @@ function renderProdutos(produtos, contexto = {}) {
            || document.getElementById("result-name");
 
 
-
+// Nenhum produto
+  if (produtos.length === 0) {
+    div.innerHTML = "<h1 style='text-align:center'>Nenhum produto nessa categoria</h1>";
+    return;
+  }
 
   div.innerHTML = produtos.map(p => `
     <div class="produto-card">
@@ -100,4 +104,3 @@ async function deleteProduto(id) {
   window.location.reload();
   }
 }
-
