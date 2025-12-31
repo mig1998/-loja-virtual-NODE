@@ -46,7 +46,7 @@ async function carregarDadosProduto() {
 
 
 
-console.log(produto)
+
 
         // PREVIEW DA IMAGEM EXISTENTE
         const preview = document.getElementById("produto-preview");

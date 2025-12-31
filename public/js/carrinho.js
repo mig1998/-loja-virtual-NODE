@@ -43,9 +43,12 @@ async function carregarCarrinho() {
     <div>
       <h2>Total: R$ ${total.toFixed(2)}</h2>
       <button onclick="pagar(${total})">Pagar</button>
+        <button onclick="limparCarrinho()">Limpar Carrinho</button>
     </div>
   `;
 }
+
+
 
 async function removerDoCarrinho(userId, produtoId) {
   await fetch("/carts/remove", {
@@ -57,8 +60,67 @@ async function removerDoCarrinho(userId, produtoId) {
   carregarCarrinho();
 }
 
-function pagar(total) {
-  alert("Pagamento ainda não implementado. Total: R$ " + total.toFixed(2));
+async function pagar(total) {
+  const confirmacao = await Swal.fire({
+    title: "Confirmar pagamento?",
+    text: `Total: R$ ${total.toFixed(2)}`,
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Pagar",
+    cancelButtonText: "Cancelar"
+  });
+
+  if (!confirmacao.isConfirmed) return;
+
+  Swal.fire({
+    title: "Processando pagamento...",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  try {
+    // checkout fictício
+    const res = await fetch("carts/checkout/fake", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ total })
+    });
+
+    if (!res.ok) throw new Error("Erro no pagamento");
+
+    const pedido = await res.json();
+
+    Swal.fire({
+  title: "Pagamento aprovado ✅",
+  text: `Pedido #${pedido.orderId} criado com sucesso`,
+  icon: "success",
+  confirmButtonText: "OK"
+}).then(async () => {
+  await limparCarrinho();
+});
+    
+
+  } catch (err) {
+    Swal.fire("Erro", "Falha no pagamento", "error");
+  }
 }
 
 window.onload = carregarCarrinho;
+
+
+
+
+async function limparCarrinho() {
+  const res = await fetch("/carts/clear", {
+    method: "POST"
+  });
+ console.log(res)
+  if (res.ok) {
+    Swal.fire("Carrinho limpo!", "", "success");
+    carregarCarrinho();
+  } else {
+    Swal.fire("Erro", "Não foi possível limpar o carrinho", "error");
+  }
+}

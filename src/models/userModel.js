@@ -7,7 +7,13 @@ const CarrinhoModel = require("../models/cartModel");
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: {
+  type: String,
+  required: true,
+  unique: true,
+  lowercase: true,
+  match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email inválido"]
+},
   senha: { type: String, required: true },
   image: {type:String},
   type: { type: String, default: "user" }, // "user" ou "admin"

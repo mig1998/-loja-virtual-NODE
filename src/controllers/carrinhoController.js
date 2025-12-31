@@ -81,18 +81,31 @@ exports.removeProduto = async (req, res) => {
 
 
 exports.clearCart = async (req, res) => {
-  const { userId } = req.body;
-  if (!userId) {
-    return res.status(400).json({ error: "Informe o userId" });
+  try {
+    const sessionUser = req.session.user;
+
+    if (!sessionUser) {
+      return res.status(401).json({ error: "Não autenticado" });
+    }
+
+
+
+    // 👇 userId vem da sessão
+    const userId = sessionUser.id;
+
+    const cart = await CartService.clearCart(userId);
+
+    if (!cart) {
+      return res.status(404).json({ error: "Carrinho não encontrado" });
+    }
+
+    return res.status(200).json(cart);
+
+  } catch (err) {
+    console.error("Erro ao limpar carrinho:", err);
+    res.status(500).json({ error: "Erro interno" });
   }
-
-  const cart = await CartService.clearCart(userId);
-  if (!cart) return res.status(404).json({ error: "Carrinho não encontrado" });
-
-  res.json(cart);
 };
-
-
 
 exports.getItems = async (req, res) => {
   const userId = parseInt(req.params.userId);
@@ -103,4 +116,21 @@ exports.getItems = async (req, res) => {
 
   const items = await CartService.getItems(userId);
   res.json(items);
+};
+
+
+exports.checkout= async (req, res) => {
+  const { total } = req.body;
+
+  // simula tempo de processamento
+  await new Promise(resolve => setTimeout(resolve, 1500));
+
+  const pedidoFake = {
+    orderId: Math.floor(Math.random() * 100000),
+    total,
+    status: "PAGO",
+    createdAt: new Date()
+  };
+
+  res.json(pedidoFake);
 };

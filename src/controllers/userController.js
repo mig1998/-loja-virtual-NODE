@@ -40,6 +40,8 @@ const type="user";
       return res.status(400).json({ message: 'Nome, e-mail e senha são obrigatórios.' });
     }
 
+
+
 let imageUrl = null;
 
         // 📌 SE O USUÁRIO MANDOU IMAGEM
@@ -51,8 +53,24 @@ let imageUrl = null;
     const newUser = await userService.createUser(name, email, senha, imageUrl, type);
     res.status(201).json(newUser);
   } catch (err) {
+    // validação do mongoose
+    if (err.name === "ValidationError") {
+      return res.status(400).json({
+        message: err.errors.email.message
+      });
+    }
+
+    // email duplicado
+    if (err.code === 11000) {
+      return res.status(400).json({
+        message: "Email já cadastrado"
+      });
+    }
+
     console.error("Erro ao criar usuário:", err);
     res.status(500).json({ message: "Erro interno ao criar usuário." });
+    
+    
   }
 };
 
@@ -196,7 +214,20 @@ const type="user";
     res.status(200).json(updatedUser);
     
   } catch (err) {
-    console.error("Erro ao atualizar usuário:", err);
+        // validação do mongoose
+    if (err.name === "ValidationError") {
+      return res.status(400).json({
+        message: err.errors.email.message
+      });
+    }
+
+    // email duplicado
+    if (err.code === 11000) {
+      return res.status(400).json({
+        message: "Email já cadastrado"
+      });
+    }
+    
     res.status(500).json({ message: "Erro interno ao atualizar usuário." });
   }
 };
